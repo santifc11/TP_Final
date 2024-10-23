@@ -1,3 +1,5 @@
+package Clases;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public abstract class Alojamiento {
     private static String[] descripcion;
     private boolean es_compartible;
 
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, String[] descripcion, boolean es_compartible) {
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible) {
         this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.ubicacion = ubicacion;
@@ -94,12 +96,16 @@ public abstract class Alojamiento {
     public void pedir_descripcion(){
 
         int control = 0, validos = 0;
-        System.out.println("Ingrese las caracteristicas del alojamiento.");
+        System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
         do {
-            descripcion[validos] = scanner.nextLine();                      //VER SI SE PUEDE HACER CON UN StringBuilder
+            System.out.print("- ");
+            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
+            System.out.println();
             validos++;
-            System.out.println("Desea continuar cargando caracteristicas? (0 para finalizar)");
+            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
             control = scanner.nextInt();
         } while(control!=0);
     }
+
+
 }

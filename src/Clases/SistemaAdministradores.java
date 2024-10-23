@@ -1,3 +1,5 @@
+package Clases;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,8 +13,8 @@ public class SistemaAdministradores{
 
 /*    public void registrarAdministrador(String usuario, String contrasenia){
         if (!administradores.containsKey(usuario)){
-            administradores.put(usuario, new Administrador(usuario, contrasenia));
-            System.out.println("Administrador Registrado con exito.");                          USAR PARA CLIENTES.
+            administradores.put(usuario, new Clases.Administrador(usuario, contrasenia));
+            System.out.println("Clases.Administrador Registrado con exito.");                          USAR PARA CLIENTES.
         }
         else {
             System.out.println("El nombre de usuario ya existe");

@@ -1,3 +1,5 @@
+package Clases;
+
 public class Administrador {
     private String usuario;
     private String contrasenia;
