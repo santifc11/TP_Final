@@ -1,22 +1,24 @@
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.UUID;
 
 public abstract class Alojamiento {
-    private UUID id;
+    private final UUID id;
     private String nombre;
     private String ubicacion;
     private double precioXnoche;
     private int aforo;
-    private boolean tiene_wifi;
+    private static String[] descripcion;
     private boolean es_compartible;
 
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean tiene_wifi, boolean es_compartible) {
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, String[] descripcion, boolean es_compartible) {
         this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
         this.aforo = aforo;
-        this.tiene_wifi = tiene_wifi;
+        this.descripcion = descripcion;
         this.es_compartible = es_compartible;
     }
 
@@ -52,12 +54,12 @@ public abstract class Alojamiento {
         this.aforo = aforo;
     }
 
-    public boolean isTiene_wifi() {
-        return tiene_wifi;
+    public String[] getDescripcion() {
+        return descripcion;
     }
 
-    public void setTiene_wifi(boolean tiene_wifi) {
-        this.tiene_wifi = tiene_wifi;
+    public void setDescripcion(String[] descripcion) {
+        this.descripcion = descripcion;
     }
 
     public boolean isEs_compartible() {
@@ -74,5 +76,30 @@ public abstract class Alojamiento {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return  "Nombre :'" + nombre + "\n" +
+                "Ubicacion: '" + ubicacion + "\n" +
+                "Precio por noche: " + precioXnoche +"\n"+
+                "Aforo: " + aforo +"\n"+
+                "Descripcion y Caracteristicas: " + Arrays.toString(descripcion)+"\n";
+    }
+
+    //Metodos propios
+
+    Scanner scanner = new Scanner(System.in);
+
+    public void pedir_descripcion(){
+
+        int control = 0, validos = 0;
+        System.out.println("Ingrese las caracteristicas del alojamiento.");
+        do {
+            descripcion[validos] = scanner.nextLine();                      //VER SI SE PUEDE HACER CON UN StringBuilder
+            validos++;
+            System.out.println("Desea continuar cargando caracteristicas? (0 para finalizar)");
+            control = scanner.nextInt();
+        } while(control!=0);
     }
 }
