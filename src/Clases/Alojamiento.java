@@ -20,7 +20,7 @@ public abstract class Alojamiento {
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
         this.aforo = aforo;
-        this.descripcion = descripcion;
+        this.descripcion = new String[10];
         this.es_compartible = es_compartible;
     }
 
@@ -82,11 +82,22 @@ public abstract class Alojamiento {
 
     @Override
     public String toString() {
-        return  "Nombre :'" + nombre + "\n" +
-                "Ubicacion: '" + ubicacion + "\n" +
-                "Precio por noche: " + precioXnoche +"\n"+
-                "Aforo: " + aforo +"\n"+
-                "Descripcion y Caracteristicas: " + Arrays.toString(descripcion)+"\n";
+            StringBuilder mensaje = new StringBuilder();
+            mensaje.append("Nombre: ").append(nombre).append("\n")
+                    .append("Ubicacion: ").append(ubicacion).append("\n")
+                    .append("Precio por noche: ").append(precioXnoche).append("\n")
+                    .append("Aforo: ").append(aforo).append("\n")
+                    .append("Descripcion y Caracteristicas: \n-");
+
+            for (String descripcion:descripcion){
+                if (descripcion!=null){
+                    mensaje.append(descripcion).append(".\n");
+                }
+            }
+
+            mensaje.append("\n-");
+
+            return mensaje.toString();
     }
 
     //Metodos propios
@@ -99,11 +110,14 @@ public abstract class Alojamiento {
         System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
         do {
             System.out.print("- ");
-            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
-            System.out.println();
+            String caract=scanner.nextLine();
+            descripcion[validos] = caract;          //VER SI SE PUEDE HACER CON UN StringBuilder
             validos++;
-            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
+            System.out.println();
+            System.out.print("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
             control = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println();
         } while(control!=0);
     }
 

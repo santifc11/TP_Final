@@ -7,6 +7,6 @@ public class Casa extends Alojamiento{
 
     @Override
     public String toString() {
-        return "Clases.Casa: " + super.toString();
+        return "Casa: " + super.toString();
     }
 }

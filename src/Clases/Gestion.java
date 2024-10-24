@@ -1,13 +1,12 @@
 package Clases;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Gestion {
-    private List<Alojamiento> alojamientos;
-    public Gestion(List<Alojamiento> alojamientos) {
-        this.alojamientos = new ArrayList<>();
+    private Set<Alojamiento> alojamientos;
+
+    public Gestion() {
+        this.alojamientos = new HashSet<>();
     }
 
     Scanner scanner = new Scanner(System.in);
@@ -39,11 +38,15 @@ public class Gestion {
 
         public void agregar_alojamiento(){
             //pedir los atributos al usuario. Saber si es Clases.Casa o Clases.Departamento.
-            int tipo_alojamiento=0;
-            System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
+            int tipo_alojamiento;
+            do {
+                System.out.println("El alojamiento que desea ingresar es:\n1-Casa.\n2-Departamento\n0-Cancelar.");
+                tipo_alojamiento= scanner.nextInt();
+                scanner.nextLine();
+            } while ((tipo_alojamiento>2)&&(tipo_alojamiento<0));
             if (tipo_alojamiento==1){
 
-                //Pido los datos de la Clases.Casa.
+                //Pido los datos de la Casa.
 
                 System.out.print("Nombre de la propiedad: ");
                 String nombre = scanner.nextLine();
@@ -53,12 +56,15 @@ public class Gestion {
                 System.out.println();
                 System.out.print("Ingrese el precio por noche: ");
                 double precioXnoche = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.println();
                 System.out.print("Ingrese el aforo de la propiedad: ");
                 int aforo = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println();
                 System.out.print("La propiedad es apta para ser compartida? (true/false): ");
                 boolean compartible = scanner.nextBoolean();
+                scanner.nextLine();
                 System.out.println();
 
                 //Creo el objeto con los atributos que ingreso el admin.
@@ -76,7 +82,7 @@ public class Gestion {
 
             } else if (tipo_alojamiento == 2){
 
-                //Pido los datos del Clases.Departamento
+                //Pido los datos del Departamento
 
                 System.out.print("Nombre de la propiedad: ");
                 String nombre = scanner.nextLine();
@@ -86,22 +92,26 @@ public class Gestion {
                 System.out.println();
                 System.out.print("Ingrese el precio por noche: ");
                 double precioXnoche = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.println();
                 System.out.print("Ingrese el aforo de la propiedad: ");
                 int aforo = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println();
                 System.out.print("La propiedad es apta para ser compartida? (true/false): ");
                 boolean compartible = scanner.nextBoolean();
+                scanner.nextLine();
                 System.out.println();
                 System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
                 int piso = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println();
 
-                //Creo el objeto Clases.Departamento.
+                //Creo el objeto Departamento.
 
                 Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, piso);
 
-                //Pido la descripcion del Clases.Departamento
+                //Pido la descripcion del Departamento
 
                 depto.pedir_descripcion();
 
