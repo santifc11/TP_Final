@@ -111,7 +111,7 @@ public abstract class Alojamiento {
         do {
             System.out.print("- ");
             String caract=scanner.nextLine();
-            descripcion[validos] = caract;          //VER SI SE PUEDE HACER CON UN StringBuilder
+            descripcion[validos] = caract;
             validos++;
             System.out.println();
             System.out.print("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
