@@ -87,15 +87,13 @@ public abstract class Alojamiento {
                     .append("Ubicacion: ").append(ubicacion).append("\n")
                     .append("Precio por noche: ").append(precioXnoche).append("\n")
                     .append("Aforo: ").append(aforo).append("\n")
-                    .append("Descripcion y Caracteristicas: \n-");
+                    .append("Descripcion y Caracteristicas: \n- ");
 
             for (String descripcion:descripcion){
                 if (descripcion!=null){
-                    mensaje.append(descripcion).append(".\n");
+                    mensaje.append(descripcion).append(".\n- ");
                 }
             }
-
-            mensaje.append("\n-");
 
             return mensaje.toString();
     }

@@ -1,27 +1,10 @@
 package Clases;
 
-public class Administrador {
-    private String usuario;
-    private String contrasenia;
+public class Administrador extends Usuario{
+    //puede eliminar alojamientos y tiene acceso a ver la lista de anfitriones y la lista de usuarios con datos personales.
+    //es el unico que puede agregar o eliminar anfitriones, entonces en el gestor vamos a tener que iniciar sesion
+    //como administrador para crear uno o mas anfitriones y asi poder empezar.
 
-    public Administrador(String usuario, String contrasenia) {
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
-    }
+    
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
 }
