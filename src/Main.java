@@ -21,4 +21,6 @@ public class Main {
             admin1.mostrar_alojamientos();
         }
     }
+
+    // prueba actualizacion branch.
 }
