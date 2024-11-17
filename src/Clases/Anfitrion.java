@@ -1,23 +1,26 @@
 package Clases;
 
+import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Scanner;
 
-public class Administrador implements Sesion{
-    private String usuario = "";
-    private String contrasenia = "";
-
-    public Administrador() {
-    }
-
+public class Anfitrion implements Sesion{
+    private String nombre, contrasenia;
     ///CONSTRUCTOR
-    ///
-    public Administrador(String usuario, String contrasenia) {
-    this.usuario = usuario;
-    this.contrasenia = contrasenia;
+    public Anfitrion() {
+    }
+    public Anfitrion(String nombre, String contrasenia) {
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
     }
 
+    ///METODOS
+    public void agregarAlojamiento(){
+    }
+    public void quitarAlojamiento(){
+
+    }
     @Override
-    public void cambiarContrasenia() {
+    public void cambiarContrasenia() throws ContraseñaIncorrectaException{
         boolean flag = false;
         Scanner scanner = new Scanner(System.in);
         String contraseniaActual = "";
@@ -42,16 +45,13 @@ public class Administrador implements Sesion{
         }
     }
 
-    ///METODOS
-
-
-    ///SETTER Y GETTER
-    public String getUsuario() {
-        return usuario;
+    ///SETTER Y GETTERS
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getContrasenia() {
