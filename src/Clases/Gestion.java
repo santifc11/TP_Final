@@ -1,41 +1,52 @@
 package Clases;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import com.sun.source.tree.WhileLoopTree;
+
+import java.util.*;
 
 public class Gestion {
-    private List<Alojamiento> alojamientos;
-    public Gestion(List<Alojamiento> alojamientos) {
-        this.alojamientos = new ArrayList<>();
+    private Map<String, Administrador> Administradores;
+    private Map<String, Cliente> Clientes;
+    private Set<Reserva> Reservas;
+    private Set<Alojamiento> Alojamientos;
+
+    ///CONSTRUCTOR
+    public Gestion() {
+        this.Administradores = new Hashtable<>();
+        this.Clientes = new Hashtable<>();
+        this.Reservas = new TreeSet<>();
+        this.Alojamientos = new TreeSet<>();
     }
 
     Scanner scanner = new Scanner(System.in);
 
-    /*public void inicio_de_sesion(){
-            System.out.println("Bienvenido a - nombre de la app ;) -!");
-            System.out.println();
-            System.out.println("Seleccione la una de las siguientes opciones:\n\n1- Iniciar sesion como administrador.\n2- Iniciar sesion como cliente.\n3- Registrarse como cliente.");
-            Scanner scanner = new Scanner(System.in);
-            int opcion = scanner.nextInt();
-            String usuario;
-            String contrasenia;
+    ///MODELO DE PRUEBA, GESTION
+    public void inicio_de_sesion(){
+            System.out.println("¡Bienvenido a (nombre de la app)!");
+            System.out.println("Seleccione la una de las siguientes opciones:\n" +
+                    "\n1- Iniciar sesion como administrador." +
+                    "\n2- Iniciar sesion como cliente." +
+                    "\n3- Registrarse como cliente." +
+                    "\n4- Iniciar sesion como anfitrion.");
 
+            int opcion = scanner.nextInt();
+            String usuario, contrasenia;
             switch (opcion){
                 case 1:
-                    System.out.print("Ingrese su nombre de usuario: ");
-                    usuario = scanner.nextLine();
-                    System.out.println("Contrasena: ");
-                    contrasenia = scanner.nextLine();
-
-                    if (){
-                                        //inicio de sesion
+                    boolean flag = false;
+                    while (!flag){
+                        try {
+                            System.out.print("Ingrese su nombre de usuario: ");
+                            usuario = scanner.nextLine();
+                        }catch ()
+                        System.out.println("Ingrese su contraseña:");
+                        contrasenia = scanner.nextLine();
+                        if (){
                     }
-
                     break;
             }
 
-        }*/
+        }
 
         public void agregar_alojamiento(){
             //pedir los atributos al usuario. Saber si es Clases.Casa o Clases.Departamento.

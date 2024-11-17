@@ -1,13 +1,25 @@
 package Clases;
 
-public class Administrador {
+import java.util.Scanner;
+
+public class Administrador implements Sesion{
     private String usuario;
     private String contrasenia;
 
+    ///CONSTRUCTOR
     public Administrador(String usuario, String contrasenia) {
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
+    this.usuario = usuario;
+    this.contrasenia = contrasenia;
     }
+
+    @Override
+    public void cambiarContrasenia() {
+
+    }
+
+    ///METODOS
+
+
 
     public String getUsuario() {
         return usuario;
