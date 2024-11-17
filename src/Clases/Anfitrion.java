@@ -4,11 +4,13 @@ import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Scanner;
 
 public class Anfitrion implements Sesion{
-    private String nombre, contrasenia;
+    private String usuario, nombre, contrasenia;
     ///CONSTRUCTOR
     public Anfitrion() {
     }
-    public Anfitrion(String nombre, String contrasenia) {
+
+    public Anfitrion(String usuario, String nombre, String contrasenia) {
+        this.usuario = usuario;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
     }
@@ -60,5 +62,13 @@ public class Anfitrion implements Sesion{
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

@@ -29,7 +29,7 @@ public class Gestion {
                     "\n2- Iniciar sesion como cliente." +
                     "\n3- Iniciar sesion como anfitrion." +
                     "\n4- Registrarse como cliente." +
-                    "\n4- Registrarse como anfitrion.");
+                    "\n5- Registrarse como anfitrion.");
 
             int opcion = scanner.nextInt();
             String usuario, contrasenia;
@@ -132,6 +132,22 @@ public class Gestion {
 
         public void bajaAdministrador(String usuario){
         Administradores.remove(usuario);
+        }
+
+        public void cargarCliente(Cliente cliente){
+            Clientes.put(cliente.getUsuario(), cliente);
+        }
+
+        public void bajaCliente(String usuario){
+            Clientes.remove(usuario);
+        }
+
+        public void cargarAnfitrion(Anfitrion anfitrion){
+            Anfitriones.put(anfitrion.getUsuario(), anfitrion);
+        }
+
+        public void bajaAnfitrion(String usuario){
+            Anfitriones.remove(usuario);
         }
 
         public void agregar_alojamiento(){
