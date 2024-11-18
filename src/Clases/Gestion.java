@@ -21,7 +21,7 @@ public class Gestion {
 
     Scanner scanner = new Scanner(System.in);
 
-    ///MODELO DE PRUEBA, GESTION
+    ///INICIO DE SESION
     public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseñaIncorrectaException{
             System.out.println("¡Bienvenido a (nombre de la app)!");
             System.out.println("Seleccione la una de las siguientes opciones:\n" +
@@ -126,29 +126,7 @@ public class Gestion {
 
         }
 
-        public void cargarAdministrador(Administrador administrador){
-            Administradores.put(administrador.getUsuario(), administrador);
-        }
-
-        public void bajaAdministrador(String usuario){
-        Administradores.remove(usuario);
-        }
-
-        public void cargarCliente(Cliente cliente){
-            Clientes.put(cliente.getUsuario(), cliente);
-        }
-
-        public void bajaCliente(String usuario){
-            Clientes.remove(usuario);
-        }
-
-        public void cargarAnfitrion(Anfitrion anfitrion){
-            Anfitriones.put(anfitrion.getUsuario(), anfitrion);
-        }
-
-        public void bajaAnfitrion(String usuario){
-            Anfitriones.remove(usuario);
-        }
+        ///METODOS DE LISTAS
 
         public void agregar_alojamiento(){
             //pedir los atributos al usuario. Saber si es Clases.Casa o Clases.Departamento.
@@ -176,7 +154,7 @@ public class Gestion {
 
                 //Creo el objeto con los atributos que ingreso el admin.
 
-                Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible);
+                Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible,true);
 
                 //Pido la descripcion del alojamiento.
 
@@ -212,7 +190,7 @@ public class Gestion {
 
                 //Creo el objeto Clases.Departamento.
 
-                Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, piso);
+                Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, true,piso);
 
                 //Pido la descripcion del Clases.Departamento
 
@@ -237,6 +215,30 @@ public class Gestion {
                     System.out.println(((Departamento) alojamiento).toString());
                 }
             }
+        }
+
+        public void cargarAdministrador(Administrador administrador){
+            Administradores.put(administrador.getUsuario(), administrador);
+        }
+
+        public void bajaAdministrador(String usuario){
+            Administradores.remove(usuario);
+        }
+
+        public void cargarCliente(Cliente cliente){
+            Clientes.put(cliente.getUsuario(), cliente);
+        }
+
+        public void bajaCliente(String usuario){
+            Clientes.remove(usuario);
+        }
+
+        public void cargarAnfitrion(Anfitrion anfitrion){
+            Anfitriones.put(anfitrion.getUsuario(), anfitrion);
+        }
+
+        public void bajaAnfitrion(String usuario){
+            Anfitriones.remove(usuario);
         }
     }
 

@@ -1,10 +1,12 @@
 package Clases;
 
 import javax.swing.plaf.basic.BasicDesktopIconUI;
+import java.util.Objects;
 import java.util.Scanner;
 
-public class Anfitrion implements Sesion{
+public final class Anfitrion implements Sesion{
     private String usuario, nombre, contrasenia;
+
     ///CONSTRUCTOR
     public Anfitrion() {
     }
@@ -70,5 +72,27 @@ public class Anfitrion implements Sesion{
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    ///EQUALS, HASHCODE Y TO STRING
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Anfitrion anfitrion = (Anfitrion) o;
+        return Objects.equals(usuario, anfitrion.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(usuario);
+    }
+
+    @Override
+    public String toString() {
+        return "Anfitrion{" +
+                "nombre='" + nombre + '\'' +
+                ", usuario='" + usuario + '\'' +
+                '}';
     }
 }

@@ -1,26 +1,25 @@
 package Clases;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Cliente implements Sesion{
+public final class Cliente implements Sesion{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
     private Set<Reserva> historialReserva;
-    private boolean comparte;
-
-    public Cliente() {
-    }
 
     ///CONSTRUCTOR
-    ///
-    public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto, boolean comparte) {
+    public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto) {
         this.usuario = usuario;
         this.contrasenia = contrasenia;
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
         this.historialReserva = new HashSet<>();
-        this.comparte = comparte;
+
+    }
+
+    public Cliente() {
     }
 
     ///METODOS
@@ -48,6 +47,14 @@ public class Cliente implements Sesion{
             System.out.println("Ingrese su nueva contraseña:");
             contrasenia = scanner.nextLine();
         }
+    }
+
+    public void agregarReserva (Reserva reserva){
+        historialReserva.add(reserva);
+    }
+
+    public void quitarReserva (Reserva reserva){
+        historialReserva.remove(reserva);
     }
 
     ///SETTER Y GETTER
@@ -91,11 +98,27 @@ public class Cliente implements Sesion{
         this.historialReserva = historialReserva;
     }
 
-    public boolean isComparte() {
-        return comparte;
+    ///EQUALS, HASHCODE Y TO STRING
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(dni, cliente.dni);
     }
 
-    public void setComparte(boolean comparte) {
-        this.comparte = comparte;
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dni);
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "usuario='" + usuario + '\'' +
+                ", dni='" + dni + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", historialReserva=" + historialReserva +
+                '}';
     }
 }
