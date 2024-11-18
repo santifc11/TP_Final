@@ -1,5 +1,8 @@
 package Clases;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
@@ -117,6 +120,24 @@ public abstract class Alojamiento {
             System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
             control = scanner.nextInt();
         } while(control!=0);
+    }
+
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("nombre",nombre);
+        jsonObject.put("ubicacion",ubicacion);
+        jsonObject.put("precioXnoche", precioXnoche);
+        jsonObject.put("aforo",aforo);
+        jsonObject.put("es_compartible", es_compartible);
+        jsonObject.put("estado",estado);
+        JSONArray descripcionJson=new JSONArray();
+        for (String descripcion: descripcion){
+            descripcionJson.put(descripcion);
+        }
+        jsonObject.put("descripcion",descripcionJson);
+
+        return jsonObject;
     }
 
 

@@ -1,13 +1,16 @@
 package Clases;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
 public final class Cliente implements Sesion{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
     private Set<Reserva> historialReserva;
-
 
 
     ///CONSTRUCTOR
@@ -22,33 +25,6 @@ public final class Cliente implements Sesion{
     }
 
     public Cliente() {
-    }
-
-    ///METODOS
-    @Override
-    public void cambiarContrasenia() {
-        boolean flag = false;
-        Scanner scanner = new Scanner(System.in);
-        String contraseniaActual = "";
-        int cantIntentos = 0;
-        try {
-            while (!flag && cantIntentos < 3) {
-                System.out.println("Ingrese su contraseña actual:");
-                contraseniaActual = scanner.nextLine();
-                if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
-                }
-            }
-        }catch (ContraseñaIncorrectaException ex){
-            System.out.println(ex.getMessage());
-            cantIntentos++;
-        }
-        if(cantIntentos == 3){
-            System.out.println("Has alcanzado el limite de intentos fallidos.");
-        }else{
-            System.out.println("Ingrese su nueva contraseña:");
-            contrasenia = scanner.nextLine();
-        }
     }
 
     ///SETTER Y GETTER
@@ -91,6 +67,73 @@ public final class Cliente implements Sesion{
     public void setHistorialReserva(Set<Reserva> historialReserva) {
         this.historialReserva = historialReserva;
     }
+
+    ///METODOS
+    @Override
+    public void cambiarContrasenia() {
+        boolean flag = false;
+        Scanner scanner = new Scanner(System.in);
+        String contraseniaActual = "";
+        int cantIntentos = 0;
+        try {
+            while (!flag && cantIntentos < 3) {
+                System.out.println("Ingrese su contraseña actual:");
+                contraseniaActual = scanner.nextLine();
+                if (contraseniaActual.compareTo(contrasenia) != 0){
+                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                }
+            }
+        }catch (ContraseñaIncorrectaException ex){
+            System.out.println(ex.getMessage());
+            cantIntentos++;
+        }
+        if(cantIntentos == 3){
+            System.out.println("Has alcanzado el limite de intentos fallidos.");
+        }else{
+            System.out.println("Ingrese su nueva contraseña:");
+            contrasenia = scanner.nextLine();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(dni, cliente.dni);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dni);
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente:" +
+                "usuario='" + usuario + '\'' +
+                ", contrasenia='" + contrasenia + '\'' +
+                ", dni='" + dni + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", historialReserva=" + historialReserva +
+                '.';
+    }
+
+   public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("usuario",usuario);
+        jsonObject.put("contrasenia",contrasenia);
+        jsonObject.put("dni",dni);
+        jsonObject.put("nombreCompleto", nombreCompleto);
+       JSONArray historialReservaJson=new JSONArray();
+       for (Reserva reserva: historialReserva){
+           historialReservaJson.put(reserva.toJson());
+       }
+       jsonObject.put("historialreserva",historialReservaJson);
+
+
+        return jsonObject;
+   }
 
 
 
