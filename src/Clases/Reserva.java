@@ -1,36 +1,33 @@
 package Clases;
 
+import org.json.JSONObject;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Reserva {
-    private UUID id;
+    private final UUID id;
     private Alojamiento alojamiento;
     private Cliente cliente;
     private LocalDateTime fechaDeReserva;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
-
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private boolean comparte;
 
     ///CONSTRUCTOR
-
-    public Reserva() {
-    }
 
     public Reserva(UUID id, Alojamiento alojamiento, Cliente cliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.id = id;
         this.alojamiento = alojamiento;
         this.cliente = cliente;
-        this.fechaDeReserva = LocalDateTime.now();
+        this.fechaDeReserva = fechaDeReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.comparte = comparte;
     }
 
-    ///METODOS
-
-    ///GETTER Y SETTER
     public UUID getId() {
         return id;
     }
@@ -47,7 +44,7 @@ public class Reserva {
         return fechaDeReserva;
     }
 
-    public LocalDateTime getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
@@ -55,31 +52,18 @@ public class Reserva {
         return fechaFin;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setAlojamiento(Alojamiento alojamiento) {
-        this.alojamiento = alojamiento;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public void setFechaDeReserva(LocalDateTime fechaDeReserva) {
-        this.fechaDeReserva = fechaDeReserva;
-    }
-
     public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public void setFechaFin(LocalDateTime fechaFin) {
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    ///EQUALS, HASHCODE Y TO STRING
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,10 +86,23 @@ public class Reserva {
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
+                ", comparte=" + comparte +
                 '.';
     }
 
 
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("alojamiento",alojamiento.toJson());
+        jsonObject.put("cliente",cliente.toJson());
+        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
+        jsonObject.put("fechaInicio",fechaInicio.toString());
+        jsonObject.put("fechaFin",fechaFin.toString());
+        jsonObject.put("comparte",comparte);
+
+        return jsonObject;
+    }
 
 
 }

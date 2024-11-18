@@ -1,5 +1,8 @@
 package Clases;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
@@ -125,4 +128,24 @@ public abstract class Alojamiento {
                 ", estado=" + estado +
                 '}';
     }
+
+    //Metodos propios
+
+    Scanner scanner = new Scanner(System.in);
+
+    public void pedir_descripcion(){
+
+        int control = 0, validos = 0;
+        System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
+        do {
+            System.out.print("- ");
+            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
+            System.out.println();
+            validos++;
+            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
+            control = scanner.nextInt();
+        } while(control!=0);
+    }
+
+
 }
