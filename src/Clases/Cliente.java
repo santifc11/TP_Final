@@ -1,6 +1,7 @@
 package Clases;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -8,10 +9,7 @@ public final class Cliente implements Sesion{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
     private Set<Reserva> historialReserva;
 
-
-
     ///CONSTRUCTOR
-    ///
     public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto) {
         this.usuario = usuario;
         this.contrasenia = contrasenia;
@@ -49,6 +47,14 @@ public final class Cliente implements Sesion{
             System.out.println("Ingrese su nueva contraseña:");
             contrasenia = scanner.nextLine();
         }
+    }
+
+    public void agregarReserva (Reserva reserva){
+        historialReserva.add(reserva);
+    }
+
+    public void quitarReserva (Reserva reserva){
+        historialReserva.remove(reserva);
     }
 
     ///SETTER Y GETTER
@@ -92,8 +98,27 @@ public final class Cliente implements Sesion{
         this.historialReserva = historialReserva;
     }
 
+    ///EQUALS, HASHCODE Y TO STRING
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(dni, cliente.dni);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dni);
+    }
 
-
-
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "usuario='" + usuario + '\'' +
+                ", dni='" + dni + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", historialReserva=" + historialReserva +
+                '}';
+    }
 }

@@ -14,8 +14,10 @@ public class Reserva {
     private LocalDateTime fechaFin;
 
 
-
     ///CONSTRUCTOR
+
+    public Reserva() {
+    }
 
     public Reserva(UUID id, Alojamiento alojamiento, Cliente cliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.id = id;
@@ -26,6 +28,9 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
+    ///METODOS
+
+    ///GETTER Y SETTER
     public UUID getId() {
         return id;
     }
@@ -50,6 +55,22 @@ public class Reserva {
         return fechaFin;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setAlojamiento(Alojamiento alojamiento) {
+        this.alojamiento = alojamiento;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setFechaDeReserva(LocalDateTime fechaDeReserva) {
+        this.fechaDeReserva = fechaDeReserva;
+    }
+
     public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
@@ -58,6 +79,7 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
+    ///EQUALS, HASHCODE Y TO STRING
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
