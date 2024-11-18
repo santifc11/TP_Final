@@ -176,7 +176,7 @@ public class Gestion {
 
                 //Creo el objeto con los atributos que ingreso el admin.
 
-                Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible);
+                Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible,true);
 
                 //Pido la descripcion del alojamiento.
 
@@ -212,7 +212,7 @@ public class Gestion {
 
                 //Creo el objeto Clases.Departamento.
 
-                Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, piso);
+                Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, true,piso);
 
                 //Pido la descripcion del Clases.Departamento
 

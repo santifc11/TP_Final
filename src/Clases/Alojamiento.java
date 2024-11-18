@@ -7,21 +7,25 @@ import java.util.UUID;
 
 public abstract class Alojamiento {
     private final UUID id;
-    private String nombre;
-    private String ubicacion;
+    private String nombre,ubicacion;
     private double precioXnoche;
     private int aforo;
     private static String[] descripcion;
-    private boolean es_compartible;
+    private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
 
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible) {
+
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible, boolean estado) {
         this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
         this.aforo = aforo;
-        this.descripcion = descripcion;
         this.es_compartible = es_compartible;
+        this.estado = estado;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getNombre() {
@@ -60,12 +64,20 @@ public abstract class Alojamiento {
         return descripcion;
     }
 
-    public void setDescripcion(String[] descripcion) {
-        this.descripcion = descripcion;
+    public static void setDescripcion(String[] descripcion) {
+        Alojamiento.descripcion = descripcion;
     }
 
     public boolean isEs_compartible() {
         return es_compartible;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     @Override

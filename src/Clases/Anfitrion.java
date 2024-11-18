@@ -3,7 +3,7 @@ package Clases;
 import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Scanner;
 
-public class Anfitrion implements Sesion{
+public final class Anfitrion implements Sesion{
     private String usuario, nombre, contrasenia;
     ///CONSTRUCTOR
     public Anfitrion() {
