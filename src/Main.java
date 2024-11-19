@@ -8,12 +8,6 @@ public class Main {
         Administrador admin4 = new Administrador("CarolinaArchuby", "1234");
         Administrador admin5 = new Administrador("NahuelBianca", "1234");
 
-        Casa casa1 =new Casa("Campestre","San Manuel",30000,6,true);
-        Casa casa2 =new Casa("Moderna","Bs.As",80000,5,false);
-        Casa casa3 =new Casa("Playera","Necochea",40000,2,true);
-
-        Departamento departamento1=new Departamento("prueba","mardel",12000,5,true,19);
-
         Gestion gestion = new Gestion();
 
         gestion.cargarAdministrador(admin1);

@@ -350,9 +350,9 @@ public class Gestion {
         boolean sesion = true;
         int opcion = 0;
         while (sesion) {
-            System.out.println("1 - HACE TU RESERVA!" +
-                    "\n2 - ALOJAMIENTOS." +
-                    "\n3 - PERSONAL." +
+            System.out.println("1 - ¡HACE TU RESERVA!" +
+                    "\n2 - VER ALOJAMIENTOS." +
+                    "\n3 - INFORMACIÓN PERSONAL." +
                     "\n4 - CAMBIAR CONTRASEÑA." +
                     "\n5 - CERRAR SESION.");
             opcion = scanner.nextInt();
@@ -387,9 +387,9 @@ public class Gestion {
     }
 
     public void hacerReserva(Cliente cliente){
-        int tipo, cantPersonas, numA, finalizar;
+        int tipo = 0, cantPersonas = 0, numA = 0, finalizar = 0;
         boolean comparte, hacerReserva = true, alojamientoEncontrado;
-        String SiNo;
+        String SiNo = "";
         System.out.println("DESDE: (AAAA-MM-DD)");
         LocalDate inicio = LocalDate.parse(scanner.nextLine());
         System.out.println("HASTA: (AAAA-MM-DD)");
@@ -400,7 +400,7 @@ public class Gestion {
         System.out.println("CANTIDAD DE PERSONAS:");
         cantPersonas = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("¿desea compartir el alojamiento?(SI/NO)");
+        System.out.println("¿Desea compartir el alojamiento?(SI/NO)");
         SiNo = scanner.nextLine();
         if(SiNo.equalsIgnoreCase("si")){
             comparte=true;
@@ -472,9 +472,8 @@ public class Gestion {
                     "\n3 - ELIMINAR ALOJAMIENTO." +
                     "\n4 - ELIMINAR CLIENTE." +
                     "\n5 - ELIMINAR ANFITRION." +
-                    "\n6 - ELIMINAR RESERVA." +
-                    "\n7 - CAMBIAR CONTRASEÑA." +
-                    "\n8 - CERRAR SESION.");
+                    "\n6 - CAMBIAR CONTRASEÑA." +
+                    "\n7 - CERRAR SESION.");
 
             opcion = scanner.nextInt();
             scanner.nextLine();
@@ -501,14 +500,10 @@ public class Gestion {
                     break;
 
                 case 6:
-
-                    break;
-
-                case 7:
                     administrador.cambiarContrasenia();
                     break;
 
-                case 8:
+                case 7:
                     System.out.println("Cerrando sesion...");
                     sesion = false;
                     break;

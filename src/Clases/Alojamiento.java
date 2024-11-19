@@ -28,7 +28,6 @@ public abstract class Alojamiento {
         this.estado = true;
         this.reservas=new LinkedList<>();
         this.hospedados=new ArrayList<>();
-
     }
 
 
