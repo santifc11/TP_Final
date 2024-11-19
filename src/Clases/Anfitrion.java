@@ -3,6 +3,7 @@ package Clases;
 import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 public final class Anfitrion implements Sesion{
     private String usuario, nombre, contrasenia;
@@ -18,13 +19,99 @@ public final class Anfitrion implements Sesion{
     }
 
     ///METODOS
-    public void agregarAlojamiento(){
+    public void agregarAlojamiento(Set<Alojamiento> alojamientos){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
+        int tipo_alojamiento = scanner.nextInt();
+        scanner.nextLine();
+        if (tipo_alojamiento==1){
+
+            //Pido los datos de la Casa.
+
+            System.out.print("Nombre de la propiedad: ");
+            String nombre = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese la ubicacion: ");
+            String ubicacion = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el precio por noche: ");
+            double precioXnoche = scanner.nextDouble();
+            System.out.println();
+            System.out.print("Ingrese el aforo de la propiedad: ");
+            int aforo = scanner.nextInt();
+            System.out.println();
+            System.out.print("La propiedad es apta para ser compartida? (true/false): ");
+            boolean compartible = scanner.nextBoolean();
+            scanner.nextLine();
+            System.out.println();
+
+            //Creo el objeto con los atributos que ingreso el admin.
+
+            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible,true);
+
+            //Pido la descripcion del alojamiento.
+
+            casa.pedir_descripcion();
+
+            //Guardo el alojamiento en la Lista.
+
+            alojamientos.add(casa);
+            System.out.println("Alojamiendo creado y listado exitosamente!");
+
+        } else if (tipo_alojamiento == 2){
+
+            //Pido los datos del Clases.Departamento
+
+            System.out.print("Nombre de la propiedad: ");
+            String nombre = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese la ubicacion: ");
+            String ubicacion = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el precio por noche: ");
+            double precioXnoche = scanner.nextDouble();
+            System.out.println();
+            System.out.print("Ingrese el aforo de la propiedad: ");
+            int aforo = scanner.nextInt();
+            System.out.println();
+            System.out.print("La propiedad es apta para ser compartida? (true/false): ");
+            boolean compartible = scanner.nextBoolean();
+            scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
+            int piso = scanner.nextInt();
+            System.out.println();
+
+            //Creo el objeto Clases.Departamento.
+
+            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, true,piso);
+
+            //Pido la descripcion del Clases.Departamento
+
+            depto.pedir_descripcion();
+
+            //Guardo el alojamiento en la Lista
+
+            alojamientos.add(depto);
+            System.out.println("Clases.Alojamiento creado y listado exitosamente!");
+        }
+        else {
+            System.out.println("Cancelado.");
+        }
     }
-    public void quitarAlojamiento(){
+
+    public void eliminarAlojamiento(Set<Alojamiento> alojamientos){
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+        int id = scanner.nextInt();
+        System.out.println();
+        
 
     }
+
     @Override
-    public void cambiarContrasenia() throws ContraseñaIncorrectaException{
+    public void cambiarContrasenia() throws ContraseniaIncorrectaException{
         boolean flag = false;
         Scanner scanner = new Scanner(System.in);
         String contraseniaActual = "";
@@ -34,10 +121,10 @@ public final class Anfitrion implements Sesion{
                 System.out.println("Ingrese su contraseña actual:");
                 contraseniaActual = scanner.nextLine();
                 if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                    throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
                 }
             }
-        }catch (ContraseñaIncorrectaException ex){
+        }catch (ContraseniaIncorrectaException ex){
             System.out.println(ex.getMessage());
             cantIntentos++;
         }

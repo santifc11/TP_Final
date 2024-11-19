@@ -75,10 +75,10 @@ public final class Cliente implements Sesion{
                 System.out.println("Ingrese su contraseña actual:");
                 contraseniaActual = scanner.nextLine();
                 if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                    throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
                 }
             }
-        }catch (ContraseñaIncorrectaException ex){
+        }catch (ContraseniaIncorrectaException ex){
             System.out.println(ex.getMessage());
             cantIntentos++;
         }

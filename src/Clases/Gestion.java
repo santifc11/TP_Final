@@ -1,8 +1,5 @@
 package Clases;
 
-import com.sun.source.tree.WhileLoopTree;
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Gestion {
@@ -24,11 +21,11 @@ public class Gestion {
     Scanner scanner = new Scanner(System.in);
 
     ///INICIO DE SESION
-    public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseñaIncorrectaException{
+    public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException{
         System.out.println("\n\n¡Bienvenido a Alquileres Patagonia!");
         boolean programa = true;
         while (programa) {
-            System.out.println("\nSeleccione la una de las siguientes opciones:\n" +
+            System.out.println("\nSeleccione una de las siguientes opciones:\n" +
                     "\n1- Iniciar sesion como administrador." +
                     "\n2- Iniciar sesion como cliente." +
                     "\n3- Iniciar sesion como anfitrion." +
@@ -60,14 +57,14 @@ public class Gestion {
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (adminLogeado.getContrasenia().compareTo(contrasenia) != 0) {
-                                throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
+                                throw new ContraseniaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
                                 System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        } catch (ContraseñaIncorrectaException ex2) {
+                        } catch (ContraseniaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
@@ -97,14 +94,14 @@ public class Gestion {
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (clienteLogeado.getContrasenia().compareTo(contrasenia) != 0) {
-                                throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
+                                throw new ContraseniaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
                                 System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        } catch (ContraseñaIncorrectaException ex2) {
+                        } catch (ContraseniaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
@@ -133,21 +130,37 @@ public class Gestion {
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0) {
-                                throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
+                                throw new ContraseniaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
                                 System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        } catch (ContraseñaIncorrectaException ex2) {
+                        } catch (ContraseniaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
 
-                    //MENU DE ANFITRIONES
-                    if (usuario.compareTo("1") != 0) {
+                    //MENU ANFITRIONES
+                    if (usuario.compareTo("1")!=0) {
+                        System.out.println("-----MENU ANFITRION-----");
+                        System.out.println("Seleccione una de las siguientes opciones: \n" +
+                                "\n1- Agregar alojamiento." +
+                                "\n2- Eliminar alojamiento." +
+                                "\n3- Ver alojamientos propios." +
+                                "\n4- Ver todos los alojamientos.");
 
+                        int opcionanf = scanner.nextInt();
+
+                        switch (opcionanf) {
+                            case 1:
+                                anfitrionLogeado.agregarAlojamiento(Alojamientos);
+                                break;
+                            case 2:
+
+                                break;
+                        }
                     }
 
                     break;
@@ -231,83 +244,6 @@ public class Gestion {
         ///METODOS DE LISTAS
 
         //ALOJAMIENTOS
-        public void agregar_alojamiento(){
-            //pedir los atributos al usuario. Saber si es Clases.Casa o Clases.Departamento.
-            int tipo_alojamiento=0;
-            System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
-            if (tipo_alojamiento==1){
-
-                //Pido los datos de la Clases.Casa.
-
-                System.out.print("Nombre de la propiedad: ");
-                String nombre = scanner.nextLine();
-                System.out.println();
-                System.out.print("Ingrese la ubicacion: ");
-                String ubicacion = scanner.nextLine();
-                System.out.println();
-                System.out.print("Ingrese el precio por noche: ");
-                double precioXnoche = scanner.nextDouble();
-                System.out.println();
-                System.out.print("Ingrese el aforo de la propiedad: ");
-                int aforo = scanner.nextInt();
-                System.out.println();
-                System.out.print("La propiedad es apta para ser compartida? (true/false): ");
-                boolean compartible = scanner.nextBoolean();
-                System.out.println();
-
-                //Creo el objeto con los atributos que ingreso el admin.
-
-                Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible,true);
-
-                //Pido la descripcion del alojamiento.
-
-                casa.pedir_descripcion();
-
-                //Guardo el alojamiento en la Lista.
-
-                Alojamientos.add(casa);
-                System.out.println("Alojamiendo creado y listado exitosamente!");
-
-            } else if (tipo_alojamiento == 2){
-
-                //Pido los datos del Clases.Departamento
-
-                System.out.print("Nombre de la propiedad: ");
-                String nombre = scanner.nextLine();
-                System.out.println();
-                System.out.print("Ingrese la ubicacion: ");
-                String ubicacion = scanner.nextLine();
-                System.out.println();
-                System.out.print("Ingrese el precio por noche: ");
-                double precioXnoche = scanner.nextDouble();
-                System.out.println();
-                System.out.print("Ingrese el aforo de la propiedad: ");
-                int aforo = scanner.nextInt();
-                System.out.println();
-                System.out.print("La propiedad es apta para ser compartida? (true/false): ");
-                boolean compartible = scanner.nextBoolean();
-                System.out.println();
-                System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
-                int piso = scanner.nextInt();
-                System.out.println();
-
-                //Creo el objeto Clases.Departamento.
-
-                Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, true,piso);
-
-                //Pido la descripcion del Clases.Departamento
-
-                depto.pedir_descripcion();
-
-                //Guardo el alojamiento en la Lista
-
-                Alojamientos.add(depto);
-                System.out.println("Clases.Alojamiento creado y listado exitosamente!");
-            }
-            else {
-                System.out.println("Cancelado.");
-            }
-        }
 
         public void mostrar_alojamientos(){
             for (Alojamiento alojamiento:Alojamientos){
@@ -408,7 +344,5 @@ public class Gestion {
 
             }
         }
-        //MENU ANFITRION
-
     }
 
