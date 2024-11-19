@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Reserva {
+public class Reserva implements JsonConvertible {
     private UUID id;
     private Alojamiento alojamiento;
     private Cliente cliente;
@@ -71,6 +71,11 @@ public class Reserva {
         jsonObject.put("comparte",comparte);
 
         return jsonObject;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+
     }
 
     ///EQUALS, HASHCODE Y TO STRING

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.util.*;
 
-public abstract class Alojamiento {
+public abstract class Alojamiento{
     private int identificador;
     private String nombre,ubicacion;
     private double precioXnoche;

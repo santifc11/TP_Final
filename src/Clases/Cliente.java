@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-public final class Cliente implements Sesion{
+public final class Cliente implements Sesion, JsonConvertible{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
     private LinkedList<Reserva> historialReserva;
 
@@ -110,6 +110,11 @@ public final class Cliente implements Sesion{
 
         return jsonObject;
    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+
+    }
 
     ///EQUALS, HASHCODE Y TO STRING
     @Override

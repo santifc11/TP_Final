@@ -1,9 +1,11 @@
 package Clases;
 
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 import java.util.*;
 
-public class Gestion {
+public class Gestion implements JsonConvertible{
     private Map<String, Administrador> Administradores;
     private Map<String, Cliente> Clientes;
     private Map<String, Anfitrion> Anfitriones;
@@ -513,5 +515,15 @@ public class Gestion {
                     break;
             }
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+
     }
 }

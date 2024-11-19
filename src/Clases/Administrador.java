@@ -1,9 +1,11 @@
 package Clases;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Administrador implements Sesion{
+public class Administrador implements Sesion, JsonConvertible{
     private String usuario = "";
     private String contrasenia = "";
 
@@ -82,5 +84,15 @@ public class Administrador implements Sesion{
         return "Administrador{" +
                 "usuario='" + usuario + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+
     }
 }

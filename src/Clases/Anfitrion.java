@@ -1,11 +1,13 @@
 package Clases;
 
+import org.json.JSONObject;
+
 import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
-public final class Anfitrion implements Sesion{
+public final class Anfitrion implements Sesion,JsonConvertible{
     private String usuario, nombre, contrasenia;
 
     ///CONSTRUCTOR
@@ -184,5 +186,15 @@ public final class Anfitrion implements Sesion{
                 "nombre='" + nombre + '\'' +
                 ", usuario='" + usuario + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+
     }
 }
