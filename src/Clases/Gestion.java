@@ -371,10 +371,10 @@ public class Gestion {
             int opcion = 0;
             while(sesion){
                 System.out.println("1 - HACE TU RESERVA." +
-                        "2 - ALOJAMIENTOS." +
-                        "3 - PERSONAL." +
-                        "4 - CAMBIAR CONTRASEÑA." +
-                        "5 - CERRAR SESION.");
+                        "\n2 - ALOJAMIENTOS." +
+                        "\n3 - PERSONAL." +
+                        "\n4 - CAMBIAR CONTRASEÑA." +
+                        "\n5 - CERRAR SESION.");
                 opcion = scanner.nextInt();
 
                 switch (opcion){
