@@ -45,6 +45,7 @@ public class Gestion {
                 ///INICIO DE SESION DE ADMINISTRADOR
                 case 1:
                     System.out.println("------ADMINISTRADOR------");
+                    Administrador adminLogeado = new Administrador();
                     while (!flag) {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
@@ -55,7 +56,7 @@ public class Gestion {
                             }else if (!Administradores.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de administradores.");
                             }
-                            Administrador adminLogeado = Administradores.get(usuario);
+                            adminLogeado = Administradores.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (adminLogeado.getContrasenia().compareTo(contrasenia) != 0) {
@@ -72,12 +73,16 @@ public class Gestion {
                     }
 
                     //MENU DE ADMINISTRADORES
+                    if (usuario.compareTo("1") != 0) {
+
+                    }
 
                     break;
 
                 ///INICIO DE SESION DE CLIENTE
                 case 2:
                     System.out.println("------CLIENTE------");
+                    Cliente clienteLogeado = new Cliente();
                     while (!flag) {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
@@ -88,7 +93,7 @@ public class Gestion {
                             }else if (!Clientes.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de clientes.");
                             }
-                            Cliente clienteLogeado = Clientes.get(usuario);
+                            clienteLogeado = Clientes.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (clienteLogeado.getContrasenia().compareTo(contrasenia) != 0) {
@@ -105,12 +110,15 @@ public class Gestion {
                     }
 
                     //MENU DE CLIENTES
-
+                    if (usuario.compareTo("1") != 0) {
+                        menuCliente(clienteLogeado);
+                    }
                     break;
 
                 ///INICIO DE SESION DE ANFITRION
                 case 3:
                     System.out.println("------ANFITRION------");
+                    Anfitrion anfitrionLogeado = new Anfitrion();
                     while (!flag) {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
@@ -121,7 +129,7 @@ public class Gestion {
                             }else if (!Anfitriones.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de anfitriones.");
                             }
-                            Anfitrion anfitrionLogeado = Anfitriones.get(usuario);
+                            anfitrionLogeado = Anfitriones.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0) {
@@ -138,6 +146,9 @@ public class Gestion {
                     }
 
                     //MENU DE ANFITRIONES
+                    if (usuario.compareTo("1") != 0) {
+
+                    }
 
                     break;
 
@@ -356,19 +367,20 @@ public class Gestion {
         }
 
         public void menuCliente(Cliente cliente){
-            boolean secion=true; int opcion=0;
-            while (true){
-                System.out.println("1 - HACE TU RESERVA");
-                System.out.println("2 - ALOJAMIENTOS");
-                System.out.println("3 - PERSONAL");
-                System.out.println("4 - CAMBIAR CONTRASEÑA");
-                System.out.println("5 - CERRAR SECION");
-                opcion=scanner.nextInt();
+            boolean sesion = true;
+            int opcion = 0;
+            while(sesion){
+                System.out.println("1 - HACE TU RESERVA." +
+                        "2 - ALOJAMIENTOS." +
+                        "3 - PERSONAL." +
+                        "4 - CAMBIAR CONTRASEÑA." +
+                        "5 - CERRAR SESION.");
+                opcion = scanner.nextInt();
 
                 switch (opcion){
                     case 1:
                         int tipo;
-                        System.out.println("¿donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
+                        System.out.println("¿Donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
                         tipo= scanner.nextInt();
                         if(tipo==1){
                             mostrar_casa();
@@ -387,7 +399,8 @@ public class Gestion {
 
                         break;
                     case 5:
-
+                        System.out.println("Cerrando sesion...");
+                        sesion = false;
                         break;
 
                 }
