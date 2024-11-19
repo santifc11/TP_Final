@@ -10,10 +10,6 @@ public class Main {
 
         Gestion gestion = new Gestion();
 
-        Alojamiento casa1 =new Casa("Campestre","San Manuel",30000,6,true);
-        Alojamiento casa2 =new Casa("Moderna","Bs.As",80000,5,false);
-        Alojamiento casa3 =new Casa("Playera","Necochea",40000,2,true);
-
         gestion.cargarAdministrador(admin1);
         gestion.cargarAdministrador(admin2);
         gestion.cargarAdministrador(admin3);
