@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 public abstract class Alojamiento {
-    private final UUID id;
     private int identificador;
     private String nombre,ubicacion;
     private double precioXnoche;
@@ -19,7 +18,6 @@ public abstract class Alojamiento {
 
     ///CONSTRUCTOR
     public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible, boolean estado) {
-        this.id = UUID.randomUUID();
         this.identificador=contador++;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
@@ -36,9 +34,6 @@ public abstract class Alojamiento {
         this.es_compartible = es_compartible;
     }
 
-    public UUID getId() {
-        return id;
-    }
     public String getNombre() {
         return nombre;
     }
@@ -139,7 +134,7 @@ public abstract class Alojamiento {
     ///TO JSONObject
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",id);
+        jsonObject.put("id",identificador);
         jsonObject.put("nombre",nombre);
         jsonObject.put("ubicacion",ubicacion);
         jsonObject.put("precioXnoche", precioXnoche);
@@ -156,23 +151,24 @@ public abstract class Alojamiento {
     }
 
     ///EQUALS, HASHCODE Y TO STRING
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alojamiento that = (Alojamiento) o;
-        return Objects.equals(id, that.id);
+        return identificador == that.identificador;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(identificador);
     }
 
     @Override
     public String toString() {
-        return "Alojamiento{" +identificador+" - "+
-                "id=" + id +
+        return "Alojamiento{ id: " +identificador + " - "+
                 ", nombre='" + nombre + '\'' +
                 ", ubicacion='" + ubicacion + '\'' +
                 ", precioXnoche=" + precioXnoche +
