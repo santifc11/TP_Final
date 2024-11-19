@@ -3,22 +3,24 @@ package Clases;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 public abstract class Alojamiento {
     private final UUID id;
+    private int identificador;
     private String nombre,ubicacion;
     private double precioXnoche;
     private int aforo;
     private static String[] descripcion;
     private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
+    private List<Reserva>reservas;
+    private static int contador=0;
 
     ///CONSTRUCTOR
     public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible, boolean estado) {
         this.id = UUID.randomUUID();
+        this.identificador=contador++;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
@@ -26,6 +28,8 @@ public abstract class Alojamiento {
         this.es_compartible = es_compartible;
         this.estado = estado;
     }
+
+
 
     ///SETTER Y GETTER
     public void setEs_compartible(boolean es_compartible) {
@@ -87,6 +91,19 @@ public abstract class Alojamiento {
         this.estado = estado;
     }
 
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+
     ///METODOS
     public void pedir_descripcion(){
         Scanner scanner = new Scanner(System.in);
@@ -101,6 +118,23 @@ public abstract class Alojamiento {
             control = scanner.nextInt();
         } while(control!=0);
     }
+
+
+    public void agregarReserva(Reserva reserva){
+        reservas.add(reserva);
+    }
+
+    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin){
+        for (Reserva reserva:reservas){
+            if(reserva.seSolapaCon(fechaInicio,fechaFin)){
+                this.estado=false;
+                return false;
+            }
+        }
+        this.estado=true;
+        return true;
+    }
+
 
     ///TO JSONObject
     public JSONObject toJson(){
@@ -137,7 +171,7 @@ public abstract class Alojamiento {
 
     @Override
     public String toString() {
-        return "Alojamiento{" +
+        return "Alojamiento{" +identificador+" - "+
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", ubicacion='" + ubicacion + '\'' +

@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,6 +17,11 @@ public class Reserva {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private boolean comparte;
+
+    //Metodo para verificar si las fechas se solapan
+    public boolean seSolapaCon(LocalDate otraFechaInicio, LocalDate otraFechaFin) {
+        return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
+    }
 
 
 
@@ -32,6 +39,7 @@ public class Reserva {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.comparte = comparte;
+
     }
 
     ///METODOS.
@@ -136,4 +144,6 @@ public class Reserva {
     public void setComparte(boolean comparte) {
         this.comparte = comparte;
     }
+
+
 }
