@@ -71,7 +71,7 @@ public class GestionJSONClientes {
             JSONArray jsonArray = jsonObject.getJSONArray("historialReservas");
 
             for(int i = 0; i < jsonArray.length(); ++i) {
-                Reserva reserva = GestionJSONReservas.deserializar(jsonArray.getJSONObject(i));
+                Reserva reserva = this.gestionJSONReservas.deserializar(jsonArray.getJSONObject(i));
                 cliente.agregarReserva(reserva);
             }
         } catch (JSONException ex) {

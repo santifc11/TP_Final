@@ -2,6 +2,7 @@ package Clases;
 
 import com.sun.source.tree.WhileLoopTree;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Gestion {
@@ -23,111 +24,205 @@ public class Gestion {
 
     ///INICIO DE SESION
     public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseñaIncorrectaException{
-            System.out.println("¡Bienvenido a (nombre de la app)!");
-            System.out.println("Seleccione la una de las siguientes opciones:\n" +
+        System.out.println("\n\n¡Bienvenido a Alquileres Patagonia!");
+        boolean programa = true;
+        while (programa) {
+            System.out.println("\nSeleccione la una de las siguientes opciones:\n" +
                     "\n1- Iniciar sesion como administrador." +
                     "\n2- Iniciar sesion como cliente." +
                     "\n3- Iniciar sesion como anfitrion." +
                     "\n4- Registrarse como cliente." +
-                    "\n5- Registrarse como anfitrion.");
+                    "\n5- Registrarse como anfitrion." +
+                    "\n6- Cerrar programa.");
 
             int opcion = scanner.nextInt();
-            String usuario, contrasenia;
-            boolean flag = false;
-            switch (opcion){
+            scanner.nextLine();
+            String usuario = "", contrasenia = "", nombreUsuario = "";
+            boolean flag = false, usuarioExistente = true;
+            switch (opcion) {
 
                 ///INICIO DE SESION DE ADMINISTRADOR
                 case 1:
                     System.out.println("------ADMINISTRADOR------");
-                    while (!flag){
+                    while (!flag) {
                         try {
-                            System.out.print("Ingrese su nombre de usuario: ");
+                            System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(!Administradores.containsKey(usuario)){
+                            if(usuario == "1"){
+                                flag = true;
+                            }else if (!Administradores.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de administradores.");
                             }
                             Administrador adminLogeado = Administradores.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
-                            if(adminLogeado.getContrasenia().compareTo(contrasenia) != 0){
+                            if (adminLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
-                            }else {
+                            } else {
                                 flag = true;
+                                System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                             }
-                        }catch (UsuarioNoExisteException ex){
+                        } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        }catch (ContraseñaIncorrectaException ex2){
+                        } catch (ContraseñaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
-                    System.out.println("¡Sesion iniciada con éxito!");
-                    //MENU DE ADMINISTRADORES
 
+
+                    if(usuario != "1"){
+                        //MENU DE ADMINISTRADORES
+
+                    }
                     break;
 
                 ///INICIO DE SESION DE CLIENTE
                 case 2:
                     System.out.println("------CLIENTE------");
-                    while (!flag){
+                    while (!flag) {
                         try {
-                            System.out.print("Ingrese su nombre de usuario: ");
+                            System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(!Clientes.containsKey(usuario)){
+                            if(usuario == "1"){
+                                flag = true;
+                            }else if (!Clientes.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de clientes.");
                             }
                             Cliente clienteLogeado = Clientes.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
-                            if(clienteLogeado.getContrasenia().compareTo(contrasenia) != 0){
+                            if (clienteLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
-                            }else {
+                            } else {
                                 flag = true;
                             }
-                        }catch (UsuarioNoExisteException ex){
+                        } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        }catch (ContraseñaIncorrectaException ex2){
+                        } catch (ContraseñaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
-                    System.out.println("¡Sesion iniciada con éxito!");
-                    //MENU DE CLIENTES
+
+                    if(usuario != "1"){
+                        //MENU DE CLIENTES
+
+                    }
 
                     break;
 
                 ///INICIO DE SESION DE ANFITRION
                 case 3:
                     System.out.println("------ANFITRION------");
-                    while (!flag){
+                    while (!flag) {
                         try {
-                            System.out.print("Ingrese su nombre de usuario: ");
+                            System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(!Anfitriones.containsKey(usuario)){
+                            if(usuario == "1"){
+                                flag = true;
+                            }else if (!Anfitriones.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de anfitriones.");
                             }
                             Anfitrion anfitrionLogeado = Anfitriones.get(usuario);
                             System.out.println("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
-                            if(anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0){
+                            if (anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
-                            }else {
+                            } else {
                                 flag = true;
                             }
-                        }catch (UsuarioNoExisteException ex){
+                        } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
-                        }catch (ContraseñaIncorrectaException ex2){
+                        } catch (ContraseñaIncorrectaException ex2) {
                             System.out.println(ex2.getMessage());
                         }
                     }
-                    System.out.println("¡Sesion iniciada con éxito!");
-                    //MENU DE ANFITRIONES
+
+                    if(usuario != "1"){
+                        //MENU DE ANFITRIONES
+
+                    }
 
                     break;
-            }
 
+                /// CREACION DE USUARIO CLIENTE
+                case 4:
+                    Cliente clienteNuevo = new Cliente();
+                    System.out.println("------CLIENTE NUEVO------");
+                    //Pedimos los datos
+
+                    while (usuarioExistente) {
+                        try {
+                            System.out.println("\nIngrese su usuario:");
+                            nombreUsuario = scanner.nextLine();
+                            if (Clientes.containsKey(nombreUsuario)) {
+                                throw new UsuarioNoExisteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
+                            } else {
+                                usuarioExistente = false;
+                            }
+                        } catch (UsuarioYaExistenteException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                    System.out.println("Ingrese su dni:");
+                    clienteNuevo.setDni(scanner.nextLine());
+
+                    System.out.println("Ingrese su nombre completo:");
+                    clienteNuevo.setNombreCompleto(scanner.nextLine());
+
+                    System.out.println("Ingrese su contraseña:");
+                    clienteNuevo.setContrasenia(scanner.nextLine());
+
+                    Clientes.put(nombreUsuario, clienteNuevo);
+                    System.out.println("\n--------Usuario creado con éxito--------\n");
+                    break;
+
+                /// CREACION DE USUARIO ANFITRION
+                case 5:
+                    Anfitrion anfitrionNuevo = new Anfitrion();
+                    usuarioExistente = true;
+                    System.out.println("------ANFITRION NUEVO------");
+                    //Pedimos los datos
+
+                    while (usuarioExistente) {
+                        try {
+                            System.out.println("\nIngrese su usuario:");
+                            nombreUsuario = scanner.nextLine();
+                            if (Anfitriones.containsKey(nombreUsuario)) {
+                                throw new UsuarioNoExisteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
+                            } else {
+                                usuarioExistente = false;
+                            }
+                        } catch (UsuarioYaExistenteException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                    System.out.println("Ingrese su nombre completo:");
+                    anfitrionNuevo.setNombre(scanner.nextLine());
+
+                    System.out.println("Ingrese su contraseña:");
+                    anfitrionNuevo.setContrasenia(scanner.nextLine());
+
+                    Anfitriones.put(nombreUsuario, anfitrionNuevo);
+                    System.out.println("\n--------Usuario creado con éxito--------\n");
+                    break;
+
+                case 6:
+                    System.out.println("Finalizando programa...");
+                    programa = false;
+                    break;
+
+                default:
+                    System.out.println("Por favor ingrese una opción válida.");
+                    break;
+                }
+            }
         }
 
         ///METODOS DE LISTAS
 
+        //ALOJAMIENTOS
         public void agregar_alojamiento(){
             //pedir los atributos al usuario. Saber si es Clases.Casa o Clases.Departamento.
             int tipo_alojamiento=0;
@@ -217,23 +312,6 @@ public class Gestion {
             }
         }
 
-        public void mostrar_casa(){
-            for (Alojamiento alojamiento:Alojamientos){
-                if(alojamiento instanceof Casa){
-                    System.out.println(((Casa)alojamiento).toString());
-                }
-            }
-
-        }
-
-        public void mostrar_departamentos(){
-            for (Alojamiento alojamiento:Alojamientos){
-                if(alojamiento instanceof Departamento){
-                    System.out.println(((Departamento)alojamiento).toString());
-                }
-            }
-        }
-
         public void cargarAdministrador(Administrador administrador){
             Administradores.put(administrador.getUsuario(), administrador);
         }
@@ -242,6 +320,7 @@ public class Gestion {
             Administradores.remove(usuario);
         }
 
+        //CLIENTES
         public void cargarCliente(Cliente cliente){
             Clientes.put(cliente.getUsuario(), cliente);
         }
@@ -250,6 +329,7 @@ public class Gestion {
             Clientes.remove(usuario);
         }
 
+        //ANFITRIONES
         public void cargarAnfitrion(Anfitrion anfitrion){
             Anfitriones.put(anfitrion.getUsuario(), anfitrion);
         }
