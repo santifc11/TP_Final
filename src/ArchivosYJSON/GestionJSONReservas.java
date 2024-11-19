@@ -1,8 +1,13 @@
 package ArchivosYJSON;
+import Clases.Alojamiento;
+import Clases.Cliente;
 import Clases.Reserva;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class GestionJSONReservas {
     private String nomJSON = "anfitrion.json";
@@ -51,12 +56,12 @@ public class GestionJSONReservas {
         Reserva reserva = new Reserva();
 
         try {
-            reserva.setId(jsonObject.getString("id"));
-            reserva.setAlojamiento(jsonObject.getString("alojamiento"));
-            reserva.setCliente(jsonObject.getString("cliente"));
-            reserva.setFechaDeReserva(jsonObject.getString("fechaDeReserva"));
-            reserva.setFechaInicio(jsonObject.getString("fechaInicio"));
-            reserva.setFechaFin(jsonObject.getString("fechaFin"));
+            reserva.setId(UUID.fromString(jsonObject.getString("id")));
+            reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
+            reserva.setCliente((Cliente) jsonObject.get("cliente"));
+            reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
+            reserva.setFechaInicio((LocalDateTime) jsonObject.get("fechaInicio"));
+            reserva.setFechaFin((LocalDateTime) jsonObject.get("fechaFin"));
         } catch (JSONException ex) {
             JSONException e = ex;
             e.printStackTrace();
