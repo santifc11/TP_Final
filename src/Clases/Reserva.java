@@ -92,8 +92,8 @@ public class Reserva {
     public String toString() {
         return "Reserva{" +
                 "id=" + id +
-                ", alojamiento=" + alojamiento +
-                ", cliente=" + cliente +
+                ", alojamiento=" + alojamiento.getIdentificador() +
+                ", cliente=" + cliente.getDni() +
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
