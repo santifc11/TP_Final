@@ -217,6 +217,23 @@ public class Gestion {
             }
         }
 
+        public void mostrar_casa(){
+            for (Alojamiento alojamiento:Alojamientos){
+                if(alojamiento instanceof Casa){
+                    System.out.println(((Casa)alojamiento).toString());
+                }
+            }
+
+        }
+
+        public void mostrar_departamentos(){
+            for (Alojamiento alojamiento:Alojamientos){
+                if(alojamiento instanceof Departamento){
+                    System.out.println(((Departamento)alojamiento).toString());
+                }
+            }
+        }
+
         public void cargarAdministrador(Administrador administrador){
             Administradores.put(administrador.getUsuario(), administrador);
         }
@@ -239,6 +256,48 @@ public class Gestion {
 
         public void bajaAnfitrion(String usuario){
             Anfitriones.remove(usuario);
+        }
+
+
+        public void menuCliente(Cliente cliente){
+            boolean secion=true; int opcion=0;
+            while (true){
+                System.out.println("1 - HACE TU RESERVA");
+                System.out.println("2 - ALOJAMIENTOS");
+                System.out.println("3 - PERSONAL");
+                System.out.println("4 - CAMBIAR CONTRASEÑA");
+                System.out.println("5 - CERRAR SECION");
+                opcion=scanner.nextInt();
+
+                switch (opcion){
+                    case 1:
+                        int tipo;
+                        System.out.println("¿donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
+                        tipo= scanner.nextInt();
+                        if(tipo==1){
+                            mostrar_casa();
+                        }else {
+                            mostrar_departamentos();
+                        }
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+
+                }
+
+
+            }
         }
     }
 

@@ -27,29 +27,14 @@ public abstract class Alojamiento {
         this.estado = estado;
     }
 
-    ///METODOS
-    public void pedir_descripcion(){
-        Scanner scanner = new Scanner(System.in);
-        int control = 0, validos = 0;
-        System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
-        do {
-            System.out.print("- ");
-            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
-            System.out.println();
-            validos++;
-            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
-            control = scanner.nextInt();
-        } while(control!=0);
-    }
-
     ///SETTER Y GETTER
     public void setEs_compartible(boolean es_compartible) {
         this.es_compartible = es_compartible;
     }
+
     public UUID getId() {
         return id;
     }
-
     public String getNombre() {
         return nombre;
     }
@@ -102,6 +87,40 @@ public abstract class Alojamiento {
         this.estado = estado;
     }
 
+    ///METODOS
+    public void pedir_descripcion(){
+        Scanner scanner = new Scanner(System.in);
+        int control = 0, validos = 0;
+        System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
+        do {
+            System.out.print("- ");
+            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
+            System.out.println();
+            validos++;
+            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
+            control = scanner.nextInt();
+        } while(control!=0);
+    }
+
+    ///TO JSONObject
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("nombre",nombre);
+        jsonObject.put("ubicacion",ubicacion);
+        jsonObject.put("precioXnoche", precioXnoche);
+        jsonObject.put("aforo",aforo);
+        jsonObject.put("es_compartible", es_compartible);
+        jsonObject.put("estado",estado);
+        JSONArray descripcionJson=new JSONArray();
+        for (String descripcion: descripcion){
+            descripcionJson.put(descripcion);
+        }
+        jsonObject.put("descripcion",descripcionJson);
+
+        return jsonObject;
+    }
+
     ///EQUALS, HASHCODE Y TO STRING
     @Override
     public boolean equals(Object o) {
@@ -127,25 +146,6 @@ public abstract class Alojamiento {
                 ", es_compartible=" + es_compartible +
                 ", estado=" + estado +
                 '}';
-    }
-
-    ///TO JSONObject
-    public JSONObject toJson(){
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",id);
-        jsonObject.put("nombre",nombre);
-        jsonObject.put("ubicacion",ubicacion);
-        jsonObject.put("precioXnoche", precioXnoche);
-        jsonObject.put("aforo",aforo);
-        jsonObject.put("es_compartible", es_compartible);
-        jsonObject.put("estado",estado);
-        JSONArray descripcionJson=new JSONArray();
-        for (String descripcion: descripcion){
-            descripcionJson.put(descripcion);
-        }
-        jsonObject.put("descripcion",descripcionJson);
-
-        return jsonObject;
     }
 
 

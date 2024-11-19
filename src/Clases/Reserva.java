@@ -16,13 +16,14 @@ public class Reserva {
     private LocalDate fechaFin;
     private boolean comparte;
 
+
     ///CONSTRUCTOR
 
-    public Reserva(UUID id, Alojamiento alojamiento, Cliente cliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        this.id = id;
+    public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte) {
+        this.id = UUID.randomUUID();
         this.alojamiento = alojamiento;
         this.cliente = cliente;
-        this.fechaDeReserva = fechaDeReserva;
+        this.fechaDeReserva = LocalDateTime.now();
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.comparte = comparte;
@@ -44,15 +45,12 @@ public class Reserva {
         return fechaDeReserva;
     }
 
+
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public LocalDateTime getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaInicio(LocalDateTime fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
@@ -62,6 +60,22 @@ public class Reserva {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+
+    ///METODOS.
+
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("alojamiento",alojamiento.toJson());
+        jsonObject.put("cliente",cliente.toJson());
+        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
+        jsonObject.put("fechaInicio",fechaInicio.toString());
+        jsonObject.put("fechaFin",fechaFin.toString());
+        jsonObject.put("comparte",comparte);
+
+        return jsonObject;
     }
 
     @Override
@@ -90,19 +104,6 @@ public class Reserva {
                 '.';
     }
 
-
-    public JSONObject toJson(){
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",id);
-        jsonObject.put("alojamiento",alojamiento.toJson());
-        jsonObject.put("cliente",cliente.toJson());
-        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
-        jsonObject.put("fechaInicio",fechaInicio.toString());
-        jsonObject.put("fechaFin",fechaFin.toString());
-        jsonObject.put("comparte",comparte);
-
-        return jsonObject;
-    }
 
 
 }
