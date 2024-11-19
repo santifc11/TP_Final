@@ -1,5 +1,6 @@
 package Clases;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Gestion {
@@ -21,7 +22,7 @@ public class Gestion {
     Scanner scanner = new Scanner(System.in);
 
     ///INICIO DE SESION
-    public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException{
+    public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException {
         System.out.println("\n\n¡Bienvenido a Alquileres Patagonia!");
         boolean programa = true;
         while (programa) {
@@ -47,10 +48,10 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario.compareTo("1") == 0){
+                            if (usuario.compareTo("1") == 0) {
                                 flag = true;
                                 break;
-                            }else if (!Administradores.containsKey(usuario)) {
+                            } else if (!Administradores.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de administradores.");
                             }
                             adminLogeado = Administradores.get(usuario);
@@ -84,10 +85,10 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario.compareTo("1") == 0){
+                            if (usuario.compareTo("1") == 0) {
                                 flag = true;
                                 break;
-                            }else if (!Clientes.containsKey(usuario)) {
+                            } else if (!Clientes.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de clientes.");
                             }
                             clienteLogeado = Clientes.get(usuario);
@@ -120,10 +121,10 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario.compareTo("1") == 0){
+                            if (usuario.compareTo("1") == 0) {
                                 flag = true;
                                 break;
-                            }else if (!Anfitriones.containsKey(usuario)) {
+                            } else if (!Anfitriones.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de anfitriones.");
                             }
                             anfitrionLogeado = Anfitriones.get(usuario);
@@ -143,7 +144,7 @@ public class Gestion {
                     }
 
                     //MENU ANFITRIONES
-                    if (usuario.compareTo("1")!=0) {
+                    if (usuario.compareTo("1") != 0) {
                         System.out.println("-----MENU ANFITRION-----");
                         System.out.println("Seleccione una de las siguientes opciones: \n" +
                                 "\n1- Agregar alojamiento." +
@@ -237,112 +238,141 @@ public class Gestion {
                 default:
                     System.out.println("Por favor ingrese una opción válida.");
                     break;
-                }
             }
         }
+    }
 
-        ///METODOS DE LISTAS
+    ///METODOS DE LISTAS
 
-        //ALOJAMIENTOS
+    //ALOJAMIENTOS
+    public void mostrar_alojamientos() {
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Casa) {
+                System.out.println(((Casa) alojamiento).toString());
+            } else {
+                System.out.println(((Departamento) alojamiento).toString());
+            }
+        }
+    }
 
-        public void mostrar_alojamientos(){
-            for (Alojamiento alojamiento:Alojamientos){
-                if (alojamiento instanceof Casa) {
+    //ADMINISTRADORES
+    public void cargarAdministrador(Administrador administrador) {
+        Administradores.put(administrador.getUsuario(), administrador);
+    }
+
+    public void bajaAdministrador(String usuario) {
+        Administradores.remove(usuario);
+    }
+
+    //CLIENTES
+    public void cargarCliente(Cliente cliente) {
+        Clientes.put(cliente.getUsuario(), cliente);
+    }
+
+    public void bajaCliente(String usuario) {
+        Clientes.remove(usuario);
+    }
+
+    //ANFITRIONES
+    public void cargarAnfitrion(Anfitrion anfitrion) {
+        Anfitriones.put(anfitrion.getUsuario(), anfitrion);
+    }
+
+    public void bajaAnfitrion(String usuario) {
+        Anfitriones.remove(usuario);
+    }
+
+    ///METODOS DE MENU
+    //MENU CLIENTE
+    public void mostrar_departamentos() {
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Departamento) {
+                System.out.println(((Departamento) alojamiento).toString());
+            }
+        }
+    }
+
+    public void mostrar_casa() {
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Casa) {
+                if (alojamiento instanceof Casa && alojamiento.isEstado()) {
                     System.out.println(((Casa) alojamiento).toString());
                 }
-                else {
-                    System.out.println(((Departamento) alojamiento).toString());
-                }
             }
         }
+    }
 
-        //ADMINISTRADORES
-        public void cargarAdministrador(Administrador administrador){
-            Administradores.put(administrador.getUsuario(), administrador);
-        }
+    public void menuCliente(Cliente cliente) {
+        boolean sesion = true;
+        int opcion = 0;
+        while (sesion) {
+            System.out.println("1 - HACE TU RESERVA!" +
+                    "\n2 - ALOJAMIENTOS." +
+                    "\n3 - PERSONAL." +
+                    "\n4 - CAMBIAR CONTRASEÑA." +
+                    "\n5 - CERRAR SESION.");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
 
-        public void bajaAdministrador(String usuario){
-            Administradores.remove(usuario);
-        }
-
-        //CLIENTES
-        public void cargarCliente(Cliente cliente){
-            Clientes.put(cliente.getUsuario(), cliente);
-        }
-
-        public void bajaCliente(String usuario){
-            Clientes.remove(usuario);
-        }
-
-        //ANFITRIONES
-        public void cargarAnfitrion(Anfitrion anfitrion){
-            Anfitriones.put(anfitrion.getUsuario(), anfitrion);
-        }
-
-        public void bajaAnfitrion(String usuario){
-            Anfitriones.remove(usuario);
-        }
-
-        ///METODOS DE MENU
-        //MENU CLIENTE
-        public void mostrar_casa(){
-            for (Alojamiento alojamiento:Alojamientos){
-                if(alojamiento instanceof Casa){
-                    System.out.println(((Casa)alojamiento).toString());
-                }
-            }
-
-        }
-
-        public void mostrar_departamentos(){
-            for (Alojamiento alojamiento:Alojamientos){
-                if(alojamiento instanceof Departamento){
-                    System.out.println(((Departamento)alojamiento).toString());
-                }
-            }
-        }
-
-        public void menuCliente(Cliente cliente){
-            boolean sesion = true;
-            int opcion = 0;
-            while(sesion){
-                System.out.println("1 - HACE TU RESERVA." +
-                        "\n2 - ALOJAMIENTOS." +
-                        "\n3 - PERSONAL." +
-                        "\n4 - CAMBIAR CONTRASEÑA." +
-                        "\n5 - CERRAR SESION.");
-                opcion = scanner.nextInt();
-
-                switch (opcion){
-                    case 1:
-                        int tipo;
-                        System.out.println("¿Donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
-                        tipo= scanner.nextInt();
-                        if(tipo==1){
+            switch (opcion) {
+                case 1:
+                    int tipo;
+                    System.out.println("¿Donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
+                    System.out.println("DESDE: ");
+                    LocalDate inicio = LocalDate.parse(scanner.nextLine());
+                    System.out.println("HASTA: ");
+                    LocalDate fin = LocalDate.parse(scanner.nextLine());
+                    for (Alojamiento alojamiento : Alojamientos) {
+                        alojamiento.verificaDisponibilidad(inicio, fin);
+                    }
+                    System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
+                    tipo = scanner.nextInt();
+                    if (tipo == 1) {
+                        scanner.nextLine();
+                        if (tipo == 1) {
                             mostrar_casa();
-                        }else {
+                            System.out.println("ingrese el numero del alojamiento");
+                            int numA = scanner.nextInt();
+                            scanner.nextLine();
+                            if (numA > Alojamientos.size()) {
+                                for (Alojamiento alojamiento : Alojamientos) {
+                                    if (alojamiento.getIdentificador() == numA) {
+                                        System.out.println("¿desea compartir el alojamiento?");
+                                        boolean comparte = scanner.nextBoolean();
+                                        Reserva reserva = new Reserva(alojamiento, cliente, inicio, fin, comparte);
+                                        alojamiento.agregarReserva(reserva);
+                                        cliente.agregarReservaAlHistorial(reserva);
+                                    }
+                                }
+                            } else {
+                                System.out.println("");
+                            }
+
+
+                        } else {
                             mostrar_departamentos();
                         }
+                    }
+                    break;
+                case 2:
 
-                        break;
-                    case 2:
 
-                        break;
-                    case 3:
+                    break;
+                case 3:
 
-                        break;
-                    case 4:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    System.out.println("Cerrando sesion...");
+                    sesion = false;
+                    break;
 
-                        break;
-                    case 5:
-                        System.out.println("Cerrando sesion...");
-                        sesion = false;
-                        break;
 
-                }
+
 
 
             }
         }
     }
-
+}
