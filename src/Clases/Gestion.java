@@ -379,7 +379,9 @@ public class Gestion {
                     System.out.println("Cerrando sesion...");
                     sesion = false;
                     break;
-
+                default:
+                    System.out.println("Por favor, ingrese una opción válida");
+                    break;
             }
         }
     }
@@ -388,9 +390,9 @@ public class Gestion {
         int tipo, cantPersonas, numA, finalizar;
         boolean comparte, hacerReserva = true, alojamientoEncontrado;
         String SiNo;
-        System.out.println("DESDE: ");
+        System.out.println("DESDE: (AAAA-MM-DD)");
         LocalDate inicio = LocalDate.parse(scanner.nextLine());
-        System.out.println("HASTA: ");
+        System.out.println("HASTA: (AAAA-MM-DD)");
         LocalDate fin = LocalDate.parse(scanner.nextLine());
         for (Alojamiento alojamiento : Alojamientos) {
             alojamiento.verificaDisponibilidad(inicio, fin);
@@ -438,6 +440,7 @@ public class Gestion {
                         if (finalizar == 1) {
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
                             alojamiento.agregarReserva(reservaNueva);
+                            alojamiento.agregarHuespedes(cliente,cantPersonas);
                             cliente.agregarReservaAlHistorial(reservaNueva);
                             cliente.pagarReserva(reservaNueva);
                             System.out.println("Reserva creada con exito");
