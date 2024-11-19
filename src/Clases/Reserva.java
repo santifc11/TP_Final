@@ -31,6 +31,10 @@ public class Reserva {
         this.id = UUID.randomUUID();
     }
 
+    public Reserva(UUID id) {
+        this.id = id;
+    }
+
     public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte) {
         this.id = UUID.randomUUID();
         this.alojamiento = alojamiento;
@@ -76,7 +80,7 @@ public class Reserva {
     public String toString() {
         return "Reserva:" +
                 "id=" + id +
-                ", alojamiento=" + alojamiento.getId() +
+                ", alojamiento=" + alojamiento.getIdentificador() +
                 ", cliente=" + cliente.getDni() +
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +

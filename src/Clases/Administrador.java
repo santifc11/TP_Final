@@ -23,23 +23,26 @@ public class Administrador implements Sesion{
         Scanner scanner = new Scanner(System.in);
         String contraseniaActual = "";
         int cantIntentos = 0;
-        try {
-            while (!flag && cantIntentos < 3) {
+        while (!flag && cantIntentos < 3) {
+            try {
                 System.out.println("Ingrese su contraseña actual:");
                 contraseniaActual = scanner.nextLine();
-                if (contraseniaActual.compareTo(contrasenia) != 0){
+                if (contraseniaActual.compareTo(contrasenia) != 0) {
                     throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                }else{
+                    flag = true;
                 }
+            } catch (ContraseniaIncorrectaException ex) {
+                System.out.println(ex.getMessage());
+                cantIntentos++;
             }
-        }catch (ContraseniaIncorrectaException ex){
-            System.out.println(ex.getMessage());
-            cantIntentos++;
         }
         if(cantIntentos == 3){
             System.out.println("Has alcanzado el limite de intentos fallidos.");
         }else{
             System.out.println("Ingrese su nueva contraseña:");
             contrasenia = scanner.nextLine();
+            System.out.println("Contraseña cambiada con éxito");
         }
     }
 

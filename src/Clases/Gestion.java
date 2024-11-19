@@ -23,17 +23,19 @@ public class Gestion {
 
     ///INICIO DE SESION
     public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException {
-        System.out.println("\n\n¡Bienvenido a Alquileres Patagonia!");
+        System.out.println("\n\n------------------------------------");
+        System.out.println("¡Bienvenido a Alquileres Patagonia!");
         boolean programa = true;
         while (programa) {
-            System.out.println("\nSeleccione una de las siguientes opciones:\n" +
+            System.out.println("------------------------------------");
+            System.out.println("\n------INICIO DE SESION------\n");
+            System.out.println("Seleccione una de las siguientes opciones:" +
                     "\n1- Iniciar sesion como administrador." +
                     "\n2- Iniciar sesion como cliente." +
                     "\n3- Iniciar sesion como anfitrion." +
                     "\n4- Registrarse como cliente." +
                     "\n5- Registrarse como anfitrion." +
                     "\n6- Cerrar programa.");
-
             int opcion = scanner.nextInt();
             scanner.nextLine();
             String usuario = "", contrasenia = "", nombreUsuario = "";
@@ -42,6 +44,7 @@ public class Gestion {
 
                 ///INICIO DE SESION DE ADMINISTRADOR
                 case 1:
+                    System.out.println("------------------------------------");
                     System.out.println("------ADMINISTRADOR------");
                     Administrador adminLogeado = new Administrador();
                     while (!flag) {
@@ -72,13 +75,14 @@ public class Gestion {
 
                     //MENU DE ADMINISTRADORES
                     if (usuario.compareTo("1") != 0) {
-
+                        menuAdministrador(adminLogeado);
                     }
 
                     break;
 
                 ///INICIO DE SESION DE CLIENTE
                 case 2:
+                    System.out.println("------------------------------------");
                     System.out.println("------CLIENTE------");
                     Cliente clienteLogeado = new Cliente();
                     while (!flag) {
@@ -115,6 +119,7 @@ public class Gestion {
 
                 ///INICIO DE SESION DE ANFITRION
                 case 3:
+                    System.out.println("------------------------------------");
                     System.out.println("------ANFITRION------");
                     Anfitrion anfitrionLogeado = new Anfitrion();
                     while (!flag) {
@@ -169,6 +174,7 @@ public class Gestion {
                 /// CREACION DE USUARIO CLIENTE
                 case 4:
                     Cliente clienteNuevo = new Cliente();
+                    System.out.println("\n------------------------------------");
                     System.out.println("------CLIENTE NUEVO------");
                     //Pedimos los datos
 
@@ -203,6 +209,7 @@ public class Gestion {
                 case 5:
                     Anfitrion anfitrionNuevo = new Anfitrion();
                     usuarioExistente = true;
+                    System.out.println("\n------------------------------------");
                     System.out.println("------ANFITRION NUEVO------");
                     //Pedimos los datos
 
@@ -211,7 +218,7 @@ public class Gestion {
                             System.out.println("\nIngrese su usuario:");
                             nombreUsuario = scanner.nextLine();
                             if (Anfitriones.containsKey(nombreUsuario)) {
-                                throw new UsuarioNoExisteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
+                                throw new UsuarioYaExistenteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
                             } else {
                                 usuarioExistente = false;
                             }
@@ -246,6 +253,8 @@ public class Gestion {
 
     //ALOJAMIENTOS
     public void mostrar_alojamientos() {
+        System.out.println("---------ALOJAMIENTOS---------");
+
         for (Alojamiento alojamiento : Alojamientos) {
             if (alojamiento instanceof Casa) {
                 System.out.println(((Casa) alojamiento).toString());
@@ -260,8 +269,20 @@ public class Gestion {
         Administradores.put(administrador.getUsuario(), administrador);
     }
 
-    public void bajaAdministrador(String usuario) {
-        Administradores.remove(usuario);
+    public void bajaAdministrador() {
+        String usuario = "";
+        try {
+            System.out.println("Ingrese el nombre del usuario que desea eliminar:");
+            usuario = scanner.nextLine();
+            if (!Administradores.containsKey(usuario)) {
+                throw new UsuarioNoExisteException("Este usuario no existe en nuestra base de datos.");
+            }else{
+                Administradores.remove(usuario);
+                System.out.println("Usuario eliminado con éxito.");
+            }
+        }catch (UsuarioNoExisteException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     //CLIENTES
@@ -269,8 +290,20 @@ public class Gestion {
         Clientes.put(cliente.getUsuario(), cliente);
     }
 
-    public void bajaCliente(String usuario) {
-        Clientes.remove(usuario);
+    public void bajaCliente() {
+        String usuario = "";
+        try {
+            System.out.println("Ingrese el nombre del usuario que desea eliminar:");
+            usuario = scanner.nextLine();
+            if (!Clientes.containsKey(usuario)) {
+                throw new UsuarioNoExisteException("Este usuario no existe en nuestra base de datos.");
+            }else{
+                Clientes.remove(usuario);
+                System.out.println("Usuario eliminado con éxito.");
+            }
+        }catch (UsuarioYaExistenteException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     //ANFITRIONES
@@ -278,8 +311,20 @@ public class Gestion {
         Anfitriones.put(anfitrion.getUsuario(), anfitrion);
     }
 
-    public void bajaAnfitrion(String usuario) {
-        Anfitriones.remove(usuario);
+    public void bajaAnfitrion() {
+        String usuario = "";
+        try {
+            System.out.println("Ingrese el nombre del usuario que desea eliminar:");
+            usuario = scanner.nextLine();
+            if (!Anfitriones.containsKey(usuario)) {
+                throw new UsuarioNoExisteException("Este usuario no existe en nuestra base de datos.");
+            }else{
+                Anfitriones.remove(usuario);
+                System.out.println("Usuario eliminado con éxito.");
+            }
+        }catch (UsuarioNoExisteException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     ///METODOS DE MENU
@@ -372,6 +417,65 @@ public class Gestion {
 
 
 
+            }
+        }
+    }
+    
+    //MENU ADMINISTRADORES
+    public void menuAdministrador(Administrador administrador) {
+        boolean sesion = true;
+        int opcion = 0;
+        while (sesion) {
+            System.out.println("------------------------------------");
+            System.out.println("\n1 - VER ALOJAMIENTOS." +
+                    "\n2 - AGREGAR ALOJAMIENTO." +
+                    "\n3 - ELIMINAR ALOJAMIENTO." +
+                    "\n4 - ELIMINAR CLIENTE." +
+                    "\n5 - ELIMINAR ANFITRION." +
+                    "\n6 - ELIMINAR RESERVA." +
+                    "\n7 - CAMBIAR CONTRASEÑA." +
+                    "\n8 - CERRAR SESION.");
+
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    mostrar_alojamientos();
+                    break;
+
+                case 2:
+
+                    break;
+
+                case 3:
+
+                    break;
+
+                case 4:
+                    bajaCliente();
+                    break;
+
+                case 5:
+                    bajaAnfitrion();
+                    break;
+
+                case 6:
+
+                    break;
+
+                case 7:
+                    administrador.cambiarContrasenia();
+                    break;
+
+                case 8:
+                    System.out.println("Cerrando sesion...");
+                    sesion = false;
+                    break;
+
+                default:
+                    System.out.println("Por favor, ingrese una opción válida");
+                    break;
             }
         }
     }
