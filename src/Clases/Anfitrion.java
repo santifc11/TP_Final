@@ -47,7 +47,7 @@ public final class Anfitrion implements Sesion{
 
             //Creo el objeto con los atributos que ingreso el admin.
 
-            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible,true);
+            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, compartible);
 
             //Pido la descripcion del alojamiento.
 
@@ -84,7 +84,7 @@ public final class Anfitrion implements Sesion{
 
             //Creo el objeto Clases.Departamento.
 
-            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible, true,piso);
+            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, compartible,piso);
 
             //Pido la descripcion del Clases.Departamento
 

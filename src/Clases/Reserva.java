@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,21 +18,14 @@ public class Reserva {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private boolean comparte;
-
-    //Metodo para verificar si las fechas se solapan
-    public boolean seSolapaCon(LocalDate otraFechaInicio, LocalDate otraFechaFin) {
-        return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
-    }
-
-
+    private double precioReserva;
+    private int cantPersonas;
+    private String estado;
 
 
     ///CONSTRUCTOR
-    public Reserva() {
-        this.id = UUID.randomUUID();
-    }
 
-    public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte) {
+    public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte,int cantPersonas) {
         this.id = UUID.randomUUID();
         this.alojamiento = alojamiento;
         this.cliente = cliente;
@@ -39,10 +33,32 @@ public class Reserva {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.comparte = comparte;
+        this.precioReserva= calcularPrecioTotal();
+        this.cantPersonas=cantPersonas;
+        this.estado="Pendiente";
+
+    }
+    public Reserva() {
+        this.id = UUID.randomUUID();
+    }
+
+
+    ///METODOS.
+
+
+    private double calcularPrecioTotal() {
+        long diasEstancia = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
+
+        return alojamiento.getPrecioXnoche() * diasEstancia;
 
     }
 
-    ///METODOS.
+
+    //Metodo para verificar si las fechas se solapan
+    public boolean seSolapaCon(LocalDate otraFechaInicio, LocalDate otraFechaFin) {
+        return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
+    }
+
 
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
@@ -74,18 +90,18 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva:" +
+        return "Reserva{" +
                 "id=" + id +
-                ", alojamiento=" + alojamiento.getId() +
-                ", cliente=" + cliente.getDni() +
+                ", alojamiento=" + alojamiento +
+                ", cliente=" + cliente +
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
+                ", cantPersonas=" + cantPersonas +
                 ", comparte=" + comparte +
-                '.';
+                ", precioReserva=" + precioReserva +
+                '}';
     }
-
-
 
     ///SETTER Y GETTER
     public void setId(UUID id) {
@@ -145,5 +161,19 @@ public class Reserva {
         this.comparte = comparte;
     }
 
+    public int getCantPersonas() {
+        return cantPersonas;
+    }
 
+    public void setCantPersonas(int cantPersonas) {
+        this.cantPersonas = cantPersonas;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

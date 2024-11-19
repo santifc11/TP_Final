@@ -136,6 +136,10 @@ public final class Cliente implements Sesion{
         historialReserva.add(reserva);
     }
 
+    public void pagarReserva(Reserva reserva){
+        reserva.setEstado("Pagado");
+    }
+
 
 
 

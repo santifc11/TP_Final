@@ -108,6 +108,7 @@ public class Gestion {
                     }
 
                     //MENU DE CLIENTES
+
                     if (usuario.compareTo("1") != 0) {
                         menuCliente(clienteLogeado);
                     }
@@ -284,25 +285,23 @@ public class Gestion {
 
     ///METODOS DE MENU
     //MENU CLIENTE
-    public void mostrar_departamentos() {
+    public void mostrar_departamentos(int cantPersonas, boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Departamento) {
+            if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)&& alojamiento.isEs_compartible()== comparte) {
                 System.out.println(((Departamento) alojamiento).toString());
             }
         }
     }
 
-    public void mostrar_casa() {
+    public void mostrar_casa(int cantPersonas, boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Casa) {
-                if (alojamiento instanceof Casa && alojamiento.isEstado()) {
+            if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)&& alojamiento.isEs_compartible()== comparte) {
                     System.out.println(((Casa) alojamiento).toString());
-                }
             }
         }
     }
 
-    public void menuCliente(Cliente cliente) {
+    public void menuCliente(Cliente cliente)throws NoSeEncontroExeption {
         boolean sesion = true;
         int opcion = 0;
         while (sesion) {
@@ -316,62 +315,100 @@ public class Gestion {
 
             switch (opcion) {
                 case 1:
-                    int tipo;
-                    System.out.println("¿Donde te queres hospedar hoy?  1-CASA | 2-DEPARTAMENTO");
-                    System.out.println("DESDE: ");
-                    LocalDate inicio = LocalDate.parse(scanner.nextLine());
-                    System.out.println("HASTA: ");
-                    LocalDate fin = LocalDate.parse(scanner.nextLine());
-                    for (Alojamiento alojamiento : Alojamientos) {
-                        alojamiento.verificaDisponibilidad(inicio, fin);
-                    }
-                    System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
-                    tipo = scanner.nextInt();
-                    if (tipo == 1) {
-                        scanner.nextLine();
-                        if (tipo == 1) {
-                            mostrar_casa();
-                            System.out.println("ingrese el numero del alojamiento");
-                            int numA = scanner.nextInt();
-                            scanner.nextLine();
-                            if (numA > Alojamientos.size()) {
-                                for (Alojamiento alojamiento : Alojamientos) {
-                                    if (alojamiento.getIdentificador() == numA) {
-                                        System.out.println("¿desea compartir el alojamiento?");
-                                        boolean comparte = scanner.nextBoolean();
-                                        Reserva reserva = new Reserva(alojamiento, cliente, inicio, fin, comparte);
-                                        alojamiento.agregarReserva(reserva);
-                                        cliente.agregarReservaAlHistorial(reserva);
-                                    }
-                                }
-                            } else {
-                                System.out.println("");
-                            }
-
-
-                        } else {
-                            mostrar_departamentos();
-                        }
-                    }
+                    System.out.println("----HACER RESERVA----");
+                    hacerReserva(cliente);
                     break;
                 case 2:
-
-
+                    System.out.println("----ALOJAMIENTOS----");
+                    mostrar_alojamientos();
                     break;
                 case 3:
-
+                    System.out.println("----PERSONAL----");
+                    cliente.toString();
                     break;
                 case 4:
+                    System.out.println("----CAMBIAR CONTRASEÑA----");
+                    cliente.cambiarContrasenia();
                     break;
                 case 5:
                     System.out.println("Cerrando sesion...");
                     sesion = false;
                     break;
 
+            }
+        }
+    }
 
+    public void hacerReserva(Cliente cliente){
+        int tipo, cantPersonas, numA, finalizar;
+        boolean comparte, hacerReserva = true, alojamientoEncontrado;
+        String SiNo;
+        System.out.println("DESDE: ");
+        LocalDate inicio = LocalDate.parse(scanner.nextLine());
+        System.out.println("HASTA: ");
+        LocalDate fin = LocalDate.parse(scanner.nextLine());
+        for (Alojamiento alojamiento : Alojamientos) {
+            alojamiento.verificaDisponibilidad(inicio, fin);
+        }
+        System.out.println("CANTIDAD DE PERSONAS:");
+        cantPersonas = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("¿desea compartir el alojamiento?(SI/NO)");
+        SiNo = scanner.nextLine();
+        if(SiNo.equalsIgnoreCase("si")){
+            comparte=true;
+        }else {
+            comparte=false;
+        }
+        System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
+        tipo = scanner.nextInt();
+        scanner.nextLine();
+        switch (tipo) {
+            case 1:
+                mostrar_casa(cantPersonas, comparte);
+                break;
+            case 2:
+                mostrar_departamentos(cantPersonas, comparte);
+                break;
+            default:
+                System.out.println("Opcion no valida");
+                hacerReserva = false;
+                break;
+        }
+        if (hacerReserva) {
+            System.out.println("Ingrese el numero del alojamiento");
+            numA = scanner.nextInt();
+            scanner.nextLine();
+            try {
 
+                alojamientoEncontrado = false;
+                for (Alojamiento alojamiento : Alojamientos) {
+                    if (alojamiento.getIdentificador() == numA) {
+                        alojamientoEncontrado = true;
+                        System.out.println();
+                        System.out.println(" 1-FINALIZAR Y PAGAR | 2-CANCELAR");
+                        finalizar = scanner.nextInt();
+                        scanner.nextLine();
 
+                        if (finalizar == 1) {
+                            Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
+                            alojamiento.agregarReserva(reservaNueva);
+                            cliente.agregarReservaAlHistorial(reservaNueva);
+                            cliente.pagarReserva(reservaNueva);
+                            System.out.println("Reserva creada con exito");
+                            System.out.println(reservaNueva.toString());
+                        } else {
+                            System.out.println("Su reserva fue cancelada");
+                        }
+                        break;
+                    }
 
+                }
+                if (!alojamientoEncontrado) {
+                    throw new NoSeEncontroExeption("No se encontro el alojamiento");
+                }
+            }catch (NoSeEncontroExeption ex){
+                System.out.println(ex.getMessage());
             }
         }
     }

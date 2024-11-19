@@ -15,21 +15,26 @@ public abstract class Alojamiento {
     private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
     private List<Reserva>reservas;
     private static int contador=0;
+    private List<Cliente>hospedados;
 
     ///CONSTRUCTOR
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible, boolean estado) {
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible) {
         this.identificador=contador++;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
         this.aforo = aforo;
         this.es_compartible = es_compartible;
-        this.estado = estado;
+        this.estado = true;
+        this.reservas=new LinkedList<>();
+        this.hospedados=new ArrayList<>();
+
     }
 
 
 
     ///SETTER Y GETTER
+
     public void setEs_compartible(boolean es_compartible) {
         this.es_compartible = es_compartible;
     }
@@ -98,6 +103,13 @@ public abstract class Alojamiento {
         return identificador;
     }
 
+    public List<Cliente> getHospedados() {
+        return hospedados;
+    }
+
+    public void setHospedados(List<Cliente> hospedados) {
+        this.hospedados = hospedados;
+    }
 
     ///METODOS
     public void pedir_descripcion(){
@@ -128,6 +140,21 @@ public abstract class Alojamiento {
         }
         this.estado=true;
         return true;
+    }
+
+    public boolean agregarHuespedes(Cliente cliente, int numeroPersonas) {
+        if (puedeHospedar(numeroPersonas)) {
+            for (int i = 0; i < numeroPersonas; i++) {
+                hospedados.add(cliente);
+            }
+            return true;
+        } else {
+            System.out.println("El alojamiento no tiene capacidad suficiente para hospedar a " + numeroPersonas + " personas.");
+            return false; }
+    }
+
+    public boolean puedeHospedar(int numeroPersonas) {
+        return (hospedados.size() + numeroPersonas) <= aforo;
     }
 
 
