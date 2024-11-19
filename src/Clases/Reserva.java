@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Reserva {
-    private final UUID id;
+    private UUID id;
     private Alojamiento alojamiento;
     private Cliente cliente;
     private LocalDateTime fechaDeReserva;
@@ -17,7 +17,12 @@ public class Reserva {
     private boolean comparte;
 
 
+
+
     ///CONSTRUCTOR
+    public Reserva() {
+        this.id = UUID.randomUUID();
+    }
 
     public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte) {
         this.id = UUID.randomUUID();
@@ -27,6 +32,56 @@ public class Reserva {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.comparte = comparte;
+    }
+
+    ///METODOS.
+
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("alojamiento",alojamiento.toJson());
+        jsonObject.put("cliente",cliente.toJson());
+        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
+        jsonObject.put("fechaInicio",fechaInicio.toString());
+        jsonObject.put("fechaFin",fechaFin.toString());
+        jsonObject.put("comparte",comparte);
+
+        return jsonObject;
+    }
+
+    ///EQUALS, HASHCODE Y TO STRING
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reserva reserva = (Reserva) o;
+        return Objects.equals(id, reserva.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva:" +
+                "id=" + id +
+                ", alojamiento=" + alojamiento.getId() +
+                ", cliente=" + cliente.getDni() +
+                ", fechaDeReserva=" + fechaDeReserva +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFin=" + fechaFin +
+                ", comparte=" + comparte +
+                '.';
+    }
+
+
+
+    ///SETTER Y GETTER
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getId() {
@@ -62,48 +117,23 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
-
-    ///METODOS.
-
-    public JSONObject toJson(){
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",id);
-        jsonObject.put("alojamiento",alojamiento.toJson());
-        jsonObject.put("cliente",cliente.toJson());
-        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
-        jsonObject.put("fechaInicio",fechaInicio.toString());
-        jsonObject.put("fechaFin",fechaFin.toString());
-        jsonObject.put("comparte",comparte);
-
-        return jsonObject;
+    public void setAlojamiento(Alojamiento alojamiento) {
+        this.alojamiento = alojamiento;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reserva reserva = (Reserva) o;
-        return Objects.equals(id, reserva.id);
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public void setFechaDeReserva(LocalDateTime fechaDeReserva) {
+        this.fechaDeReserva = fechaDeReserva;
     }
 
-    @Override
-    public String toString() {
-        return "Reserva:" +
-                "id=" + id +
-                ", alojamiento=" + alojamiento.getId() +
-                ", cliente=" + cliente.getDni() +
-                ", fechaDeReserva=" + fechaDeReserva +
-                ", fechaInicio=" + fechaInicio +
-                ", fechaFin=" + fechaFin +
-                ", comparte=" + comparte +
-                '.';
+    public boolean isComparte() {
+        return comparte;
     }
 
-
-
+    public void setComparte(boolean comparte) {
+        this.comparte = comparte;
+    }
 }

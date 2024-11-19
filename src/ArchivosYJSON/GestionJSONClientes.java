@@ -72,7 +72,7 @@ public class GestionJSONClientes {
 
             for(int i = 0; i < jsonArray.length(); ++i) {
                 Reserva reserva = this.gestionJSONReservas.deserializar(jsonArray.getJSONObject(i));
-                cliente.agregarReserva(reserva);
+                cliente.agregarReservaAlHistorial(reserva);
             }
         } catch (JSONException ex) {
             JSONException e = ex;

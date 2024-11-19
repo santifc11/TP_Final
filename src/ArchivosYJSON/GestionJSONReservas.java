@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -60,8 +61,8 @@ public class GestionJSONReservas {
             reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
             reserva.setCliente((Cliente) jsonObject.get("cliente"));
             reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
-            reserva.setFechaInicio((LocalDateTime) jsonObject.get("fechaInicio"));
-            reserva.setFechaFin((LocalDateTime) jsonObject.get("fechaFin"));
+            reserva.setFechaInicio(LocalDate.from((LocalDateTime) jsonObject.get("fechaInicio")));
+            reserva.setFechaFin(LocalDate.from((LocalDateTime) jsonObject.get("fechaFin")));
         } catch (JSONException ex) {
             JSONException e = ex;
             e.printStackTrace();

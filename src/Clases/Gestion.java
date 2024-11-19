@@ -14,6 +14,7 @@ public class Gestion {
 
     ///CONSTRUCTOR
     public Gestion() {
+        this.Anfitriones = new Hashtable<>();
         this.Administradores = new Hashtable<>();
         this.Clientes = new Hashtable<>();
         this.Reservas = new TreeSet<>();
@@ -48,8 +49,9 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario == "1"){
+                            if(usuario.compareTo("1") == 0){
                                 flag = true;
+                                break;
                             }else if (!Administradores.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de administradores.");
                             }
@@ -59,8 +61,8 @@ public class Gestion {
                             if (adminLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
-                                flag = true;
                                 System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
+                                flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
                             System.out.println(ex.getMessage());
@@ -69,11 +71,8 @@ public class Gestion {
                         }
                     }
 
+                    //MENU DE ADMINISTRADORES
 
-                    if(usuario != "1"){
-                        //MENU DE ADMINISTRADORES
-
-                    }
                     break;
 
                 ///INICIO DE SESION DE CLIENTE
@@ -83,8 +82,9 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario == "1"){
+                            if(usuario.compareTo("1") == 0){
                                 flag = true;
+                                break;
                             }else if (!Clientes.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de clientes.");
                             }
@@ -94,6 +94,7 @@ public class Gestion {
                             if (clienteLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
+                                System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
@@ -103,10 +104,7 @@ public class Gestion {
                         }
                     }
 
-                    if(usuario != "1"){
-                        //MENU DE CLIENTES
-
-                    }
+                    //MENU DE CLIENTES
 
                     break;
 
@@ -117,8 +115,9 @@ public class Gestion {
                         try {
                             System.out.print("\nIngrese su nombre de usuario o ingrese 1 para volver al menu principal: ");
                             usuario = scanner.nextLine();
-                            if(usuario == "1"){
+                            if(usuario.compareTo("1") == 0){
                                 flag = true;
+                                break;
                             }else if (!Anfitriones.containsKey(usuario)) {
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de anfitriones.");
                             }
@@ -128,6 +127,7 @@ public class Gestion {
                             if (anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseñaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
+                                System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
@@ -137,10 +137,7 @@ public class Gestion {
                         }
                     }
 
-                    if(usuario != "1"){
-                        //MENU DE ANFITRIONES
-
-                    }
+                    //MENU DE ANFITRIONES
 
                     break;
 
@@ -312,6 +309,7 @@ public class Gestion {
             }
         }
 
+        //ADMINISTRADORES
         public void cargarAdministrador(Administrador administrador){
             Administradores.put(administrador.getUsuario(), administrador);
         }
@@ -338,6 +336,24 @@ public class Gestion {
             Anfitriones.remove(usuario);
         }
 
+        ///METODOS DE MENU
+        //MENU CLIENTE
+        public void mostrar_casa(){
+            for (Alojamiento alojamiento:Alojamientos){
+                if(alojamiento instanceof Casa){
+                    System.out.println(((Casa)alojamiento).toString());
+                }
+            }
+
+        }
+
+        public void mostrar_departamentos(){
+            for (Alojamiento alojamiento:Alojamientos){
+                if(alojamiento instanceof Departamento){
+                    System.out.println(((Departamento)alojamiento).toString());
+                }
+            }
+        }
 
         public void menuCliente(Cliente cliente){
             boolean secion=true; int opcion=0;
@@ -379,5 +395,7 @@ public class Gestion {
 
             }
         }
+        //MENU ANFITRION
+
     }
 
