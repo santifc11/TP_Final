@@ -1,0 +1,28 @@
+{
+  "Administradores": [
+    {
+      "usuario": "SantiagoFernandez",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "NahuelBianca",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "TiagoJaen",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "FelipeCliment",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "CarolinaArchuby",
+      "contrasenia": "1234"
+    }
+  ],
+  "Alojamientos": [],
+  "Clientes": [],
+  "Reservas": [],
+  "Anfitriones": []
+}
