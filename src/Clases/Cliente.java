@@ -1,13 +1,13 @@
 package Clases;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public final class Cliente implements Sesion{
+import java.util.*;
+
+public final class Cliente implements Sesion, JsonConvertible{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
-    private Set<Reserva> historialReserva;
 
     ///CONSTRUCTOR
     public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto) {
@@ -15,46 +15,10 @@ public final class Cliente implements Sesion{
         this.contrasenia = contrasenia;
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
-        this.historialReserva = new HashSet<>();
 
     }
 
     public Cliente() {
-    }
-
-    ///METODOS
-    @Override
-    public void cambiarContrasenia() {
-        boolean flag = false;
-        Scanner scanner = new Scanner(System.in);
-        String contraseniaActual = "";
-        int cantIntentos = 0;
-        try {
-            while (!flag && cantIntentos < 3) {
-                System.out.println("Ingrese su contraseña actual:");
-                contraseniaActual = scanner.nextLine();
-                if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
-                }
-            }
-        }catch (ContraseñaIncorrectaException ex){
-            System.out.println(ex.getMessage());
-            cantIntentos++;
-        }
-        if(cantIntentos == 3){
-            System.out.println("Has alcanzado el limite de intentos fallidos.");
-        }else{
-            System.out.println("Ingrese su nueva contraseña:");
-            contrasenia = scanner.nextLine();
-        }
-    }
-
-    public void agregarReserva (Reserva reserva){
-        historialReserva.add(reserva);
-    }
-
-    public void quitarReserva (Reserva reserva){
-        historialReserva.remove(reserva);
     }
 
     ///SETTER Y GETTER
@@ -89,13 +53,58 @@ public final class Cliente implements Sesion{
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-
-    public Set<Reserva> getHistorialReserva() {
-        return historialReserva;
+    ///METODOS
+    @Override
+    public void cambiarContrasenia() {
+        boolean flag = false;
+        Scanner scanner = new Scanner(System.in);
+        String contraseniaActual = "";
+        int cantIntentos = 0;
+        while (!flag && cantIntentos < 3) {
+            try {
+                System.out.println("Ingrese su contraseña actual:");
+                contraseniaActual = scanner.nextLine();
+                if (contraseniaActual.compareTo(contrasenia) != 0) {
+                    throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                }else{
+                    flag = true;
+                }
+            } catch (ContraseniaIncorrectaException ex) {
+                System.out.println(ex.getMessage());
+                cantIntentos++;
+            }
+        }
+        if(cantIntentos == 3){
+            System.out.println("Has alcanzado el limite de intentos fallidos.");
+        }else{
+            System.out.println("Ingrese su nueva contraseña:");
+            contrasenia = scanner.nextLine();
+            System.out.println("Contraseña cambiada con éxito");
+        }
     }
 
-    public void setHistorialReserva(Set<Reserva> historialReserva) {
-        this.historialReserva = historialReserva;
+    ///TO JSONObject
+
+   public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia",this.contrasenia);
+        jsonObject.put("dni", this.dni);
+        jsonObject.put("nombreCompleto", this.nombreCompleto);
+
+        return jsonObject;
+   }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+            this.setDni(jsonObject.getString("dni"));
+            this.setNombreCompleto(jsonObject.getString("nombreCompleto"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     ///EQUALS, HASHCODE Y TO STRING
@@ -114,11 +123,19 @@ public final class Cliente implements Sesion{
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return "Cliente:" +
                 "usuario='" + usuario + '\'' +
                 ", dni='" + dni + '\'' +
                 ", nombreCompleto='" + nombreCompleto + '\'' +
-                ", historialReserva=" + historialReserva +
-                '}';
+                '.';
     }
+
+
+    public void pagarReserva(Reserva reserva){
+        reserva.setEstado("Pagado");
+    }
+
+
+
+
 }

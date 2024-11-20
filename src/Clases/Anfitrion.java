@@ -1,10 +1,14 @@
 package Clases;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
-public final class Anfitrion implements Sesion{
+public final class Anfitrion implements Sesion,JsonConvertible{
     private String usuario, nombre, contrasenia;
 
     ///CONSTRUCTOR
@@ -18,34 +22,34 @@ public final class Anfitrion implements Sesion{
     }
 
     ///METODOS
-    public void agregarAlojamiento(){
-    }
-    public void quitarAlojamiento(){
 
-    }
+
     @Override
-    public void cambiarContrasenia() throws ContraseñaIncorrectaException{
+    public void cambiarContrasenia() {
         boolean flag = false;
         Scanner scanner = new Scanner(System.in);
         String contraseniaActual = "";
         int cantIntentos = 0;
-        try {
-            while (!flag && cantIntentos < 3) {
+        while (!flag && cantIntentos < 3) {
+            try {
                 System.out.println("Ingrese su contraseña actual:");
                 contraseniaActual = scanner.nextLine();
-                if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                if (contraseniaActual.compareTo(contrasenia) != 0) {
+                    throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                }else{
+                    flag = true;
                 }
+            } catch (ContraseniaIncorrectaException ex) {
+                System.out.println(ex.getMessage());
+                cantIntentos++;
             }
-        }catch (ContraseñaIncorrectaException ex){
-            System.out.println(ex.getMessage());
-            cantIntentos++;
         }
         if(cantIntentos == 3){
             System.out.println("Has alcanzado el limite de intentos fallidos.");
         }else{
             System.out.println("Ingrese su nueva contraseña:");
             contrasenia = scanner.nextLine();
+            System.out.println("Contraseña cambiada con éxito");
         }
     }
 
@@ -94,5 +98,27 @@ public final class Anfitrion implements Sesion{
                 "nombre='" + nombre + '\'' +
                 ", usuario='" + usuario + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject=new JSONObject();
+
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia", this.contrasenia);
+        jsonObject.put("nombre", this.nombre);
+
+        return jsonObject;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+            this.setNombre(jsonObject.getString("nombre"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

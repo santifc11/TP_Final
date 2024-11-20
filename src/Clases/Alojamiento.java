@@ -1,50 +1,46 @@
 package Clases;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
-public abstract class Alojamiento {
-    private final UUID id;
-    private String nombre,ubicacion;
-    private double precioXnoche;
-    private int aforo;
-    private static String[] descripcion;
+public abstract class Alojamiento{
+    private int identificador = 0, aforo = 0;
+    private String nombre= "",ubicacion= "", descripcion = "", nombre_anfitrion = "";
+    private double precioXnoche = 0;
     private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
+    private static int contador=1;
+    private List<Reserva>reservas;
+    private List<Cliente>hospedados;
 
     ///CONSTRUCTOR
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible, boolean estado) {
-        this.id = UUID.randomUUID();
+
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, String descripcion, String nombre_anfitrion) {
+        this.identificador=contador++;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.precioXnoche = precioXnoche;
         this.aforo = aforo;
+        this.descripcion = descripcion;
+        this.nombre_anfitrion = nombre_anfitrion;
         this.es_compartible = es_compartible;
-        this.estado = estado;
+        this.estado = true;
+//        this.reservas=new LinkedList<>();
+        this.hospedados=new ArrayList<>();
     }
 
-    ///METODOS
-    public void pedir_descripcion(){
-        Scanner scanner = new Scanner(System.in);
-        int control = 0, validos = 0;
-        System.out.println("Ingrese las caracteristicas del alojamiento una a una: ");
-        do {
-            System.out.print("- ");
-            descripcion[validos] = scanner.nextLine();          //VER SI SE PUEDE HACER CON UN StringBuilder
-            System.out.println();
-            validos++;
-            System.out.println("Desea continuar cargando caracteristicas?\n1- Continuar.\n0- Finalizar.\n. ");
-            control = scanner.nextInt();
-        } while(control!=0);
+    public Alojamiento() {
     }
 
     ///SETTER Y GETTER
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
+
+
     public void setEs_compartible(boolean es_compartible) {
         this.es_compartible = es_compartible;
-    }
-    public UUID getId() {
-        return id;
     }
 
     public String getNombre() {
@@ -79,12 +75,12 @@ public abstract class Alojamiento {
         this.aforo = aforo;
     }
 
-    public String[] getDescripcion() {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public static void setDescripcion(String[] descripcion) {
-        Alojamiento.descripcion = descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public boolean isEs_compartible() {
@@ -99,30 +95,105 @@ public abstract class Alojamiento {
         this.estado = estado;
     }
 
-    ///EQUALS, HASHCODE Y TO STRING
+    public List<Reserva> getReservas() {
+        return reservas;
+   }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public List<Cliente> getHospedados() {
+        return hospedados;
+    }
+
+    public void setHospedados(List<Cliente> hospedados) {
+        this.hospedados = hospedados;
+    }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public String getNombre_anfitrion() {
+        return nombre_anfitrion;
+    }
+
+    public void setNombre_anfitrion(String nombre_anfitrion) {
+        this.nombre_anfitrion = nombre_anfitrion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alojamiento that = (Alojamiento) o;
-        return Objects.equals(id, that.id);
+        return identificador == that.identificador;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(identificador);
     }
+
+    ///METODOS
+
+
+
+
+    public void agregarReserva(Reserva reserva){
+        reservas.add(reserva);
+    }
+
+    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin){
+        try {
+           for (Reserva reserva : this.reservas) {
+                if (reserva.seSolapaCon(fechaInicio, fechaFin)) {
+                    this.estado = false;
+                   return false;
+               }
+            }
+            this.estado = true;
+        }catch (NullPointerException e){
+            return true;
+        }catch (Exception e){
+
+        }
+        return true;
+    }
+
+    public boolean agregarHuespedes(Cliente cliente, int numeroPersonas) {
+        if (puedeHospedar(numeroPersonas)) {
+            for (int i = 0; i < numeroPersonas; i++) {
+                hospedados.add(cliente);
+            }
+            return true;
+        } else {
+            System.out.println("El alojamiento no tiene capacidad suficiente para hospedar a " + numeroPersonas + " personas.");
+            return false; }
+    }
+
+    public boolean puedeHospedar(int numeroPersonas) {
+        this.hospedados = new ArrayList<>();
+        return (this.hospedados.size() + numeroPersonas) <= aforo;
+    }
+
+
+    ///EQUALS, HASHCODE Y TO STRING
+
 
     @Override
     public String toString() {
         return "Alojamiento{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", ubicacion='" + ubicacion + '\'' +
-                ", precioXnoche=" + precioXnoche +
-                ", aforo=" + aforo +
-                ", es_compartible=" + es_compartible +
-                ", estado=" + estado +
+                "\nidentificador=" + identificador +
+                ", \nnombre='" + nombre + '\'' +
+                ", \nubicacion='" + ubicacion + '\'' +
+                ", \nprecioXnoche=" + precioXnoche +
+                ", \naforo=" + aforo +
+                ", \ndescripción" + descripcion +
+                ", \nnombre_anfitrion='" + nombre_anfitrion + '\n' +
                 '}';
     }
+
+
 }

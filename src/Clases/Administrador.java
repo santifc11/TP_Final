@@ -1,9 +1,12 @@
 package Clases;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Administrador implements Sesion{
+public class Administrador implements Sesion, JsonConvertible{
     private String usuario = "";
     private String contrasenia = "";
 
@@ -23,23 +26,26 @@ public class Administrador implements Sesion{
         Scanner scanner = new Scanner(System.in);
         String contraseniaActual = "";
         int cantIntentos = 0;
-        try {
-            while (!flag && cantIntentos < 3) {
+        while (!flag && cantIntentos < 3) {
+            try {
                 System.out.println("Ingrese su contraseña actual:");
                 contraseniaActual = scanner.nextLine();
-                if (contraseniaActual.compareTo(contrasenia) != 0){
-                    throw new ContraseñaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                if (contraseniaActual.compareTo(contrasenia) != 0) {
+                    throw new ContraseniaIncorrectaException("La contraseña ingresada no coincide con la de este usuario.");
+                }else{
+                    flag = true;
                 }
+            } catch (ContraseniaIncorrectaException ex) {
+                System.out.println(ex.getMessage());
+                cantIntentos++;
             }
-        }catch (ContraseñaIncorrectaException ex){
-            System.out.println(ex.getMessage());
-            cantIntentos++;
         }
         if(cantIntentos == 3){
             System.out.println("Has alcanzado el limite de intentos fallidos.");
         }else{
             System.out.println("Ingrese su nueva contraseña:");
             contrasenia = scanner.nextLine();
+            System.out.println("Contraseña cambiada con éxito");
         }
     }
 
@@ -79,5 +85,25 @@ public class Administrador implements Sesion{
         return "Administrador{" +
                 "usuario='" + usuario + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject=new JSONObject();
+
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia", this.contrasenia);
+
+        return jsonObject;
+    }
+
+    @Override
+    public void fromJson(JSONObject jsonObject) {
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

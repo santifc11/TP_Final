@@ -1,0 +1,114 @@
+{
+  "Administradores": [
+    {
+      "usuario": "SantiagoFernandez",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "TiagoJaen",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "NahuelBianca",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "FelipeCliment",
+      "contrasenia": "1234"
+    },
+    {
+      "usuario": "CarolinaArchuby",
+      "contrasenia": "1234"
+    }
+  ],
+  "Alojamientos": [
+    {
+      "descripcion": "5 Habitaciones, 2 baños, piscina...",
+      "nombreDueño": "TiagoJaen",
+      "precioXnoche": 99000,
+      "aforo": 15,
+      "ubicacion": "Guemes",
+      "estado": true,
+      "es_compartible": false,
+      "id": 1,
+      "nombre": "Mansion1"
+    },
+    {
+      "descripcion": "Departamento con vista al mar, 2 habitaciones, cocina comedor...",
+      "nombreDueño": "Luz12",
+      "precioXnoche": 77000,
+      "aforo": 3,
+      "piso": 7,
+      "ubicacion": "Colon y la costa",
+      "estado": true,
+      "es_compartible": false,
+      "id": 2,
+      "nombre": "Depto1"
+    }
+  ],
+  "Clientes": [
+    {
+      "usuario": "JoseRamirez",
+      "contrasenia": "1234",
+      "nombreCompleto": "Jose Ramirez Lopez",
+      "dni": "47893089"
+    },
+    {
+      "usuario": "Romi_Hernandez",
+      "contrasenia": "1234",
+      "nombreCompleto": "Romina Jimena Hernandez",
+      "dni": "294857643"
+    },
+    {
+      "usuario": "Ruben99",
+      "contrasenia": "1234",
+      "nombreCompleto": "Ruben Nicolas Darin",
+      "dni": "55398475"
+    },
+    {
+      "usuario": "RaulJimenez",
+      "contrasenia": "1234",
+      "nombreCompleto": "Raul Jimenez",
+      "dni": "92873654"
+    },
+    {
+      "usuario": "RamiroMessi",
+      "contrasenia": "1234",
+      "nombreCompleto": "Ramiro Luciano Messi",
+      "dni": "23456756"
+    }
+  ],
+  "Reservas": [],
+  "Anfitriones": [
+    {
+      "usuario": "AquilesRojo",
+      "contrasenia": "1234",
+      "nombre": "Aquiles Saul Rojo"
+    },
+    {
+      "usuario": "santifc",
+      "contrasenia": "1234",
+      "nombre": "Santiago Fernandez Cuello"
+    },
+    {
+      "usuario": "Luz12",
+      "contrasenia": "1234",
+      "nombre": "Luz Maria Gutierrez"
+    },
+    {
+      "usuario": "KarenJo",
+      "contrasenia": "1234",
+      "nombre": "Karen Josefina Blanco"
+    },
+    {
+      "usuario": "TiagoPZK",
+      "contrasenia": "1234",
+      "nombre": "Tiago PZK"
+    },
+    {
+      "usuario": "JoacoPenisi",
+      "contrasenia": "1234",
+      "nombre": "Joaquin Penisi"
+    }
+  ]
+}
