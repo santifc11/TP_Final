@@ -317,7 +317,7 @@ public class Gestion implements JsonConvertible{
 
     ///METODOS DE MENU
 
-    public void agregarAlojamiento(Anfitrion anfitrion){
+    public void agregarAlojamiento(String nombre_anfitrion){
         Scanner scanner = new Scanner(System.in);
         System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
         int tipo_alojamiento = scanner.nextInt();
@@ -343,7 +343,7 @@ public class Gestion implements JsonConvertible{
 
             //Creo el objeto con los atributos que ingreso el admin o el anfitrion.
 
-            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, anfitrion.getUsuario());
+            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion);
 
             //Pido la descripcion del alojamiento.
 
@@ -380,7 +380,7 @@ public class Gestion implements JsonConvertible{
 
             //Creo el objeto Clases.Departamento.
 
-            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, anfitrion.getUsuario(), piso);
+            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion, piso);
 
             //Pido la descripcion del Clases.Departamento
 
@@ -438,7 +438,7 @@ public class Gestion implements JsonConvertible{
 
         switch (opcionanf) {
             case 1:
-                agregarAlojamiento(anfitrion);
+                agregarAlojamiento(anfitrion.getUsuario());
                 break;
             case 2:
                 System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
