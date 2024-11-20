@@ -16,6 +16,7 @@ public class Gestion implements JsonConvertible{
     private Set<Alojamiento> Alojamientos;
 
     ///CONSTRUCTOR
+
     public Gestion() {
         this.Anfitriones = new Hashtable<>();
         this.Administradores = new Hashtable<>();
@@ -23,6 +24,8 @@ public class Gestion implements JsonConvertible{
         this.Reservas = new TreeSet<>();
         this.Alojamientos = new TreeSet<>();
     }
+
+
     Scanner scanner = new Scanner(System.in);
 
     ///INICIO DE SESION
@@ -191,6 +194,7 @@ public class Gestion implements JsonConvertible{
                     clienteNuevo.setContrasenia(scanner.nextLine());
 
                     Clientes.put(nombreUsuario, clienteNuevo);
+                    clienteJson.objet_A_Arch(clienteNuevo);
                     System.out.println("\n--------Usuario creado con éxito--------\n");
                     break;
 
@@ -442,6 +446,7 @@ public class Gestion implements JsonConvertible{
                 agregarAlojamiento(anfitrion.getUsuario());
                 break;
             case 2:
+                mostrar_alojamientos_propios(anfitrion);
                 System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
                 int id = scanner.nextInt();
                 eliminarAlojamiento(id);
@@ -616,11 +621,14 @@ public class Gestion implements JsonConvertible{
                     break;
 
                 case 2:
-                    
+                    agregarAlojamiento(administrador.getUsuario());
                     break;
 
                 case 3:
-
+                    mostrar_alojamientos();
+                    System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+                    int id = scanner.nextInt();
+                    eliminarAlojamiento(id);
                     break;
 
                 case 4:

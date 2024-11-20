@@ -17,7 +17,7 @@ public class GestionJson <T extends JsonConvertible> {
 
 
     public void objet_A_Arch(T objet){
-        JSONArray jsonArray=null;
+        JSONArray jsonArray=new JSONArray();
         try {
             jsonArray.put(objet.toJson());
         } catch (JSONException e) {
@@ -25,6 +25,8 @@ public class GestionJson <T extends JsonConvertible> {
         }
         OperacionesLectoEscritura.grabar(nomJs,jsonArray);
     }
+
+
 
     public T arcch_A_Objet(){
         JSONArray jsonArray=null;
