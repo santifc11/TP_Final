@@ -8,7 +8,7 @@ public class Main {
         Administrador admin4 = new Administrador("CarolinaArchuby", "1234");
         Administrador admin5 = new Administrador("NahuelBianca", "1234");
 
-        Casa casa1=new Casa("campestre","San Manuel",30000,6,true);
+
 
 
 

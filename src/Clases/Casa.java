@@ -14,6 +14,9 @@ public final class Casa extends Alojamiento implements JsonConvertible{
         super(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion);
     }
 
+    public Casa() {
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject=new JSONObject();

@@ -16,6 +16,9 @@ public final class Departamento extends Alojamiento implements JsonConvertible{
         this.piso = piso;
     }
 
+    public Departamento() {
+    }
+
     ///SETTER Y GETTER
     public int getPiso() {
         return piso;

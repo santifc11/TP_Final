@@ -574,6 +574,7 @@ public class Gestion implements JsonConvertible{
                             alojamiento.agregarHuespedes(cliente,cantPersonas);
                             cliente.agregarReservaAlHistorial(reservaNueva);
                             cliente.pagarReserva(reservaNueva);
+                            Reservas.add(reservaNueva);
                             System.out.println("Reserva creada con exito");
                             System.out.println(reservaNueva.toString());
                         } else {
@@ -615,7 +616,7 @@ public class Gestion implements JsonConvertible{
                     break;
 
                 case 2:
-
+                    
                     break;
 
                 case 3:
@@ -735,9 +736,16 @@ public class Gestion implements JsonConvertible{
         JSONArray alojamientosArray = jsonObject.getJSONArray("Alojamientos");
         for (int i = 0; i < alojamientosArray.length(); i++) {
             JSONObject alojamientoJson = alojamientosArray.getJSONObject(i);
-            Alojamiento alojamiento = new Alojamiento();
-            alojamiento.fromJson(alojamientoJson);
-            this.Alojamientos.add(alojamiento); 
+
+            if(alojamientoJson.has("piso")){
+                Departamento departamento=new Departamento();
+                departamento.fromJson(alojamientoJson);
+                this.Alojamientos.add(departamento);
+            }else {
+                Casa casa=new Casa();
+                casa.fromJson(alojamientoJson);
+                this.Alojamientos.add(casa);
+            }
         }
 
     }
