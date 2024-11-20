@@ -1,5 +1,6 @@
 package Clases;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -59,23 +60,40 @@ public class Reserva implements JsonConvertible {
         return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
     }
 
-
+    @Override
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",id);
-        jsonObject.put("alojamiento",alojamiento.toJson());
-        jsonObject.put("cliente",cliente.toJson());
+
+        jsonObject.put("id", this.id.toString());
+        jsonObject.put("alojamiento",this.alojamiento);
+        jsonObject.put("cliente",this.cliente);
         jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
         jsonObject.put("fechaInicio",fechaInicio.toString());
-        jsonObject.put("fechaFin",fechaFin.toString());
-        jsonObject.put("comparte",comparte);
+        jsonObject.put("fechaFin", this.fechaFin.toString());
+        jsonObject.put("comparte", this.comparte);
+        jsonObject.put("precioReserva", this.precioReserva);
+        jsonObject.put("cantPersonas", this.cantPersonas);
+        jsonObject.put("estado", this.estado);
 
         return jsonObject;
     }
 
     @Override
     public void fromJson(JSONObject jsonObject) {
-
+        try {
+            this.setId(UUID.fromString(jsonObject.getString("id")));
+            this.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
+            this.setCliente((Cliente) jsonObject.get("cliente"));
+            this.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
+            this.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
+            this.setFechaFin((LocalDate) jsonObject.get("fechaFin"));
+            this.setComparte(jsonObject.getBoolean("comparte"));
+            this.setPrecioReserva( jsonObject.getDouble("precioReserva"));
+            this.setCantPersonas(jsonObject.getInt("cantPersonas"));
+            this.setEstado(jsonObject.getString("estado"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     ///EQUALS, HASHCODE Y TO STRING
@@ -109,6 +127,15 @@ public class Reserva implements JsonConvertible {
     }
 
     ///SETTER Y GETTER
+
+    public double getPrecioReserva() {
+        return precioReserva;
+    }
+
+    public void setPrecioReserva(double precioReserva) {
+        this.precioReserva = precioReserva;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }

@@ -1,6 +1,7 @@
 package Clases;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -113,7 +114,15 @@ public final class Cliente implements Sesion, JsonConvertible{
 
     @Override
     public void fromJson(JSONObject jsonObject) {
-
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+            this.setDni(jsonObject.getString("dni"));
+            this.setNombreCompleto(jsonObject.getString("nombreCompleto"));
+            this.setHistorialReserva((LinkedList<Reserva>) jsonObject.get("historialreserva"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     ///EQUALS, HASHCODE Y TO STRING

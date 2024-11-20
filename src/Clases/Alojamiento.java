@@ -36,6 +36,12 @@ public abstract class Alojamiento{
 
     ///SETTER Y GETTER
 
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
+
+
     public void setEs_compartible(boolean es_compartible) {
         this.es_compartible = es_compartible;
     }
@@ -166,25 +172,6 @@ public abstract class Alojamiento{
         return (hospedados.size() + numeroPersonas) <= aforo;
     }
 
-
-    ///TO JSONObject
-    public JSONObject toJson(){
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("id",identificador);
-        jsonObject.put("nombre",nombre);
-        jsonObject.put("ubicacion",ubicacion);
-        jsonObject.put("precioXnoche", precioXnoche);
-        jsonObject.put("aforo",aforo);
-        jsonObject.put("es_compartible", es_compartible);
-        jsonObject.put("estado",estado);
-        JSONArray descripcionJson=new JSONArray();
-        for (String descripcion: descripcion){
-            descripcionJson.put(descripcion);
-        }
-        jsonObject.put("descripcion",descripcionJson);
-
-        return jsonObject;
-    }
 
     ///EQUALS, HASHCODE Y TO STRING
 
