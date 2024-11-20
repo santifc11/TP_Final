@@ -21,6 +21,7 @@ public final class Anfitrion implements Sesion,JsonConvertible{
     }
 
     ///METODOS
+
     public void agregarAlojamiento(Set<Alojamiento> alojamientos){
         Scanner scanner = new Scanner(System.in);
         System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
@@ -102,14 +103,32 @@ public final class Anfitrion implements Sesion,JsonConvertible{
         }
     }
 
-    public void eliminarAlojamiento(Set<Alojamiento> alojamientos){
+    public void eliminarAlojamiento(Set<Alojamiento> alojamientos, int id) {
+        Alojamiento alojamientoAEliminar = null;
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
-        int id = scanner.nextInt();
-        System.out.println();
-        
+        for (Alojamiento alojamiento : alojamientos) {
+            if (alojamiento.getIdentificador() == id) {
+                alojamientoAEliminar = alojamiento;
+                break;
+            }
+        }
 
+        if (alojamientoAEliminar != null) {
+            alojamientos.remove(alojamientoAEliminar);
+            System.out.println("El alojamiento ha sido eliminado.");
+        } else {
+            System.out.println("No se encontró un alojamiento con el ID especificado.");
+        }
+    }
+
+    public void mostrarAlojamientos(Set<Alojamiento> Alojamientos){
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Casa) {
+                System.out.println(((Casa) alojamiento).toString());
+            } else {
+                System.out.println(((Departamento) alojamiento).toString());
+            }
+        }
     }
 
     @Override
