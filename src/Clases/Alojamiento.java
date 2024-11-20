@@ -16,6 +16,7 @@ public abstract class Alojamiento{
     private List<Reserva>reservas;
     private static int contador=0;
     private List<Cliente>hospedados;
+    private String nombre_anfitrion;
 
     ///CONSTRUCTOR
     public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible) {
@@ -28,6 +29,7 @@ public abstract class Alojamiento{
         this.estado = true;
         this.reservas=new LinkedList<>();
         this.hospedados=new ArrayList<>();
+        this.nombre_anfitrion = nombre_anfitrion;
     }
 
 
@@ -116,6 +118,14 @@ public abstract class Alojamiento{
         this.hospedados = hospedados;
     }
 
+    public String getNombre_anfitrion() {
+        return nombre_anfitrion;
+    }
+
+    public void setNombre_anfitrion(String nombre_anfitrion) {
+        this.nombre_anfitrion = nombre_anfitrion;
+    }
+
     ///METODOS
     public void pedir_descripcion(){
         Scanner scanner = new Scanner(System.in);
@@ -181,13 +191,13 @@ public abstract class Alojamiento{
 
     @Override
     public String toString() {
-        return "Alojamiento{ id: " +identificador + " - "+
+        return "Alojamiento{" +
+                "identificador=" + identificador +
                 ", nombre='" + nombre + '\'' +
                 ", ubicacion='" + ubicacion + '\'' +
                 ", precioXnoche=" + precioXnoche +
                 ", aforo=" + aforo +
-                ", es_compartible=" + es_compartible +
-                ", estado=" + estado +
+                ", nombre_anfitrion='" + nombre_anfitrion + '\'' +
                 '}';
     }
 

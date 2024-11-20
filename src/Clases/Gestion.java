@@ -154,23 +154,7 @@ public class Gestion implements JsonConvertible{
 
                     //MENU ANFITRIONES
                     if (usuario.compareTo("1") != 0) {
-                        System.out.println("-----MENU ANFITRION-----");
-                        System.out.println("Seleccione una de las siguientes opciones: \n" +
-                                "\n1- Agregar alojamiento." +
-                                "\n2- Eliminar alojamiento." +
-                                "\n3- Ver alojamientos propios." +
-                                "\n4- Ver todos los alojamientos.");
-
-                        int opcionanf = scanner.nextInt();
-
-                        switch (opcionanf) {
-                            case 1:
-                                anfitrionLogeado.agregarAlojamiento(Alojamientos);
-                                break;
-                            case 2:
-
-                                break;
-                        }
+                        menu_anfitrion(anfitrionLogeado);
                     }
 
                     break;
@@ -332,6 +316,34 @@ public class Gestion implements JsonConvertible{
     }
 
     ///METODOS DE MENU
+
+    //MENU ANFITRION
+
+    public void menu_anfitrion(Anfitrion anfitrion){
+        System.out.println("-----MENU ANFITRION-----");
+        System.out.println("Seleccione una de las siguientes opciones: \n" +
+                "\n1- Agregar alojamiento." +
+                "\n2- Eliminar alojamiento." +
+                "\n3- Ver alojamientos propios." +
+                "\n4- Ver todos los alojamientos.");
+
+        int opcionanf = scanner.nextInt();
+
+        switch (opcionanf) {
+            case 1:
+                anfitrion.agregarAlojamiento(Alojamientos);
+                break;
+            case 2:
+                System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+                int id = scanner.nextInt();
+                anfitrion.eliminarAlojamiento(Alojamientos, id);
+                break;
+            case 3:
+                
+                break;
+        }
+    }
+
     //MENU CLIENTE
     public void mostrar_departamentos(int cantPersonas, boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
