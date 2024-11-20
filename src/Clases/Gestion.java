@@ -316,6 +316,113 @@ public class Gestion implements JsonConvertible{
 
     ///METODOS DE MENU
 
+    public void agregarAlojamiento(Anfitrion anfitrion){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
+        int tipo_alojamiento = scanner.nextInt();
+        scanner.nextLine();
+        if (tipo_alojamiento==1){
+
+            //Pido los datos de la Casa.
+
+            System.out.print("Nombre de la propiedad: ");
+            String nombre = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese la ubicacion: ");
+            String ubicacion = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el precio por noche: ");
+            double precioXnoche = scanner.nextDouble();
+            System.out.println();
+            System.out.print("Ingrese el aforo de la propiedad: ");
+            int aforo = scanner.nextInt();
+            System.out.println();
+            scanner.nextLine();
+            System.out.println();
+
+            //Creo el objeto con los atributos que ingreso el admin o el anfitrion.
+
+            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, anfitrion.getUsuario());
+
+            //Pido la descripcion del alojamiento.
+
+            casa.pedir_descripcion();
+
+            //Guardo el alojamiento en la Lista.
+
+            Alojamientos.add(casa);
+            System.out.println("Alojamiendo creado y listado exitosamente!");
+
+        } else if (tipo_alojamiento == 2){
+
+            //Pido los datos del Clases.Departamento
+
+            System.out.print("Nombre de la propiedad: ");
+            String nombre = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese la ubicacion: ");
+            String ubicacion = scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el precio por noche: ");
+            double precioXnoche = scanner.nextDouble();
+            System.out.println();
+            System.out.print("Ingrese el aforo de la propiedad: ");
+            int aforo = scanner.nextInt();
+            System.out.println();
+            System.out.print("La propiedad es apta para ser compartida? (true/false): ");
+            boolean compartible = scanner.nextBoolean();
+            scanner.nextLine();
+            System.out.println();
+            System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
+            int piso = scanner.nextInt();
+            System.out.println();
+
+            //Creo el objeto Clases.Departamento.
+
+            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, anfitrion.getUsuario(), piso);
+
+            //Pido la descripcion del Clases.Departamento
+
+            depto.pedir_descripcion();
+
+            //Guardo el alojamiento en la Lista
+
+            Alojamientos.add(depto);
+            System.out.println("Clases.Alojamiento creado y listado exitosamente!");
+        }
+        else {
+            System.out.println("Cancelado.");
+        }
+    }
+
+    public void eliminarAlojamiento(int id) {
+        Alojamiento alojamientoAEliminar = null;
+
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento.getIdentificador() == id) {
+                alojamientoAEliminar = alojamiento;
+                break;
+            }
+        }
+
+        if (alojamientoAEliminar != null) {
+            Alojamientos.remove(alojamientoAEliminar);
+            System.out.println("El alojamiento ha sido eliminado.");
+        } else {
+            System.out.println("No se encontró un alojamiento con el ID especificado.");
+        }
+    }
+
+    public void mostrar_alojamientos_propios(Anfitrion anfitrion){
+        for (Alojamiento alojamiento : Alojamientos){
+            if (alojamiento.getNombre_anfitrion().equals(anfitrion.getUsuario())){
+                System.out.println(((Casa) alojamiento).toString());
+            } else {
+                System.out.println(((Departamento) alojamiento).toString());
+            }
+            }
+        }
+
     //MENU ANFITRION
 
     public void menu_anfitrion(Anfitrion anfitrion){
@@ -330,15 +437,23 @@ public class Gestion implements JsonConvertible{
 
         switch (opcionanf) {
             case 1:
-                anfitrion.agregarAlojamiento(Alojamientos);
+                agregarAlojamiento(anfitrion);
                 break;
             case 2:
                 System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
                 int id = scanner.nextInt();
-                anfitrion.eliminarAlojamiento(Alojamientos, id);
+                eliminarAlojamiento(id);
                 break;
             case 3:
-                
+                System.out.println("Los alojamientos propios de este anfitrion son: \n");
+                mostrar_alojamientos_propios(anfitrion);
+                break;
+            case 4:
+                System.out.println("Listado de todos los alojamientos: \n\n");
+                mostrar_alojamientos();
+                break;
+            case 5:
+                // Hacer metodo para modificar un alojamiento.
                 break;
         }
     }

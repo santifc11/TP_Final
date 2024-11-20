@@ -19,7 +19,7 @@ public abstract class Alojamiento{
     private String nombre_anfitrion;
 
     ///CONSTRUCTOR
-    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, boolean es_compartible) {
+    public Alojamiento(String nombre, String ubicacion, double precioXnoche, int aforo, String nombre_anfitrion) {
         this.identificador=contador++;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
