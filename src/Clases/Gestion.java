@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Gestion implements JsonConvertible{
+    ///USAMOS MAP PARA UTILIZAR EL USUARIO COMO CLAVE
     private Map<String, Administrador> Administradores;
     private Map<String, Cliente> Clientes;
     private Map<String, Anfitrion> Anfitriones;
+    ///USAMOS SET PARA NO REPETIR ALOJAMIENTOS NI RESERVAS
     private Set<Reserva> Reservas;
     private Set<Alojamiento> Alojamientos;
 
@@ -20,7 +22,6 @@ public class Gestion implements JsonConvertible{
         this.Reservas = new TreeSet<>();
         this.Alojamientos = new TreeSet<>();
     }
-
     Scanner scanner = new Scanner(System.in);
 
     ///INICIO DE SESION

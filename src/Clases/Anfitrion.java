@@ -1,5 +1,6 @@
 package Clases;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.plaf.basic.BasicDesktopIconUI;
@@ -190,11 +191,23 @@ public final class Anfitrion implements Sesion,JsonConvertible{
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonObject=new JSONObject();
+
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia", this.contrasenia);
+        jsonObject.put("nombre", this.nombre);
+
+        return jsonObject;
     }
 
     @Override
     public void fromJson(JSONObject jsonObject) {
-
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+            this.setNombre(jsonObject.getString("nombre"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

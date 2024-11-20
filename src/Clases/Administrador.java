@@ -1,5 +1,6 @@
 package Clases;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -88,11 +89,21 @@ public class Administrador implements Sesion, JsonConvertible{
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonObject=new JSONObject();
+
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia", this.contrasenia);
+
+        return jsonObject;
     }
 
     @Override
     public void fromJson(JSONObject jsonObject) {
-
+        try {
+            this.setUsuario(jsonObject.getString("usuario"));
+            this.setContrasenia(jsonObject.getString("contrasenia"));
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
