@@ -1,5 +1,7 @@
 package Clases;
 
+import ArchivosYJSON.GestionJson;
+import ArchivosYJSON.OperacionesLectoEscritura;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,9 +16,10 @@ public class Gestion implements JsonConvertible{
     ///USAMOS SET PARA NO REPETIR ALOJAMIENTOS NI RESERVAS
     private Set<Reserva> Reservas;
     private Set<Alojamiento> Alojamientos;
+    GestionJson<Gestion> gestionJson = new GestionJson<>("Test de embarazo.json");
+
 
     ///CONSTRUCTOR
-
     public Gestion() {
         this.Anfitriones = new Hashtable<>();
         this.Administradores = new Hashtable<>();
@@ -24,12 +27,15 @@ public class Gestion implements JsonConvertible{
         this.Reservas = new TreeSet<>();
         this.Alojamientos = new TreeSet<>();
     }
-
-
     Scanner scanner = new Scanner(System.in);
 
     ///INICIO DE SESION
     public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException {
+        OperacionesLectoEscritura operaciones = new OperacionesLectoEscritura();
+        JSONObject lecturaDeListas = new JSONObject(operaciones.leer("Base de datos"));
+
+        fromJson(lecturaDeListas);
+
         System.out.println("\n\n------------------------------------");
         System.out.println("¡Bienvenido a Alquileres Patagonia!");
         boolean programa = true;
@@ -178,6 +184,7 @@ public class Gestion implements JsonConvertible{
                                 throw new UsuarioNoExisteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
                             } else {
                                 usuarioExistente = false;
+                                clienteNuevo.setUsuario(nombreUsuario);
                             }
                         } catch (UsuarioYaExistenteException e) {
                             System.out.println(e.getMessage());
@@ -194,7 +201,6 @@ public class Gestion implements JsonConvertible{
                     clienteNuevo.setContrasenia(scanner.nextLine());
 
                     Clientes.put(nombreUsuario, clienteNuevo);
-                    clienteJson.objet_A_Arch(clienteNuevo);
                     System.out.println("\n--------Usuario creado con éxito--------\n");
                     break;
 
@@ -214,6 +220,7 @@ public class Gestion implements JsonConvertible{
                                 throw new UsuarioYaExistenteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
                             } else {
                                 usuarioExistente = false;
+                                anfitrionNuevo.setUsuario(nombreUsuario);
                             }
                         } catch (UsuarioYaExistenteException e) {
                             System.out.println(e.getMessage());
@@ -240,6 +247,9 @@ public class Gestion implements JsonConvertible{
                     break;
             }
         }
+
+        ///Grabar nuevamente las listas
+        operaciones.grabar("Base de datos", this.toJson());
     }
 
     ///METODOS DE LISTAS
@@ -577,7 +587,6 @@ public class Gestion implements JsonConvertible{
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
                             alojamiento.agregarReserva(reservaNueva);
                             alojamiento.agregarHuespedes(cliente,cantPersonas);
-                            cliente.agregarReservaAlHistorial(reservaNueva);
                             cliente.pagarReserva(reservaNueva);
                             Reservas.add(reservaNueva);
                             System.out.println("Reserva creada con exito");
@@ -653,6 +662,14 @@ public class Gestion implements JsonConvertible{
                     break;
             }
         }
+    }
+
+    public JSONArray tojsonArray(){
+        JSONArray anfitrionesArray = new JSONArray();
+        for (Anfitrion anfitrion : Anfitriones.values()) {
+            anfitrionesArray.put(anfitrion.toJson());
+        }
+        return anfitrionesArray;
     }
 
     @Override

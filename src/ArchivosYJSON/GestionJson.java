@@ -17,13 +17,13 @@ public class GestionJson <T extends JsonConvertible> {
 
 
     public void objet_A_Arch(T objet){
-        JSONArray jsonArray=new JSONArray();
+        JSONArray jsonArray=null;
         try {
             jsonArray.put(objet.toJson());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OperacionesLectoEscritura.grabar(nomJs,jsonArray);
+        OperacionesLectoEscritura.grabar(nomJs,objet.toJson());
     }
 
 

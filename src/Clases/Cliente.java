@@ -8,7 +8,6 @@ import java.util.*;
 
 public final class Cliente implements Sesion, JsonConvertible{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
-    private LinkedList<Reserva> historialReserva;
 
     ///CONSTRUCTOR
     public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto) {
@@ -16,7 +15,6 @@ public final class Cliente implements Sesion, JsonConvertible{
         this.contrasenia = contrasenia;
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
-        this.historialReserva = new LinkedList<>();
 
     }
 
@@ -55,15 +53,6 @@ public final class Cliente implements Sesion, JsonConvertible{
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-
-    public LinkedList<Reserva> getHistorialReserva() {
-        return historialReserva;
-    }
-
-    public void setHistorialReserva(LinkedList<Reserva> historialReserva) {
-        this.historialReserva = historialReserva;
-    }
-
     ///METODOS
     @Override
     public void cambiarContrasenia() {
@@ -98,16 +87,10 @@ public final class Cliente implements Sesion, JsonConvertible{
 
    public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("usuario",usuario);
-        jsonObject.put("contrasenia",contrasenia);
-        jsonObject.put("dni",dni);
-        jsonObject.put("nombreCompleto", nombreCompleto);
-       JSONArray historialReservaJson=new JSONArray();
-       for (Reserva reserva: historialReserva){
-           historialReservaJson.put(reserva.toJson());
-       }
-       jsonObject.put("historialreserva",historialReservaJson);
-
+        jsonObject.put("usuario", this.usuario);
+        jsonObject.put("contrasenia",this.contrasenia);
+        jsonObject.put("dni", this.dni);
+        jsonObject.put("nombreCompleto", this.nombreCompleto);
 
         return jsonObject;
    }
@@ -119,7 +102,6 @@ public final class Cliente implements Sesion, JsonConvertible{
             this.setContrasenia(jsonObject.getString("contrasenia"));
             this.setDni(jsonObject.getString("dni"));
             this.setNombreCompleto(jsonObject.getString("nombreCompleto"));
-            this.setHistorialReserva((LinkedList<Reserva>) jsonObject.get("historialreserva"));
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
@@ -145,13 +127,9 @@ public final class Cliente implements Sesion, JsonConvertible{
                 "usuario='" + usuario + '\'' +
                 ", dni='" + dni + '\'' +
                 ", nombreCompleto='" + nombreCompleto + '\'' +
-                ", historialReserva=" + historialReserva +
                 '.';
     }
 
-    public void  agregarReservaAlHistorial(Reserva reserva){
-        historialReserva.add(reserva);
-    }
 
     public void pagarReserva(Reserva reserva){
         reserva.setEstado("Pagado");

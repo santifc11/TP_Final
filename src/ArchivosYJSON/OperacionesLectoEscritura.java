@@ -15,7 +15,7 @@ public class OperacionesLectoEscritura {
     public static void grabar(String nombreArchivo, JSONObject jsonObject) {
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
-            fileWriter.write(jsonObject.toString());
+            fileWriter.write(jsonObject.toString(2));
             fileWriter.close();
         } catch (IOException ex) {
             IOException e = ex;
@@ -27,7 +27,7 @@ public class OperacionesLectoEscritura {
     public static void grabar(String nombreArchivo, JSONArray jsonArray) {
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
-            fileWriter.write(jsonArray.toString());
+            fileWriter.write(jsonArray.toString(2));
             fileWriter.close();
         } catch (IOException ex) {
             IOException e = ex;
