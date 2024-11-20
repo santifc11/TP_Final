@@ -1,11 +1,11 @@
 package Clases;
 
-import ArchivosYJSON.GestionJson;
 import ArchivosYJSON.OperacionesLectoEscritura;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Gestion implements JsonConvertible{
@@ -16,7 +16,6 @@ public class Gestion implements JsonConvertible{
     ///USAMOS SET PARA NO REPETIR ALOJAMIENTOS NI RESERVAS
     private Set<Reserva> Reservas;
     private Set<Alojamiento> Alojamientos;
-    GestionJson<Gestion> gestionJson = new GestionJson<>("Test de embarazo.json");
 
 
     ///CONSTRUCTOR
@@ -24,8 +23,8 @@ public class Gestion implements JsonConvertible{
         this.Anfitriones = new Hashtable<>();
         this.Administradores = new Hashtable<>();
         this.Clientes = new Hashtable<>();
-        this.Reservas = new TreeSet<>();
-        this.Alojamientos = new TreeSet<>();
+        this.Reservas = new LinkedHashSet<>();
+        this.Alojamientos = new LinkedHashSet<>();
     }
     Scanner scanner = new Scanner(System.in);
 
@@ -172,16 +171,17 @@ public class Gestion implements JsonConvertible{
                 /// CREACION DE USUARIO CLIENTE
                 case 4:
                     Cliente clienteNuevo = new Cliente();
+                    usuarioExistente = true;
                     System.out.println("\n------------------------------------");
                     System.out.println("------CLIENTE NUEVO------");
                     //Pedimos los datos
 
                     while (usuarioExistente) {
                         try {
-                            System.out.println("\nIngrese su usuario:");
+                            System.out.println("\nIngrese su usuario sin espacios:");
                             nombreUsuario = scanner.nextLine();
                             if (Clientes.containsKey(nombreUsuario)) {
-                                throw new UsuarioNoExisteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
+                                throw new UsuarioYaExistenteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
                             } else {
                                 usuarioExistente = false;
                                 clienteNuevo.setUsuario(nombreUsuario);
@@ -214,7 +214,7 @@ public class Gestion implements JsonConvertible{
 
                     while (usuarioExistente) {
                         try {
-                            System.out.println("\nIngrese su usuario:");
+                            System.out.println("\nIngrese su usuario sin espacios:");
                             nombreUsuario = scanner.nextLine();
                             if (Anfitriones.containsKey(nombreUsuario)) {
                                 throw new UsuarioYaExistenteException("Este usuario ya existe en nuestra base de datos, por favor seleccine otro.");
@@ -265,6 +265,10 @@ public class Gestion implements JsonConvertible{
                 System.out.println(((Departamento) alojamiento).toString());
             }
         }
+
+        if (Alojamientos.isEmpty()){
+            System.out.println("\nNo hay ningun alojamiento disponible por el momento.\n");
+        }
     }
 
     //ADMINISTRADORES
@@ -304,7 +308,7 @@ public class Gestion implements JsonConvertible{
                 Clientes.remove(usuario);
                 System.out.println("Usuario eliminado con éxito.");
             }
-        }catch (UsuarioYaExistenteException e){
+        }catch (UsuarioNoExisteException e){
             System.out.println(e.getMessage());
         }
     }
@@ -334,7 +338,7 @@ public class Gestion implements JsonConvertible{
 
     public void agregarAlojamiento(String nombre_anfitrion){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("El alojamiento que desea ingresar es:\n1-Clases.Casa.\n2-Clases.Departamento\n0-Cancelar.");
+        System.out.println("El alojamiento que desea ingresar es:\n1-Casa\n2-Departamento\n0-Cancelar.");
         int tipo_alojamiento = scanner.nextInt();
         scanner.nextLine();
         if (tipo_alojamiento==1){
@@ -352,22 +356,18 @@ public class Gestion implements JsonConvertible{
             System.out.println();
             System.out.print("Ingrese el aforo de la propiedad: ");
             int aforo = scanner.nextInt();
-            System.out.println();
+            System.out.println("Ingrese una descripcion de la propiedad:");
             scanner.nextLine();
-            System.out.println();
+            String descripcion = scanner.nextLine();
 
             //Creo el objeto con los atributos que ingreso el admin o el anfitrion.
 
-            Casa casa = new Casa(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion);
-
-            //Pido la descripcion del alojamiento.
-
-            casa.pedir_descripcion();
+            Alojamiento casa = new Casa(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion);
 
             //Guardo el alojamiento en la Lista.
 
             Alojamientos.add(casa);
-            System.out.println("Alojamiendo creado y listado exitosamente!");
+            System.out.println("Alojamiento creado y listado exitosamente!");
 
         } else if (tipo_alojamiento == 2){
 
@@ -384,27 +384,21 @@ public class Gestion implements JsonConvertible{
             System.out.println();
             System.out.print("Ingrese el aforo de la propiedad: ");
             int aforo = scanner.nextInt();
-            System.out.println();
-            System.out.print("La propiedad es apta para ser compartida? (true/false): ");
-            boolean compartible = scanner.nextBoolean();
+            System.out.println("Ingrese una descripción a la propiedad:");
             scanner.nextLine();
-            System.out.println();
+            String descripcion = scanner.nextLine();
             System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
             int piso = scanner.nextInt();
             System.out.println();
 
             //Creo el objeto Clases.Departamento.
 
-            Departamento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion, piso);
-
-            //Pido la descripcion del Clases.Departamento
-
-            depto.pedir_descripcion();
+            Alojamiento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion, piso);
 
             //Guardo el alojamiento en la Lista
 
             Alojamientos.add(depto);
-            System.out.println("Clases.Alojamiento creado y listado exitosamente!");
+            System.out.println("Alojamiento creado y listado exitosamente!");
         }
         else {
             System.out.println("Cancelado.");
@@ -430,48 +424,65 @@ public class Gestion implements JsonConvertible{
     }
 
     public void mostrar_alojamientos_propios(Anfitrion anfitrion){
+        boolean flag = false;
+        System.out.println("--------ALOJAMIENTOS PROPIOS--------");
         for (Alojamiento alojamiento : Alojamientos){
-            if (alojamiento.getNombre_anfitrion().equals(anfitrion.getUsuario())){
-                System.out.println(((Casa) alojamiento).toString());
-            } else {
-                System.out.println(((Departamento) alojamiento).toString());
-            }
+            if (alojamiento.getNombre_anfitrion().compareTo(anfitrion.getUsuario()) == 0){
+                System.out.println(alojamiento.toString());
+                flag = true;
             }
         }
+
+        if (!flag){
+            System.out.println("No tenemos registrado ningun alojamiento a nombre de este usuario.");
+        }
+    }
 
     //MENU ANFITRION
 
     public void menu_anfitrion(Anfitrion anfitrion){
         System.out.println("-----MENU ANFITRION-----");
-        System.out.println("Seleccione una de las siguientes opciones: \n" +
-                "\n1- Agregar alojamiento." +
-                "\n2- Eliminar alojamiento." +
-                "\n3- Ver alojamientos propios." +
-                "\n4- Ver todos los alojamientos.");
+        boolean sesion = true;
+        while(sesion) {
+            System.out.println("Seleccione una de las siguientes opciones: \n" +
+                    "\n1 - Agregar alojamiento." +
+                    "\n2 - Eliminar alojamiento." +
+                    "\n3 - Ver alojamientos propios." +
+                    "\n4 - Ver todos los alojamientos." +
+                    "\n5 - Información personal."+
+                    "\n6 - Cerrar sesión.");
 
-        int opcionanf = scanner.nextInt();
+            int opcionanf = scanner.nextInt();
 
-        switch (opcionanf) {
-            case 1:
-                agregarAlojamiento(anfitrion.getUsuario());
-                break;
-            case 2:
-                mostrar_alojamientos_propios(anfitrion);
-                System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
-                int id = scanner.nextInt();
-                eliminarAlojamiento(id);
-                break;
-            case 3:
-                System.out.println("Los alojamientos propios de este anfitrion son: \n");
-                mostrar_alojamientos_propios(anfitrion);
-                break;
-            case 4:
-                System.out.println("Listado de todos los alojamientos: \n\n");
-                mostrar_alojamientos();
-                break;
-            case 5:
-                // Hacer metodo para modificar un alojamiento.
-                break;
+            switch (opcionanf) {
+                case 1:
+                    agregarAlojamiento(anfitrion.getUsuario());
+                    break;
+                case 2:
+                    mostrar_alojamientos_propios(anfitrion);
+                    System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+                    int id = scanner.nextInt();
+                    eliminarAlojamiento(id);
+                    break;
+                case 3:
+                    System.out.println("Los alojamientos propios de este anfitrion son: \n");
+                    mostrar_alojamientos_propios(anfitrion);
+                    break;
+                case 4:
+                    System.out.println("Listado de todos los alojamientos: \n\n");
+                    mostrar_alojamientos();
+                    break;
+                case 5:
+                    System.out.println("----PERSONAL----");
+                    System.out.println(anfitrion.toString());
+                    break;
+                case 6:
+                    System.out.println("Cerrando sesion...");
+                    sesion = false;
+                    break;
+                default:
+                    System.out.println("Por favor ingrese una opción válida.");
+            }
         }
     }
 
@@ -510,12 +521,11 @@ public class Gestion implements JsonConvertible{
                     hacerReserva(cliente);
                     break;
                 case 2:
-                    System.out.println("----ALOJAMIENTOS----");
                     mostrar_alojamientos();
                     break;
                 case 3:
                     System.out.println("----PERSONAL----");
-                    cliente.toString();
+                    System.out.println(cliente.toString());
                     break;
                 case 4:
                     System.out.println("----CAMBIAR CONTRASEÑA----");
@@ -534,15 +544,28 @@ public class Gestion implements JsonConvertible{
 
     public void hacerReserva(Cliente cliente){
         int tipo = 0, cantPersonas = 0, numA = 0, finalizar = 0;
-        boolean comparte, hacerReserva = true, alojamientoEncontrado;
+        boolean comparte, hacerReserva = true, alojamientoEncontrado, formatoFecha = false;
+        LocalDate inicio = LocalDate.now(), fin = LocalDate.now();
         String SiNo = "";
-        System.out.println("DESDE: (AAAA-MM-DD)");
-        LocalDate inicio = LocalDate.parse(scanner.nextLine());
-        System.out.println("HASTA: (AAAA-MM-DD)");
-        LocalDate fin = LocalDate.parse(scanner.nextLine());
-        for (Alojamiento alojamiento : Alojamientos) {
-            alojamiento.verificaDisponibilidad(inicio, fin);
+
+        while(!formatoFecha) {
+            try {
+                System.out.println("DESDE: (AAAA-MM-DD)");
+                inicio = LocalDate.parse(scanner.nextLine());
+                System.out.println("HASTA: (AAAA-MM-DD)");
+                fin = LocalDate.parse(scanner.nextLine());
+                if (inicio != null && fin != null) {
+                    formatoFecha = true;
+                }
+            }catch (DateTimeParseException e) {
+                System.out.println("Formato de fecha incorrecto.");
+            }
+
         }
+
+//        for (Alojamiento alojamiento : Alojamientos) {
+//            alojamiento.verificaDisponibilidad(inicio, fin);
+//        }
         System.out.println("CANTIDAD DE PERSONAS:");
         cantPersonas = scanner.nextInt();
         scanner.nextLine();
@@ -568,12 +591,11 @@ public class Gestion implements JsonConvertible{
                 hacerReserva = false;
                 break;
         }
-        if (hacerReserva) {
-            System.out.println("Ingrese el numero del alojamiento");
-            numA = scanner.nextInt();
-            scanner.nextLine();
-            try {
-
+        try {
+            if (hacerReserva) {
+                System.out.println("Ingrese el id del alojamiento");
+                numA = scanner.nextInt();
+                scanner.nextLine();
                 alojamientoEncontrado = false;
                 for (Alojamiento alojamiento : Alojamientos) {
                     if (alojamiento.getIdentificador() == numA) {
@@ -585,7 +607,7 @@ public class Gestion implements JsonConvertible{
 
                         if (finalizar == 1) {
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
-                            alojamiento.agregarReserva(reservaNueva);
+//                            alojamiento.agregarReserva(reservaNueva);
                             alojamiento.agregarHuespedes(cliente,cantPersonas);
                             cliente.pagarReserva(reservaNueva);
                             Reservas.add(reservaNueva);
@@ -596,14 +618,14 @@ public class Gestion implements JsonConvertible{
                         }
                         break;
                     }
-
                 }
                 if (!alojamientoEncontrado) {
                     throw new NoSeEncontroExeption("No se encontro el alojamiento");
                 }
-            }catch (NoSeEncontroExeption ex){
-                System.out.println(ex.getMessage());
             }
+        }catch (NoSeEncontroExeption ex){
+            System.out.println(ex.getMessage());
+        }catch(Exception e){
         }
     }
     
@@ -746,7 +768,7 @@ public class Gestion implements JsonConvertible{
             JSONObject clienteJson = clientesArray.getJSONObject(i);
             Cliente cliente = new Cliente();
             cliente.fromJson(clienteJson);
-            this.Clientes.put(cliente.getDni(), cliente);
+            this.Clientes.put(cliente.getUsuario(), cliente);
        }
 
         // Convertir Reservas desde JSON
