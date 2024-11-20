@@ -116,14 +116,14 @@ public class Reserva implements JsonConvertible {
         return "Reserva{" +
                 "id=" + id +
                 ", alojamiento=" + alojamiento.getIdentificador() +
-                ", cliente=" + cliente.getDni() +
+                ", cliente=" + cliente.getNombreCompleto() +
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
                 ", cantPersonas=" + cantPersonas +
                 ", comparte=" + comparte +
                 ", precioReserva=" + precioReserva +
-                '}';
+                "}\n";
     }
 
     ///SETTER Y GETTER

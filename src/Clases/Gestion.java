@@ -636,12 +636,13 @@ public class Gestion implements JsonConvertible{
         while (sesion) {
             System.out.println("------------------------------------");
             System.out.println("\n1 - VER ALOJAMIENTOS." +
-                    "\n2 - AGREGAR ALOJAMIENTO." +
-                    "\n3 - ELIMINAR ALOJAMIENTO." +
-                    "\n4 - ELIMINAR CLIENTE." +
-                    "\n5 - ELIMINAR ANFITRION." +
-                    "\n6 - CAMBIAR CONTRASEÑA." +
-                    "\n7 - CERRAR SESION.");
+                    "\n2 - VER RESERVAS." +
+                    "\n3 - AGREGAR ALOJAMIENTO." +
+                    "\n4 - ELIMINAR ALOJAMIENTO." +
+                    "\n5 - ELIMINAR CLIENTE." +
+                    "\n6 - ELIMINAR ANFITRION." +
+                    "\n7 - CAMBIAR CONTRASEÑA." +
+                    "\n8 - CERRAR SESION.");
 
             opcion = scanner.nextInt();
             scanner.nextLine();
@@ -652,29 +653,34 @@ public class Gestion implements JsonConvertible{
                     break;
 
                 case 2:
-                    agregarAlojamiento(administrador.getUsuario());
+                    System.out.println("----------RESERVAS----------");
+                    System.out.println(this.Reservas);
                     break;
 
                 case 3:
+                    agregarAlojamiento(administrador.getUsuario());
+                    break;
+
+                case 4:
                     mostrar_alojamientos();
                     System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
                     int id = scanner.nextInt();
                     eliminarAlojamiento(id);
                     break;
 
-                case 4:
+                case 5:
                     bajaCliente();
                     break;
 
-                case 5:
+                case 6:
                     bajaAnfitrion();
                     break;
 
-                case 6:
+                case 7:
                     administrador.cambiarContrasenia();
                     break;
 
-                case 7:
+                case 8:
                     System.out.println("Cerrando sesion...");
                     sesion = false;
                     break;

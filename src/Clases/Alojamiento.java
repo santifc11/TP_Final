@@ -174,7 +174,8 @@ public abstract class Alojamiento{
     }
 
     public boolean puedeHospedar(int numeroPersonas) {
-        return (hospedados.size() + numeroPersonas) <= aforo;
+        this.hospedados = new ArrayList<>();
+        return (this.hospedados.size() + numeroPersonas) <= aforo;
     }
 
 

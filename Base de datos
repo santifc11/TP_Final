@@ -60,38 +60,25 @@
       "dni": "294857643"
     },
     {
+      "usuario": "Ruben99",
+      "contrasenia": "1234",
+      "nombreCompleto": "Ruben Nicolas Darin",
+      "dni": "55398475"
+    },
+    {
       "usuario": "RaulJimenez",
       "contrasenia": "1234",
       "nombreCompleto": "Raul Jimenez",
       "dni": "92873654"
-    }
-  ],
-  "Reservas": [
-    {
-      "cliente": "Cliente:usuario='RaulJimenez', dni='92873654', nombreCompleto='Raul Jimenez'.",
-      "comparte": true,
-      "precioReserva": 891000,
-      "estado": "Pagado",
-      "fechaInicio": "2024-12-12",
-      "fechaDeReserva": "2024-11-20T03:42:49.095838600",
-      "id": "4ab55e08-40b2-43a1-aa05-787ceb73b84b",
-      "alojamiento": "Alojamiento{\nidentificador=1, \nnombre='Mansion1', \nubicacion='Guemes', \nprecioXnoche=99000.0, \naforo=15, \ndescripción5 Habitaciones, 2 baños, piscina..., \nnombre_anfitrion='TiagoJaen\n}",
-      "cantPersonas": 1,
-      "fechaFin": "2024-12-20"
     },
     {
-      "cliente": "Cliente:usuario='RaulJimenez', dni='92873654', nombreCompleto='Raul Jimenez'.",
-      "comparte": false,
-      "precioReserva": 693000,
-      "estado": "Pagado",
-      "fechaInicio": "2024-12-12",
-      "fechaDeReserva": "2024-11-20T03:44:50.723499",
-      "id": "36a7c1d4-5059-4285-99e0-b160fd13151a",
-      "alojamiento": "Alojamiento{\nidentificador=2, \nnombre='Depto1', \nubicacion='Colon y la costa', \nprecioXnoche=77000.0, \naforo=3, \ndescripciónDepartamento con vista al mar, 2 habitaciones, cocina comedor..., \nnombre_anfitrion='Luz12\n}El departamento se encuentra en el piso 7\n",
-      "cantPersonas": 1,
-      "fechaFin": "2024-12-20"
+      "usuario": "RamiroMessi",
+      "contrasenia": "1234",
+      "nombreCompleto": "Ramiro Luciano Messi",
+      "dni": "23456756"
     }
   ],
+  "Reservas": [],
   "Anfitriones": [
     {
       "usuario": "AquilesRojo",
@@ -102,6 +89,16 @@
       "usuario": "Luz12",
       "contrasenia": "1234",
       "nombre": "Luz Maria Gutierrez"
+    },
+    {
+      "usuario": "KarenJo",
+      "contrasenia": "1234",
+      "nombre": "Karen Josefina Blanco"
+    },
+    {
+      "usuario": "TiagoPZK",
+      "contrasenia": "1234",
+      "nombre": "Tiago PZK"
     },
     {
       "usuario": "JoacoPenisi",
