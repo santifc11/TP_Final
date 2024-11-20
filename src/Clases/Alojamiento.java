@@ -9,7 +9,7 @@ public abstract class Alojamiento{
     private double precioXnoche = 0;
     private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
     private static int contador=1;
-//    private List<Reserva>reservas;
+    private List<Reserva>reservas;
     private List<Cliente>hospedados;
 
     ///CONSTRUCTOR
@@ -95,14 +95,14 @@ public abstract class Alojamiento{
         this.estado = estado;
     }
 
-//    public List<Reserva> getReservas() {
-//        return reservas;
-//    }
-//
-//    public void setReservas(List<Reserva> reservas) {
-//        this.reservas = reservas;
-//    }
-//
+    public List<Reserva> getReservas() {
+        return reservas;
+   }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
     public List<Cliente> getHospedados() {
         return hospedados;
     }
@@ -141,26 +141,26 @@ public abstract class Alojamiento{
 
 
 
-//    public void agregarReserva(Reserva reserva){
-//        reservas.add(reserva);
-//    }
-//
-//    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin){
-//        try {
-//            for (Reserva reserva : this.reservas) {
-//                if (reserva.seSolapaCon(fechaInicio, fechaFin)) {
-//                    this.estado = false;
-//                    return false;
-//                }
-//            }
-//            this.estado = true;
-//        }catch (NullPointerException e){
-//            return true;
-//        }catch (Exception e){
-//
-//        }
-//        return true;
-//    }
+    public void agregarReserva(Reserva reserva){
+        reservas.add(reserva);
+    }
+
+    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin){
+        try {
+           for (Reserva reserva : this.reservas) {
+                if (reserva.seSolapaCon(fechaInicio, fechaFin)) {
+                    this.estado = false;
+                   return false;
+               }
+            }
+            this.estado = true;
+        }catch (NullPointerException e){
+            return true;
+        }catch (Exception e){
+
+        }
+        return true;
+    }
 
     public boolean agregarHuespedes(Cliente cliente, int numeroPersonas) {
         if (puedeHospedar(numeroPersonas)) {

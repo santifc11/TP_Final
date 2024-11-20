@@ -5,11 +5,11 @@
       "contrasenia": "1234"
     },
     {
-      "usuario": "NahuelBianca",
+      "usuario": "TiagoJaen",
       "contrasenia": "1234"
     },
     {
-      "usuario": "TiagoJaen",
+      "usuario": "NahuelBianca",
       "contrasenia": "1234"
     },
     {
@@ -84,6 +84,11 @@
       "usuario": "AquilesRojo",
       "contrasenia": "1234",
       "nombre": "Aquiles Saul Rojo"
+    },
+    {
+      "usuario": "santifc",
+      "contrasenia": "1234",
+      "nombre": "Santiago Fernandez Cuello"
     },
     {
       "usuario": "Luz12",

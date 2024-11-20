@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Reserva implements JsonConvertible {
+public class Reserva {
     private UUID id;
     private Alojamiento alojamiento;
     private Cliente cliente;
@@ -60,7 +60,6 @@ public class Reserva implements JsonConvertible {
         return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
     }
 
-    @Override
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
 
@@ -78,22 +77,25 @@ public class Reserva implements JsonConvertible {
         return jsonObject;
     }
 
-    @Override
-    public void fromJson(JSONObject jsonObject) {
+    public Reserva fromJson(JSONObject jsonObject) {
+        Reserva reserva = new Reserva();
         try {
-            this.setId(UUID.fromString(jsonObject.getString("id")));
-            this.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
-            this.setCliente((Cliente) jsonObject.get("cliente"));
-            this.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
-            this.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
-            this.setFechaFin((LocalDate) jsonObject.get("fechaFin"));
-            this.setComparte(jsonObject.getBoolean("comparte"));
-            this.setPrecioReserva( jsonObject.getDouble("precioReserva"));
-            this.setCantPersonas(jsonObject.getInt("cantPersonas"));
-            this.setEstado(jsonObject.getString("estado"));
+            reserva.setId(UUID.fromString(jsonObject.getString("id")));
+            reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
+            reserva.setCliente((Cliente) jsonObject.get("cliente"));
+            reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
+            reserva.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
+            reserva.setFechaFin((LocalDate) jsonObject.get("fechaFin"));
+            reserva.setComparte(jsonObject.getBoolean("comparte"));
+            reserva.setPrecioReserva(jsonObject.getDouble("precioReserva"));
+            reserva.setCantPersonas(jsonObject.getInt("cantPersonas"));
+            reserva.setEstado(jsonObject.getString("estado"));
+        }catch (CasteoException ex){
+            System.out.println("Hubo un error en la lectura");
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
+        return reserva;
     }
 
     ///EQUALS, HASHCODE Y TO STRING

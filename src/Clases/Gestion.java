@@ -4,6 +4,7 @@ import ArchivosYJSON.OperacionesLectoEscritura;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -487,17 +488,17 @@ public class Gestion implements JsonConvertible{
     }
 
     //MENU CLIENTE
-    public void mostrar_departamentos(int cantPersonas, boolean comparte) {
+    public void mostrar_departamentos(boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)&& alojamiento.isEs_compartible()== comparte) {
-                System.out.println(((Departamento) alojamiento).toString());
+            if (alojamiento instanceof Departamento) {
+                System.out.println(alojamiento.toString());
             }
         }
     }
 
-    public void mostrar_casa(int cantPersonas, boolean comparte) {
+    public void mostrar_casa(boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)&& alojamiento.isEs_compartible()== comparte) {
+            if (alojamiento instanceof Casa) {
                     System.out.println(((Casa) alojamiento).toString());
             }
         }
@@ -579,12 +580,13 @@ public class Gestion implements JsonConvertible{
         System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
         tipo = scanner.nextInt();
         scanner.nextLine();
-        switch (tipo) {
+        switch (tipo) {   //NO ENTRA AL SWITCH.
             case 1:
-                mostrar_casa(cantPersonas, comparte);
+                mostrar_casa(comparte);
                 break;
             case 2:
-                mostrar_departamentos(cantPersonas, comparte);
+                mostrar_departamentos(comparte);
+                System.out.println(tipo);
                 break;
             default:
                 System.out.println("Opcion no valida");
@@ -605,9 +607,9 @@ public class Gestion implements JsonConvertible{
                         finalizar = scanner.nextInt();
                         scanner.nextLine();
 
-                        if (finalizar == 1) {
+                        if (finalizar == 1 && cantPersonas<alojamiento.getAforo()) {
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
-//                            alojamiento.agregarReserva(reservaNueva);
+                            alojamiento.agregarReserva(reservaNueva);
                             alojamiento.agregarHuespedes(cliente,cantPersonas);
                             cliente.pagarReserva(reservaNueva);
                             Reservas.add(reservaNueva);
@@ -690,14 +692,6 @@ public class Gestion implements JsonConvertible{
                     break;
             }
         }
-    }
-
-    public JSONArray tojsonArray(){
-        JSONArray anfitrionesArray = new JSONArray();
-        for (Anfitrion anfitrion : Anfitriones.values()) {
-            anfitrionesArray.put(anfitrion.toJson());
-        }
-        return anfitrionesArray;
     }
 
     @Override
