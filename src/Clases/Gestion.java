@@ -1,5 +1,6 @@
 package Clases;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -532,11 +533,97 @@ public class Gestion implements JsonConvertible{
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonObject = new JSONObject();
+
+        ///Convertir Anfitriones a JSON
+        JSONArray anfitrionesArray = new JSONArray();
+        for (Anfitrion anfitrion : Anfitriones.values()) {
+            anfitrionesArray.put(anfitrion.toJson());
+        }
+        jsonObject.put("Anfitriones", anfitrionesArray);
+
+        ///Convertir Administradores a JSON
+        JSONArray administradoresArray = new JSONArray();
+        for (Administrador administrador : Administradores.values()) {
+            administradoresArray.put(administrador.toJson());
+        }
+        jsonObject.put("Administradores", administradoresArray);
+
+        /// Convertir Clientes a JSON
+         JSONArray clientesArray = new JSONArray();
+         for (Cliente cliente : Clientes.values()) {
+         clientesArray.put(cliente.toJson());
+         }
+         jsonObject.put("Clientes", clientesArray);
+
+        ///Convertir Reservas a JSON
+         JSONArray reservasArray = new JSONArray();
+         for (Reserva reserva : Reservas) {
+         reservasArray.put(reserva.toJson());
+         }
+         jsonObject.put("Reservas", reservasArray);
+
+        ///Convertir Alojamientos a JSON
+         JSONArray alojamientosArray = new JSONArray();
+         for (Alojamiento alojamiento : Alojamientos) {
+             if (alojamiento instanceof Casa){
+                 alojamientosArray.put(((Casa) alojamiento).toJson());
+             }
+             else {
+                 alojamientosArray.put(((Departamento)alojamiento).toJson());
+             }
+         }
+         jsonObject.put("Alojamientos", alojamientosArray);
+
+         return jsonObject;
+
     }
 
     @Override
     public void fromJson(JSONObject jsonObject) {
+        /// Convertir Anfitriones desde JSON
+        JSONArray anfitrionesArray = jsonObject.getJSONArray("Anfitriones");
+        for (int i = 0; i < anfitrionesArray.length(); i++) {
+            JSONObject anfitrionJson = anfitrionesArray.getJSONObject(i);
+            Anfitrion anfitrion = new Anfitrion();
+            anfitrion.fromJson(anfitrionJson);
+            this.Anfitriones.put(anfitrion.getUsuario(), anfitrion);
+        }
+
+        // Convertir Administradores desde JSON
+        JSONArray administradoresArray = jsonObject.getJSONArray("Administradores");
+        for (int i = 0; i < administradoresArray.length(); i++) {
+            JSONObject administradorJson = administradoresArray.getJSONObject(i);
+            Administrador administrador = new Administrador();
+            administrador.fromJson(administradorJson);
+            this.Administradores.put(administrador.getUsuario(), administrador);
+
+        }
+        // Convertir Clientes desde JSON
+        JSONArray clientesArray = jsonObject.getJSONArray("Clientes");
+        for (int i = 0; i < clientesArray.length(); i++) {
+            JSONObject clienteJson = clientesArray.getJSONObject(i);
+            Cliente cliente = new Cliente();
+            cliente.fromJson(clienteJson);
+            this.Clientes.put(cliente.getDni(), cliente);
+       }
+
+        // Convertir Reservas desde JSON
+        JSONArray reservasArray = jsonObject.getJSONArray("Reservas");
+        for (int i = 0; i < reservasArray.length(); i++) {
+            JSONObject reservaJson = reservasArray.getJSONObject(i);
+            Reserva reserva = new Reserva(); reserva.fromJson(reservaJson);
+            this.Reservas.add(reserva);
+        }
+
+        // Convertir Alojamientos desde JSON
+        JSONArray alojamientosArray = jsonObject.getJSONArray("Alojamientos");
+        for (int i = 0; i < alojamientosArray.length(); i++) {
+            JSONObject alojamientoJson = alojamientosArray.getJSONObject(i);
+            Alojamiento alojamiento = new Alojamiento();
+            alojamiento.fromJson(alojamientoJson);
+            this.Alojamientos.add(alojamiento); 
+        }
 
     }
 }
