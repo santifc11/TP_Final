@@ -1,3 +1,4 @@
+import ArchivosYJSON.GestionJson;
 import Clases.*;
 
 public class Main {
@@ -9,19 +10,14 @@ public class Main {
         Administrador admin5 = new Administrador("NahuelBianca", "1234");
 
 
-
-
-
         Gestion gestion = new Gestion();
+
 
         gestion.cargarAdministrador(admin1);
         gestion.cargarAdministrador(admin2);
         gestion.cargarAdministrador(admin3);
         gestion.cargarAdministrador(admin4);
         gestion.cargarAdministrador(admin5);
-
-
-        
 
         gestion.inicio_de_sesion();
 

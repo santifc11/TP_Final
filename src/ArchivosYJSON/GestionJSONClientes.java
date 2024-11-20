@@ -29,15 +29,6 @@ public class GestionJSONClientes {
             jsonObject.put("contraseña", cliente.getContrasenia());
             jsonObject.put("dni", cliente.getDni());
             jsonObject.put("nombre", cliente.getNombreCompleto());
-            JSONArray jsonArray = new JSONArray();
-            Iterator iterator = cliente.getHistorialReserva().iterator();
-
-            while(iterator.hasNext()) {
-                Reserva reserva = (Reserva)iterator.next();
-                jsonArray.put(this.gestionJSONReservas.serializar(reserva));
-            }
-
-            jsonObject.put("historialReservas", jsonArray);
         } catch (JSONException ex) {
             JSONException e = ex;
             e.printStackTrace();
@@ -68,12 +59,6 @@ public class GestionJSONClientes {
             cliente.setContrasenia(jsonObject.getString("contraseña"));
             cliente.setDni(jsonObject.getString("dni"));
             cliente.setNombreCompleto(jsonObject.getString("nombre"));
-            JSONArray jsonArray = jsonObject.getJSONArray("historialReservas");
-
-            for(int i = 0; i < jsonArray.length(); ++i) {
-                Reserva reserva = this.gestionJSONReservas.deserializar(jsonArray.getJSONObject(i));
-                cliente.agregarReservaAlHistorial(reserva);
-            }
         } catch (JSONException ex) {
             JSONException e = ex;
             e.printStackTrace();
