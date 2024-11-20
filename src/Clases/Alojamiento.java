@@ -32,7 +32,8 @@ public abstract class Alojamiento{
         this.nombre_anfitrion = nombre_anfitrion;
     }
 
-
+    public Alojamiento() {
+    }
 
     ///SETTER Y GETTER
 

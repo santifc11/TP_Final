@@ -8,6 +8,10 @@ public class Main {
         Administrador admin4 = new Administrador("CarolinaArchuby", "1234");
         Administrador admin5 = new Administrador("NahuelBianca", "1234");
 
+
+
+
+
         Gestion gestion = new Gestion();
 
         gestion.cargarAdministrador(admin1);
@@ -15,6 +19,7 @@ public class Main {
         gestion.cargarAdministrador(admin3);
         gestion.cargarAdministrador(admin4);
         gestion.cargarAdministrador(admin5);
+
 
         
 

@@ -8,9 +8,13 @@ import java.util.List;
 import java.util.UUID;
 
 public final class Casa extends Alojamiento implements JsonConvertible{
+    
     ///CONSTRUCTOR
     public Casa(String nombre, String ubicacion, double precioXnoche, int aforo, String nombre_anfitrion) {
         super(nombre, ubicacion, precioXnoche, aforo, nombre_anfitrion);
+    }
+
+    public Casa() {
     }
 
     @Override
