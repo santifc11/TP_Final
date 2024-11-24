@@ -1,13 +1,12 @@
 package Clases;
 
+import ArchivosYJSON.GestionJSONClientes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,6 +40,7 @@ public class Reserva {
     }
     public Reserva() {
         this.id = UUID.randomUUID();
+        this.fechaDeReserva = LocalDateTime.now();
     }
 
 
@@ -79,13 +79,14 @@ public class Reserva {
 
     public Reserva fromJson(JSONObject jsonObject) {
         Reserva reserva = new Reserva();
+        GestionJSONClientes gestionJSONClientes = new GestionJSONClientes();
         try {
             reserva.setId(UUID.fromString(jsonObject.getString("id")));
             if(alojamiento instanceof Casa){
                 reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
             }
 
-            reserva.setCliente((Cliente) jsonObject.get("cliente"));
+            reserva.setCliente(gestionJSONClientes.deserializar(jsonObject.getJSONObject("cliente")));
             reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
             reserva.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
             reserva.setFechaFin((LocalDate) jsonObject.get("fechaFin"));

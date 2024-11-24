@@ -20,6 +20,7 @@ public final class Cliente implements Sesion, JsonConvertible{
     }
 
     public Cliente() {
+        this.historialReserva = new LinkedList<>();
     }
 
     ///SETTER Y GETTER
@@ -60,8 +61,13 @@ public final class Cliente implements Sesion, JsonConvertible{
     }
 
     public void setHistorialReserva(LinkedList<Reserva> historialReserva) {
-        this.historialReserva = historialReserva;
+        if (historialReserva == null) {
+            this.historialReserva = new LinkedList<>();
+        } else {
+            this.historialReserva = historialReserva;
+        }
     }
+
 
     ///METODOS
     @Override
@@ -154,8 +160,5 @@ public final class Cliente implements Sesion, JsonConvertible{
     public void pagarReserva(Reserva reserva){
         reserva.setEstado("Pagado");
     }
-
-
-
 
 }

@@ -182,15 +182,14 @@ public abstract class Alojamiento{
 
     @Override
     public String toString() {
-        return "Alojamiento{" +
-                "\n" + identificador +
-                ", \nnombre='" + nombre + '\'' +
-                ", \nubicacion='" + ubicacion + '\'' +
-                ", \nprecioXnoche=" + precioXnoche +
-                ", \naforo=" + aforo +
-                ", \ndescripción" + descripcion +
-                ", \nnombre_anfitrion='" + nombre_anfitrion + '\n' +
-                '}';
+        return "-------Alojamiento-------" +
+                "\nNumero de alojamiento: " + identificador +
+                ", \nNombre: '" + nombre + "'" +
+                ", \nUbicacion: '" + ubicacion + "'" +
+                ", \nPrecio por Noche: " + precioXnoche +
+                ", \nAforo: " + aforo + " personas."+
+                ", \nDescripción: " + descripcion +
+                ", \nNombre del Anfitrion: '" + nombre_anfitrion + "'\n";
     }
 
 

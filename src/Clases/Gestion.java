@@ -71,7 +71,7 @@ public class Gestion implements JsonConvertible{
                                 throw new UsuarioNoExisteException("Su usuario no se encuentra en nuestra base de datos de administradores.");
                             }
                             adminLogeado = Administradores.get(usuario);
-                            System.out.println("Ingrese su contraseña:");
+                            System.out.print("Ingrese su contraseña:");
                             contrasenia = scanner.nextLine();
                             if (adminLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseniaIncorrectaException("Su contraseña es incorrecta.");
