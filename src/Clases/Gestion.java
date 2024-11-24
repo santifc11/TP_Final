@@ -487,20 +487,32 @@ public class Gestion implements JsonConvertible{
         }
     }
 
+
     //MENU CLIENTE
-    public void mostrar_departamentos(boolean comparte) {
+    public void mostrar_departamentos(int cantPersonas, boolean comparte) {
         for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Departamento) {
-                System.out.println(alojamiento.toString());
+            if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
+                System.out.println(((Departamento) alojamiento).toString());
             }
         }
     }
 
-    public void mostrar_casa(boolean comparte) {
-        for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Casa) {
+    public void mostrar_casa(int cantPersonas, boolean comparte) {
+        System.out.println("Alojamientos disponibles para " + cantPersonas + " personas");
+        if(comparte) {
+            for (Alojamiento alojamiento : Alojamientos) {
+                if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
                     System.out.println(((Casa) alojamiento).toString());
+                }
             }
+        }
+        else {
+            for (Alojamiento alojamiento : Alojamientos) {
+                if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.getHospedados().isEmpty()) {
+                    System.out.println(((Casa) alojamiento).toString());
+                }
+            }
+
         }
     }
 
@@ -522,11 +534,12 @@ public class Gestion implements JsonConvertible{
                     hacerReserva(cliente);
                     break;
                 case 2:
+                    System.out.println("----ALOJAMIENTOS----");
                     mostrar_alojamientos();
                     break;
                 case 3:
                     System.out.println("----PERSONAL----");
-                    System.out.println(cliente.toString());
+                    cliente.toString();
                     break;
                 case 4:
                     System.out.println("----CAMBIAR CONTRASEÑA----");
@@ -545,28 +558,15 @@ public class Gestion implements JsonConvertible{
 
     public void hacerReserva(Cliente cliente){
         int tipo = 0, cantPersonas = 0, numA = 0, finalizar = 0;
-        boolean comparte, hacerReserva = true, alojamientoEncontrado, formatoFecha = false;
-        LocalDate inicio = LocalDate.now(), fin = LocalDate.now();
+        boolean comparte, hacerReserva = true, alojamientoEncontrado;
         String SiNo = "";
-
-        while(!formatoFecha) {
-            try {
-                System.out.println("DESDE: (AAAA-MM-DD)");
-                inicio = LocalDate.parse(scanner.nextLine());
-                System.out.println("HASTA: (AAAA-MM-DD)");
-                fin = LocalDate.parse(scanner.nextLine());
-                if (inicio != null && fin != null) {
-                    formatoFecha = true;
-                }
-            }catch (DateTimeParseException e) {
-                System.out.println("Formato de fecha incorrecto.");
-            }
-
+        System.out.println("DESDE: (AAAA-MM-DD)");
+        LocalDate inicio = LocalDate.parse(scanner.nextLine());
+        System.out.println("HASTA: (AAAA-MM-DD)");
+        LocalDate fin = LocalDate.parse(scanner.nextLine());
+        for (Alojamiento alojamiento : Alojamientos) {
+            alojamiento.verificaDisponibilidad(inicio, fin);
         }
-
-//        for (Alojamiento alojamiento : Alojamientos) {
-//            alojamiento.verificaDisponibilidad(inicio, fin);
-//        }
         System.out.println("CANTIDAD DE PERSONAS:");
         cantPersonas = scanner.nextInt();
         scanner.nextLine();
@@ -580,24 +580,24 @@ public class Gestion implements JsonConvertible{
         System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
         tipo = scanner.nextInt();
         scanner.nextLine();
-        switch (tipo) {   //NO ENTRA AL SWITCH.
+        switch (tipo) {
             case 1:
-                mostrar_casa(comparte);
+                mostrar_casa(cantPersonas, comparte);
                 break;
             case 2:
-                mostrar_departamentos(comparte);
-                System.out.println(tipo);
+                mostrar_departamentos(cantPersonas, comparte);
                 break;
             default:
                 System.out.println("Opcion no valida");
                 hacerReserva = false;
                 break;
         }
-        try {
-            if (hacerReserva) {
-                System.out.println("Ingrese el id del alojamiento");
-                numA = scanner.nextInt();
-                scanner.nextLine();
+        if (hacerReserva) {
+            System.out.println("Ingrese el numero del alojamiento");
+            numA = scanner.nextInt();
+            scanner.nextLine();
+            try {
+
                 alojamientoEncontrado = false;
                 for (Alojamiento alojamiento : Alojamientos) {
                     if (alojamiento.getIdentificador() == numA) {
@@ -607,7 +607,7 @@ public class Gestion implements JsonConvertible{
                         finalizar = scanner.nextInt();
                         scanner.nextLine();
 
-                        if (finalizar == 1 && cantPersonas<alojamiento.getAforo()) {
+                        if (finalizar == 1) {
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
                             alojamiento.agregarReserva(reservaNueva);
                             alojamiento.agregarHuespedes(cliente,cantPersonas);
@@ -615,21 +615,24 @@ public class Gestion implements JsonConvertible{
                             Reservas.add(reservaNueva);
                             System.out.println("Reserva creada con exito");
                             System.out.println(reservaNueva.toString());
+                            OperacionesLectoEscritura.grabar("Base de datos", this.toJson());
                         } else {
                             System.out.println("Su reserva fue cancelada");
                         }
                         break;
                     }
+
                 }
                 if (!alojamientoEncontrado) {
                     throw new NoSeEncontroExeption("No se encontro el alojamiento");
                 }
+            }catch (NoSeEncontroExeption ex){
+                System.out.println(ex.getMessage());
             }
-        }catch (NoSeEncontroExeption ex){
-            System.out.println(ex.getMessage());
-        }catch(Exception e){
         }
     }
+
+
     
     //MENU ADMINISTRADORES
     public void menuAdministrador(Administrador administrador) {

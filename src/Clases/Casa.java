@@ -35,7 +35,6 @@ public final class Casa extends Alojamiento implements JsonConvertible{
         jsonObject.put("ubicacion", this.getUbicacion());
         jsonObject.put("precioXnoche", this.getPrecioXnoche());
         jsonObject.put("aforo", this.getAforo());
-        jsonObject.put("es_compartible", this.isEs_compartible());
         jsonObject.put("estado", this.isEstado());
 //        JSONArray reservasJson=new JSONArray();
 //        for (Reserva reserva: this.getReservas()){
@@ -63,7 +62,6 @@ public final class Casa extends Alojamiento implements JsonConvertible{
             this.setUbicacion(jsonObject.getString("ubicacion"));
             this.setPrecioXnoche(jsonObject.getDouble("precioXnoche"));
             this.setAforo(jsonObject.getInt("aforo"));
-            this.setEs_compartible(jsonObject.getBoolean("es_compartible"));
             this.setEstado(jsonObject.getBoolean("estado"));
         } catch (JSONException e) {
             System.out.println(e.getMessage());

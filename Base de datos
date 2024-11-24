@@ -5,11 +5,11 @@
       "contrasenia": "1234"
     },
     {
-      "usuario": "TiagoJaen",
+      "usuario": "NahuelBianca",
       "contrasenia": "1234"
     },
     {
-      "usuario": "NahuelBianca",
+      "usuario": "TiagoJaen",
       "contrasenia": "1234"
     },
     {
@@ -29,7 +29,6 @@
       "aforo": 15,
       "ubicacion": "Guemes",
       "estado": true,
-      "es_compartible": false,
       "id": 1,
       "nombre": "Mansion1"
     },
@@ -41,7 +40,6 @@
       "piso": 7,
       "ubicacion": "Colon y la costa",
       "estado": true,
-      "es_compartible": false,
       "id": 2,
       "nombre": "Depto1"
     }
@@ -78,7 +76,18 @@
       "dni": "23456756"
     }
   ],
-  "Reservas": [],
+  "Reservas": [{
+    "cliente": "Cliente:usuario='JoseRamirez', dni='47893089', nombreCompleto='Jose Ramirez Lopez'.",
+    "comparte": true,
+    "precioReserva": 891000,
+    "estado": "Pagado",
+    "fechaInicio": "2020-12-12",
+    "fechaDeReserva": "2024-11-23T21:58:40.162452600",
+    "id": "8c9f128b-c42c-4a99-952f-33d81e820971",
+    "alojamiento": "Alojamiento{\n1, \nnombre='Mansion1', \nubicacion='Guemes', \nprecioXnoche=99000.0, \naforo=15, \ndescripción5 Habitaciones, 2 baños, piscina..., \nnombre_anfitrion='TiagoJaen\n}",
+    "cantPersonas": 4,
+    "fechaFin": "2020-12-20"
+  }],
   "Anfitriones": [
     {
       "usuario": "AquilesRojo",
@@ -86,14 +95,14 @@
       "nombre": "Aquiles Saul Rojo"
     },
     {
-      "usuario": "santifc",
-      "contrasenia": "1234",
-      "nombre": "Santiago Fernandez Cuello"
-    },
-    {
       "usuario": "Luz12",
       "contrasenia": "1234",
       "nombre": "Luz Maria Gutierrez"
+    },
+    {
+      "usuario": "santifc",
+      "contrasenia": "1234",
+      "nombre": "Santiago Fernandez Cuello"
     },
     {
       "usuario": "KarenJo",

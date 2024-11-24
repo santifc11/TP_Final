@@ -81,7 +81,10 @@ public class Reserva {
         Reserva reserva = new Reserva();
         try {
             reserva.setId(UUID.fromString(jsonObject.getString("id")));
-            reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
+            if(alojamiento instanceof Casa){
+                reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
+            }
+
             reserva.setCliente((Cliente) jsonObject.get("cliente"));
             reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
             reserva.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
