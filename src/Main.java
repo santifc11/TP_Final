@@ -5,7 +5,6 @@ public class Main {
 
         Gestion gestion = new Gestion();
 
-
         gestion.inicio_de_sesion();
 
     }
