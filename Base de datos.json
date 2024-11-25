@@ -5,11 +5,11 @@
       "contrasenia": "1234"
     },
     {
-      "usuario": "TiagoJaen",
+      "usuario": "NahuelBianca",
       "contrasenia": "1234"
     },
     {
-      "usuario": "NahuelBianca",
+      "usuario": "TiagoJaen",
       "contrasenia": "1234"
     },
     {
@@ -21,7 +21,42 @@
       "contrasenia": "1234"
     }
   ],
-  "Alojamientos": [],
+  "Alojamientos": [
+    {
+      "descripcion": "Mansion con 8 habitaciones, 3 baños, piscina...",
+      "nombreDueño": "TiagoJaen",
+      "precioXnoche": 200000,
+      "aforo": 20,
+      "ubicacion": "Alem",
+      "reservas": [],
+      "id": 1,
+      "nombre": "Mansion1",
+      "disponible": false
+    },
+    {
+      "descripcion": "Hermoso departamento frente al mar, 3 ambientes...",
+      "nombreDueño": "JoacoPenisi",
+      "precioXnoche": 99000,
+      "aforo": 4,
+      "piso": 8,
+      "ubicacion": "Colon y la costa",
+      "estado": true,
+      "reservas": [],
+      "id": 1,
+      "nombre": "DeptoFrenteAlMar"
+    },
+    {
+      "descripcion": "Casa de campo con 2 hectareas de terreno, 4 habitaciones, cochera...",
+      "nombreDueño": "AquilesRojo",
+      "precioXnoche": 110000,
+      "aforo": 8,
+      "ubicacion": "Barrio Felix U. Camet",
+      "reservas": [],
+      "id": 2,
+      "nombre": "CasaDeCampo",
+      "disponible": true
+    }
+  ],
   "Clientes": [
     {
       "historialreserva": [],
@@ -52,14 +87,34 @@
       "dni": "92873654"
     },
     {
-      "historialreserva": [],
+      "historialreserva": [{
+        "precioReserva": 800000,
+        "estado": "Pagado",
+        "id_alojamiento": 1,
+        "fechaInicio": "2024-12-12",
+        "fechaDeReserva": "2024-11-25 02:19:01",
+        "id": "4aebe192-20d2-401b-9c89-773255f0642b",
+        "cantPersonas": 6,
+        "fechaFin": "2024-12-15",
+        "nombre_cliente": "Ramiro Luciano Messi"
+      }],
       "usuario": "RamiroMessi",
       "contrasenia": "1234",
       "nombreCompleto": "Ramiro Luciano Messi",
       "dni": "23456756"
     }
   ],
-  "Reservas": [],
+  "Reservas": [{
+    "precioReserva": 800000,
+    "estado": "Pagado",
+    "id_alojamiento": 1,
+    "fechaInicio": "2024-12-12",
+    "fechaDeReserva": "2024-11-25 02:19:01",
+    "id": "4aebe192-20d2-401b-9c89-773255f0642b",
+    "cantPersonas": 6,
+    "fechaFin": "2024-12-15",
+    "nombre_cliente": "Ramiro Luciano Messi"
+  }],
   "Anfitriones": [
     {
       "usuario": "AquilesRojo",
@@ -67,14 +122,14 @@
       "nombre": "Aquiles Saul Rojo"
     },
     {
-      "usuario": "santifc",
-      "contrasenia": "1234",
-      "nombre": "Santiago Fernandez Cuello"
-    },
-    {
       "usuario": "Luz12",
       "contrasenia": "1234",
       "nombre": "Luz Maria Gutierrez"
+    },
+    {
+      "usuario": "santifc",
+      "contrasenia": "1234",
+      "nombre": "Santiago Fernandez Cuello"
     },
     {
       "usuario": "KarenJo",

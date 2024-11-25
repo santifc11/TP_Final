@@ -33,7 +33,7 @@ public final class Casa extends Alojamiento implements JsonConvertible{
         jsonObject.put("ubicacion", this.getUbicacion());
         jsonObject.put("precioXnoche", this.getPrecioXnoche());
         jsonObject.put("aforo", this.getAforo());
-        jsonObject.put("estado", this.isEstado());
+        jsonObject.put("disponible", this.isEstado());
         JSONArray reservasJson = new JSONArray();
         for (Reserva reserva: this.getReservas()){
             reservasJson.put(reserva.toJson());
@@ -54,7 +54,7 @@ public final class Casa extends Alojamiento implements JsonConvertible{
             this.setUbicacion(jsonObject.getString("ubicacion"));
             this.setPrecioXnoche(jsonObject.getDouble("precioXnoche"));
             this.setAforo(jsonObject.getInt("aforo"));
-            this.setEstado(jsonObject.getBoolean("estado"));
+            this.setEstado(jsonObject.getBoolean("disponible"));
             JSONArray jsonArray = jsonObject.getJSONArray("reservas");
             List<Reserva> Reservas = new LinkedList<>();
 

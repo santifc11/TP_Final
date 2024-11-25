@@ -632,6 +632,8 @@ public class Gestion implements JsonConvertible{
                         if(!alojamiento.puedeHospedar(cantPersonas)){
                             System.out.println("El alojamiento elegido no tiene capacidad suficiente para hospedar a " + cantPersonas + " personas.");
                             hacerReserva = false;
+                        }else if(!alojamiento.verificaDisponibilidad(inicio, fin, alojamiento)){
+                            System.out.println("Este alojamiento ya se encuentra reservado para las fechas ingresadas.");
                         }
                         if (hacerReserva && alojamiento.verificaDisponibilidad(inicio, fin, alojamiento)) { ///si hay espacio y el alojamiento está disponible en esas fechas, se finaliza.
                             System.out.println();

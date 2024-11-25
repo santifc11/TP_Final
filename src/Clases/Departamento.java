@@ -35,7 +35,7 @@ public final class Departamento extends Alojamiento implements JsonConvertible{
     ///TO STRING porque hay que mostrar el piso en el que está
     @Override
     public String toString() {
-        return  super.toString()+ "\nEl departamento se encuentra en el piso " + piso + "\n" +
+        return  super.toString()+ "\nEl departamento se encuentra en el piso " + this.piso + "\n" +
                 "-------------------------\n";
     }
 
