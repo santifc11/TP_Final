@@ -6,8 +6,9 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-public final class Cliente implements Sesion, JsonConvertible{
+public  class Cliente implements Sesion, JsonConvertible{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
+    private LinkedList<Reserva> historialReserva;
 
     ///CONSTRUCTOR
     public Cliente(String usuario, String contrasenia, String dni, String nombreCompleto) {
@@ -15,10 +16,11 @@ public final class Cliente implements Sesion, JsonConvertible{
         this.contrasenia = contrasenia;
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
-
+        this.historialReserva = new LinkedList<>();
     }
 
     public Cliente() {
+        this.historialReserva = new LinkedList<>();
     }
 
     ///SETTER Y GETTER
@@ -53,6 +55,20 @@ public final class Cliente implements Sesion, JsonConvertible{
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
+
+    public LinkedList<Reserva> getHistorialReserva() {
+        return historialReserva;
+    }
+
+    public void setHistorialReserva(LinkedList<Reserva> historialReserva) {
+        if (historialReserva == null) {
+            this.historialReserva = new LinkedList<>();
+        } else {
+            this.historialReserva = historialReserva;
+        }
+    }
+
+
     ///METODOS
     @Override
     public void cambiarContrasenia() {
@@ -85,15 +101,20 @@ public final class Cliente implements Sesion, JsonConvertible{
 
     ///TO JSONObject
 
-   public JSONObject toJson(){
+    public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("usuario", this.usuario);
-        jsonObject.put("contrasenia",this.contrasenia);
-        jsonObject.put("dni", this.dni);
-        jsonObject.put("nombreCompleto", this.nombreCompleto);
+        jsonObject.put("usuario",usuario);
+        jsonObject.put("contrasenia",contrasenia);
+        jsonObject.put("dni",dni);
+        jsonObject.put("nombreCompleto", nombreCompleto);
+        JSONArray historialReservaJson=new JSONArray();
+        for (Reserva reserva: historialReserva){
+            historialReservaJson.put(reserva.toJson());
+        }
+        jsonObject.put("historialreserva",historialReservaJson);
 
         return jsonObject;
-   }
+    }
 
     @Override
     public void fromJson(JSONObject jsonObject) {
@@ -127,15 +148,18 @@ public final class Cliente implements Sesion, JsonConvertible{
                 "usuario='" + usuario + '\'' +
                 ", dni='" + dni + '\'' +
                 ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", historialReserva=" + historialReserva +
                 '.';
+    }
+
+    public void  agregarReservaAlHistorial(Reserva reserva){
+        historialReserva.add(reserva);
     }
 
 
     public void pagarReserva(Reserva reserva){
+        historialReserva.add(reserva);
         reserva.setEstado("Pagado");
     }
-
-
-
 
 }

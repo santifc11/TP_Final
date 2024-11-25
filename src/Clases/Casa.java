@@ -16,8 +16,6 @@ public final class Casa extends Alojamiento implements JsonConvertible{
     ///CONSTRUCTOR
     public Casa(String nombre, String ubicacion, double precioXnoche, int aforo, String descripcion, String nombre_anfitrion) {
         super(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion);
-//        this.setReservas(new LinkedList<>());
-//        this.setHospedados(new ArrayList<>());
     }
 
 
@@ -35,19 +33,12 @@ public final class Casa extends Alojamiento implements JsonConvertible{
         jsonObject.put("ubicacion", this.getUbicacion());
         jsonObject.put("precioXnoche", this.getPrecioXnoche());
         jsonObject.put("aforo", this.getAforo());
-        jsonObject.put("es_compartible", this.isEs_compartible());
-        jsonObject.put("estado", this.isEstado());
-//        JSONArray reservasJson=new JSONArray();
-//        for (Reserva reserva: this.getReservas()){
-//            reservasJson.put(reserva.toJson());
-//        }
-//        jsonObject.put("reservas", reservasJson);
-//
-//        JSONArray hospedadosJson=new JSONArray();
-//        for (Cliente cliente: getHospedados()){
-//            hospedadosJson.put(cliente.toJson());
-//        }
-//        jsonObject.put("hospedados", hospedadosJson);
+        jsonObject.put("disponible", this.isEstado());
+        JSONArray reservasJson = new JSONArray();
+        for (Reserva reserva: this.getReservas()){
+            reservasJson.put(reserva.toJson());
+        }
+        jsonObject.put("reservas", reservasJson);
 
 
         return jsonObject;
@@ -63,8 +54,17 @@ public final class Casa extends Alojamiento implements JsonConvertible{
             this.setUbicacion(jsonObject.getString("ubicacion"));
             this.setPrecioXnoche(jsonObject.getDouble("precioXnoche"));
             this.setAforo(jsonObject.getInt("aforo"));
-            this.setEs_compartible(jsonObject.getBoolean("es_compartible"));
-            this.setEstado(jsonObject.getBoolean("estado"));
+            this.setEstado(jsonObject.getBoolean("disponible"));
+            JSONArray jsonArray = jsonObject.getJSONArray("reservas");
+            List<Reserva> Reservas = new LinkedList<>();
+
+            for(int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject jsonReserva = jsonArray.getJSONObject(i);
+                Reserva reserva = new Reserva();
+                reserva.fromJson(jsonReserva);
+                Reservas.add(reserva);
+            }
+            this.setReservas(Reservas);
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }

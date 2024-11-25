@@ -1,5 +1,5 @@
 {
- "Administradores": [
+  "Administradores": [
     {
       "usuario": "SantiagoFernandez",
       "contrasenia": "1234"
@@ -21,73 +21,45 @@
       "contrasenia": "1234"
     }
   ],
-  "Alojamientos": [
-    {
-      "descripcion": "5 Habitaciones, 2 baños, piscina...",
-      "nombreDueño": "TiagoJaen",
-      "precioXnoche": 99000,
-      "aforo": 15,
-      "ubicacion": "Guemes",
-      "estado": true,
-      "id": 1,
-      "nombre": "Mansion1"
-    },
-    {
-      "descripcion": "Departamento con vista al mar, 2 habitaciones, cocina comedor...",
-      "nombreDueño": "Luz12",
-      "precioXnoche": 77000,
-      "aforo": 3,
-      "piso": 7,
-      "ubicacion": "Colon y la costa",
-      "estado": true,
-      "id": 2,
-      "nombre": "Depto1"
-    }
-  ],
+  "Alojamientos": [],
   "Clientes": [
     {
+      "historialreserva": [],
       "usuario": "JoseRamirez",
-      "contrasenia": "1234",
+      "contrasenia": "091218",
       "nombreCompleto": "Jose Ramirez Lopez",
       "dni": "47893089"
     },
     {
+      "historialreserva": [],
       "usuario": "Romi_Hernandez",
       "contrasenia": "1234",
       "nombreCompleto": "Romina Jimena Hernandez",
       "dni": "294857643"
     },
     {
+      "historialreserva": [],
       "usuario": "Ruben99",
       "contrasenia": "1234",
       "nombreCompleto": "Ruben Nicolas Darin",
       "dni": "55398475"
     },
     {
+      "historialreserva": [],
       "usuario": "RaulJimenez",
       "contrasenia": "1234",
       "nombreCompleto": "Raul Jimenez",
       "dni": "92873654"
     },
     {
+      "historialreserva": [],
       "usuario": "RamiroMessi",
       "contrasenia": "1234",
       "nombreCompleto": "Ramiro Luciano Messi",
       "dni": "23456756"
     }
   ],
-  "Reservas": [{
-    "cliente": "Cliente:usuario='JoseRamirez', dni='47893089', nombreCompleto='Jose Ramirez Lopez'.",
-    "comparte": true,
-    "precioReserva": 891000,
-    "estado": "Pagado",
-    "fechaInicio": "2020-12-12",
-    "fechaDeReserva": "2024-11-23T21:58:40.162452600",
-    "id": "8c9f128b-c42c-4a99-952f-33d81e820971",
-    "alojamiento": "Alojamiento{\n1, \nnombre='Mansion1', \nubicacion='Guemes', \nprecioXnoche=99000.0, \naforo=15, \ndescripción5 Habitaciones, 2 baños, piscina..., \nnombre_anfitrion='TiagoJaen\n}",
-    "cantPersonas": 4,
-    "fechaFin": "2020-12-20"
-  }],
+  "Reservas": [],
   "Anfitriones": [
     {
       "usuario": "AquilesRojo",
@@ -108,11 +80,6 @@
       "usuario": "KarenJo",
       "contrasenia": "1234",
       "nombre": "Karen Josefina Blanco"
-    },
-    {
-      "usuario": "TiagoPZK",
-      "contrasenia": "1234",
-      "nombre": "Tiago PZK"
     },
     {
       "usuario": "JoacoPenisi",

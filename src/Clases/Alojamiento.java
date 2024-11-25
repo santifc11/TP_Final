@@ -7,10 +7,9 @@ public abstract class Alojamiento{
     private int identificador = 0, aforo = 0;
     private String nombre= "",ubicacion= "", descripcion = "", nombre_anfitrion = "";
     private double precioXnoche = 0;
-    private boolean es_compartible, estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
+    boolean estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
     private static int contador=1;
-    private List<Reserva>reservas;
-    private List<Cliente>hospedados;
+    private static List<Reserva>reservas;
 
     ///CONSTRUCTOR
 
@@ -22,25 +21,18 @@ public abstract class Alojamiento{
         this.aforo = aforo;
         this.descripcion = descripcion;
         this.nombre_anfitrion = nombre_anfitrion;
-        this.es_compartible = es_compartible;
         this.estado = true;
-//        this.reservas=new LinkedList<>();
-        this.hospedados=new ArrayList<>();
+        this.reservas=new LinkedList<>();
     }
 
     public Alojamiento() {
+        this.reservas=new LinkedList<>();
     }
 
     ///SETTER Y GETTER
 
     public void setIdentificador(int identificador) {
         this.identificador = identificador;
-    }
-
-
-
-    public void setEs_compartible(boolean es_compartible) {
-        this.es_compartible = es_compartible;
     }
 
     public String getNombre() {
@@ -83,10 +75,6 @@ public abstract class Alojamiento{
         this.descripcion = descripcion;
     }
 
-    public boolean isEs_compartible() {
-        return es_compartible;
-    }
-
     public boolean isEstado() {
         return estado;
     }
@@ -103,13 +91,6 @@ public abstract class Alojamiento{
         this.reservas = reservas;
     }
 
-    public List<Cliente> getHospedados() {
-        return hospedados;
-    }
-
-    public void setHospedados(List<Cliente> hospedados) {
-        this.hospedados = hospedados;
-    }
 
     public int getIdentificador() {
         return identificador;
@@ -139,43 +120,38 @@ public abstract class Alojamiento{
     ///METODOS
 
 
-
-
     public void agregarReserva(Reserva reserva){
         reservas.add(reserva);
     }
 
-    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin){
+    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin, Alojamiento otroAlojamiento) throws IllegalArgumentException{
         try {
-           for (Reserva reserva : this.reservas) {
-                if (reserva.seSolapaCon(fechaInicio, fechaFin)) {
-                    this.estado = false;
-                   return false;
-               }
+            if(fechaInicio==null || fechaFin==null ){
+                throw new IllegalArgumentException("Las fechas no pueden ser nulas");
             }
-            this.estado = true;
-        }catch (NullPointerException e){
-            return true;
+            for (Reserva reserva : reservas) {
+                if (reserva.getId_alojamiento() == otroAlojamiento.getIdentificador() && reserva.seSolapaCon(fechaInicio, fechaFin)) {
+                    return false; ///Si el alojamiento es el mismo y se solapa con alguna reserva, se devuelve false, por lo que no está disponible
+                }
+            }
+        }catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }catch(NullPointerException e){
+
         }catch (Exception e){
 
         }
         return true;
     }
 
-    public boolean agregarHuespedes(Cliente cliente, int numeroPersonas) {
-        if (puedeHospedar(numeroPersonas)) {
-            for (int i = 0; i < numeroPersonas; i++) {
-                hospedados.add(cliente);
-            }
-            return true;
-        } else {
-            System.out.println("El alojamiento no tiene capacidad suficiente para hospedar a " + numeroPersonas + " personas.");
-            return false; }
-    }
 
     public boolean puedeHospedar(int numeroPersonas) {
-        this.hospedados = new ArrayList<>();
-        return (this.hospedados.size() + numeroPersonas) <= aforo;
+        if (numeroPersonas <= aforo){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 
@@ -184,15 +160,22 @@ public abstract class Alojamiento{
 
     @Override
     public String toString() {
-        return "Alojamiento{" +
-                "\nidentificador=" + identificador +
-                ", \nnombre='" + nombre + '\'' +
-                ", \nubicacion='" + ubicacion + '\'' +
-                ", \nprecioXnoche=" + precioXnoche +
-                ", \naforo=" + aforo +
-                ", \ndescripción" + descripcion +
-                ", \nnombre_anfitrion='" + nombre_anfitrion + '\n' +
-                '}';
+        String tipo = "";
+        if (this.getClass().equals(Casa.class)){
+            tipo = "Casa";
+        }else{
+            tipo = "Departamento";
+        }
+        return
+                "\nNumero de alojamiento: " + identificador +
+                ", \nNombre: '" + nombre + "'" +
+                ", \nUbicacion: '" + ubicacion + "'" +
+                ", \nPrecio por Noche: " + precioXnoche +
+                ", \nAforo: " + aforo + " personas."+
+                ", \nDescripción: '" + descripcion + "'" +
+                ", \nNombre del Anfitrion: '" + nombre_anfitrion + "'" +
+                ", \nDisponible: " + estado +
+                ", \nTipo: " + tipo;
     }
 
 
