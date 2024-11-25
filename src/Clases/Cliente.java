@@ -158,6 +158,7 @@ public  class Cliente implements Sesion, JsonConvertible{
 
 
     public void pagarReserva(Reserva reserva){
+        historialReserva.add(reserva);
         reserva.setEstado("Pagado");
     }
 

@@ -32,7 +32,7 @@ public class Gestion implements JsonConvertible{
     ///INICIO DE SESION
     public void inicio_de_sesion() throws UsuarioNoExisteException, ContraseniaIncorrectaException {
         OperacionesLectoEscritura operaciones = new OperacionesLectoEscritura();
-        JSONObject lecturaDeListas = new JSONObject(operaciones.leer("Base de datos"));
+        JSONObject lecturaDeListas = new JSONObject(operaciones.leer("Base de datos.json"));
 
         fromJson(lecturaDeListas);
 
@@ -41,7 +41,7 @@ public class Gestion implements JsonConvertible{
         boolean programa = true;
         while (programa) {
             System.out.println("------------------------------------");
-            System.out.println("\n------INICIO DE SESION------\n");
+            System.out.println("\n--------INICIO DE SESION--------\n");
             System.out.println("Seleccione una de las siguientes opciones:" +
                     "\n1- Iniciar sesion como administrador." +
                     "\n2- Iniciar sesion como cliente." +
@@ -58,7 +58,7 @@ public class Gestion implements JsonConvertible{
                 ///INICIO DE SESION DE ADMINISTRADOR
                 case 1:
                     System.out.println("------------------------------------");
-                    System.out.println("------ADMINISTRADOR------");
+                    System.out.println("--------ADMINISTRADOR--------");
                     Administrador adminLogeado = new Administrador();
                     while (!flag) {
                         try {
@@ -96,7 +96,7 @@ public class Gestion implements JsonConvertible{
                 ///INICIO DE SESION DE CLIENTE
                 case 2:
                     System.out.println("------------------------------------");
-                    System.out.println("------CLIENTE------");
+                    System.out.println("--------CLIENTE--------");
                     Cliente clienteLogeado = new Cliente();
                     while (!flag) {
                         try {
@@ -134,7 +134,7 @@ public class Gestion implements JsonConvertible{
                 ///INICIO DE SESION DE ANFITRION
                 case 3:
                     System.out.println("------------------------------------");
-                    System.out.println("------ANFITRION------");
+                    System.out.println("--------ANFITRION--------");
                     Anfitrion anfitrionLogeado = new Anfitrion();
                     while (!flag) {
                         try {
@@ -152,7 +152,7 @@ public class Gestion implements JsonConvertible{
                             if (anfitrionLogeado.getContrasenia().compareTo(contrasenia) != 0) {
                                 throw new ContraseniaIncorrectaException("Su contraseña es incorrecta.");
                             } else {
-                                System.out.println("\n--------¡Sesion iniciada con éxito!--------\n");
+                                System.out.println("\n---------¡Sesion iniciada con éxito!--------\n");
                                 flag = true;
                             }
                         } catch (UsuarioNoExisteException ex) {
@@ -174,7 +174,7 @@ public class Gestion implements JsonConvertible{
                     Cliente clienteNuevo = new Cliente();
                     usuarioExistente = true;
                     System.out.println("\n------------------------------------");
-                    System.out.println("------CLIENTE NUEVO------");
+                    System.out.println("--------CLIENTE NUEVO--------");
                     //Pedimos los datos
 
                     while (usuarioExistente) {
@@ -210,7 +210,7 @@ public class Gestion implements JsonConvertible{
                     Anfitrion anfitrionNuevo = new Anfitrion();
                     usuarioExistente = true;
                     System.out.println("\n------------------------------------");
-                    System.out.println("------ANFITRION NUEVO------");
+                    System.out.println("--------ANFITRION NUEVO--------");
                     //Pedimos los datos
 
                     while (usuarioExistente) {
@@ -250,7 +250,7 @@ public class Gestion implements JsonConvertible{
         }
 
         ///Grabar nuevamente las listas
-        operaciones.grabar("Base de datos", this.toJson());
+        operaciones.grabar("Base de datos.json", this.toJson());
     }
 
     ///METODOS DE LISTAS
@@ -340,69 +340,81 @@ public class Gestion implements JsonConvertible{
     public void agregarAlojamiento(String nombre_anfitrion){
         Scanner scanner = new Scanner(System.in);
         System.out.println("El alojamiento que desea ingresar es:\n1-Casa\n2-Departamento\n0-Cancelar.");
-        int tipo_alojamiento = scanner.nextInt();
-        scanner.nextLine();
-        if (tipo_alojamiento==1){
-
-            //Pido los datos de la Casa.
-
-            System.out.print("Nombre de la propiedad: ");
-            String nombre = scanner.nextLine();
-            System.out.println();
-            System.out.print("Ingrese la ubicacion: ");
-            String ubicacion = scanner.nextLine();
-            System.out.println();
-            System.out.print("Ingrese el precio por noche: ");
-            double precioXnoche = scanner.nextDouble();
-            System.out.println();
-            System.out.print("Ingrese el aforo de la propiedad: ");
-            int aforo = scanner.nextInt();
-            System.out.println("Ingrese una descripcion de la propiedad:");
+        try {
+            int tipo_alojamiento = scanner.nextInt();
             scanner.nextLine();
-            String descripcion = scanner.nextLine();
+            switch (tipo_alojamiento) {
+                case 1:
+                    //Pido los datos de la Casa.
+                    try {
+                        System.out.print("Nombre de la propiedad: ");
+                        String nombre = scanner.nextLine();
+                        System.out.println();
+                        System.out.print("Ingrese la ubicacion: ");
+                        String ubicacion = scanner.nextLine();
+                        System.out.println();
+                        System.out.print("Ingrese el precio por noche: ");
+                        double precioXnoche = scanner.nextDouble();
+                        System.out.println();
+                        System.out.print("Ingrese el aforo de la propiedad: ");
+                        int aforo = scanner.nextInt();
+                        System.out.println("Ingrese una descripcion de la propiedad:");
+                        scanner.nextLine();
+                        String descripcion = scanner.nextLine();
 
-            //Creo el objeto con los atributos que ingreso el admin o el anfitrion.
+                        //Creo el objeto con los atributos que ingreso el admin o el anfitrion.
 
-            Alojamiento casa = new Casa(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion);
+                        Alojamiento casa = new Casa(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion);
 
-            //Guardo el alojamiento en la Lista.
+                        //Guardo el alojamiento en la Lista.
 
-            Alojamientos.add(casa);
-            System.out.println("Alojamiento creado y listado exitosamente!");
+                        Alojamientos.add(casa);
+                        System.out.println("Alojamiento creado y listado exitosamente!");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Tipo de valor incorrecto.");
+                    } catch (Exception e) {
+                    }
+                    break;
+                case 2:
+                    //Pido los datos del Clases.Departamento
+                    try {
+                        System.out.print("Nombre de la propiedad: ");
+                        String nombre = scanner.nextLine();
+                        System.out.println();
+                        System.out.print("Ingrese la ubicacion: ");
+                        String ubicacion = scanner.nextLine();
+                        System.out.println();
+                        System.out.print("Ingrese el precio por noche: ");
+                        double precioXnoche = scanner.nextDouble();
+                        System.out.println();
+                        System.out.print("Ingrese el aforo de la propiedad: ");
+                        int aforo = scanner.nextInt();
+                        System.out.println("Ingrese una descripción a la propiedad:");
+                        scanner.nextLine();
+                        String descripcion = scanner.nextLine();
+                        System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
+                        int piso = scanner.nextInt();
+                        System.out.println();
 
-        } else if (tipo_alojamiento == 2){
+                        //Creo el objeto Clases.Departamento.
 
-            //Pido los datos del Clases.Departamento
+                        Alojamiento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion, piso);
 
-            System.out.print("Nombre de la propiedad: ");
-            String nombre = scanner.nextLine();
-            System.out.println();
-            System.out.print("Ingrese la ubicacion: ");
-            String ubicacion = scanner.nextLine();
-            System.out.println();
-            System.out.print("Ingrese el precio por noche: ");
-            double precioXnoche = scanner.nextDouble();
-            System.out.println();
-            System.out.print("Ingrese el aforo de la propiedad: ");
-            int aforo = scanner.nextInt();
-            System.out.println("Ingrese una descripción a la propiedad:");
-            scanner.nextLine();
-            String descripcion = scanner.nextLine();
-            System.out.print("Ingrese el piso en el que esta ubicada la propiedad: ");
-            int piso = scanner.nextInt();
-            System.out.println();
+                        //Guardo el alojamiento en la Lista
 
-            //Creo el objeto Clases.Departamento.
-
-            Alojamiento depto = new Departamento(nombre, ubicacion, precioXnoche, aforo, descripcion, nombre_anfitrion, piso);
-
-            //Guardo el alojamiento en la Lista
-
-            Alojamientos.add(depto);
-            System.out.println("Alojamiento creado y listado exitosamente!");
-        }
-        else {
-            System.out.println("Cancelado.");
+                        Alojamientos.add(depto);
+                        System.out.println("Alojamiento creado y listado exitosamente!");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Tipo de valor incorrecto.");
+                    } catch (Exception e) {
+                    }
+                    break;
+                default:
+                    System.out.println("Cancelado.");
+                    break;
+            }
+        }catch (InputMismatchException e){
+            System.out.println("Tipo de valor incorrecto.");
         }
     }
 
@@ -439,10 +451,21 @@ public class Gestion implements JsonConvertible{
         }
     }
 
+    public void mostrar_reservas() {
+        System.out.println("--------RESERVAS--------");
+        if (Reservas.isEmpty()){
+            System.out.println("\nNo hay ninguna reserva registrada por el momento.\n");
+        }else {
+            for (Reserva reserva : Reservas) {
+                System.out.println(reserva.toString());
+            }
+        }
+    }
+
     //MENU ANFITRION
 
     public void menu_anfitrion(Anfitrion anfitrion){
-        System.out.println("-----MENU ANFITRION-----");
+        System.out.println("--------MENU ANFITRION--------");
         boolean sesion = true;
         while(sesion) {
             System.out.println("Seleccione una de las siguientes opciones: \n" +
@@ -453,205 +476,190 @@ public class Gestion implements JsonConvertible{
                     "\n5 - Información personal."+
                     "\n6 - Cerrar sesión.");
 
-            int opcionanf = scanner.nextInt();
+            try {
+                int opcionanf = scanner.nextInt();
 
-            switch (opcionanf) {
-                case 1:
-                    agregarAlojamiento(anfitrion.getUsuario());
-                    break;
-                case 2:
-                    mostrar_alojamientos_propios(anfitrion);
-                    System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
-                    int id = scanner.nextInt();
-                    eliminarAlojamiento(id);
-                    break;
-                case 3:
-                    System.out.println("Los alojamientos propios de este anfitrion son: \n");
-                    mostrar_alojamientos_propios(anfitrion);
-                    break;
-                case 4:
-                    System.out.println("Listado de todos los alojamientos: \n\n");
-                    mostrar_alojamientos();
-                    break;
-                case 5:
-                    System.out.println("----PERSONAL----");
-                    System.out.println(anfitrion.toString());
-                    break;
-                case 6:
-                    System.out.println("Cerrando sesion...");
-                    sesion = false;
-                    break;
-                default:
-                    System.out.println("Por favor ingrese una opción válida.");
+                switch (opcionanf) {
+                    case 1:
+                        agregarAlojamiento(anfitrion.getUsuario());
+                        break;
+                    case 2:
+                        mostrar_alojamientos_propios(anfitrion);
+                        System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+                        int id = scanner.nextInt();
+                        eliminarAlojamiento(id);
+                        break;
+                    case 3:
+                        System.out.println("Los alojamientos propios de este anfitrion son: \n");
+                        mostrar_alojamientos_propios(anfitrion);
+                        break;
+                    case 4:
+                        System.out.println("Listado de todos los alojamientos: \n\n");
+                        mostrar_alojamientos();
+                        break;
+                    case 5:
+                        System.out.println("--------PERSONAL--------");
+                        System.out.println(anfitrion.toString());
+                        break;
+                    case 6:
+                        System.out.println("Cerrando sesion...");
+                        sesion = false;
+                        break;
+                    default:
+                        System.out.println("Por favor ingrese una opción válida.");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Tipo de valor incorrecto.");
             }
         }
     }
 
 
     //MENU CLIENTE
-    public boolean mostrar_departamentos(int cantPersonas, boolean comparte) {
-        System.out.println("Alojamientos disponibles para " + cantPersonas + " personas");
-        boolean x=false;
-        if(comparte) {
-            for (Alojamiento alojamiento : Alojamientos) {
-                if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
-                    System.out.println(((Departamento) alojamiento).toString());
-                    x =true;
-                }
-            }
-        }
-        else {
-            for (Alojamiento alojamiento : Alojamientos) {
-                if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.getHospedados().isEmpty()) {
-                    System.out.println(((Departamento) alojamiento).toString());
-                    x=true;
-                }
-            }
-
-        }
-        return x;
-    }
-
-
-    public boolean mostrar_casa(int cantPersonas, boolean comparte) {
-        System.out.println("Alojamientos disponibles para " + cantPersonas + " personas");
-        boolean x=false;
-        if(comparte) {
-            for (Alojamiento alojamiento : Alojamientos) {
-                if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
-                    System.out.println(((Casa) alojamiento).toString());
-                    x =true;
-                }
-            }
-        }
-        else {
-            for (Alojamiento alojamiento : Alojamientos) {
-                if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.getHospedados().isEmpty()) {
-                    System.out.println(((Casa) alojamiento).toString());
-                    x=true;
-                }
-            }
-
-        }
-
-        return x;
-    }
 
     public void menuCliente(Cliente cliente)throws NoSeEncontroExeption {
         boolean sesion = true;
         int opcion = 0;
         while (sesion) {
-            System.out.println("1 - ¡HACE TU RESERVA!" +
+            System.out.println("------------------------------------" +
+                    "\n1 - ¡HACE TU RESERVA!" +
                     "\n2 - VER ALOJAMIENTOS." +
                     "\n3 - INFORMACIÓN PERSONAL." +
                     "\n4 - CAMBIAR CONTRASEÑA." +
                     "\n5 - CERRAR SESION.");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                opcion = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    System.out.println("----HACER RESERVA----");
-                    hacerReserva(cliente);
-                    break;
-                case 2:
-                    System.out.println("----ALOJAMIENTOS----");
-                    mostrar_alojamientos();
-                    break;
-                case 3:
-                    System.out.println("----PERSONAL----");
-                    cliente.toString();
-                    break;
-                case 4:
-                    System.out.println("----CAMBIAR CONTRASEÑA----");
-                    cliente.cambiarContrasenia();
-                    break;
-                case 5:
-                    System.out.println("Cerrando sesion...");
-                    sesion = false;
-                    break;
-                default:
-                    System.out.println("Por favor, ingrese una opción válida");
-                    break;
+                switch (opcion) {
+                    case 1:
+                        System.out.println("--------HACER RESERVA--------");
+                        hacerReserva(cliente);
+                        break;
+                    case 2:
+                        mostrar_alojamientos();
+                        break;
+                    case 3:
+                        System.out.println("--------PERSONAL--------");
+                        System.out.println(cliente.toString());
+                        break;
+                    case 4:
+                        System.out.println("--------CAMBIAR CONTRASEÑA--------");
+                        cliente.cambiarContrasenia();
+                        break;
+                    case 5:
+                        System.out.println("Cerrando sesion...");
+                        sesion = false;
+                        break;
+                    default:
+                        System.out.println("Por favor, ingrese una opción válida");
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Tipo de valor incorrecto.");
             }
+        }
+    }
+
+    public boolean mostrar_departamentos(int cantPersonas) {
+        boolean disponible = false;
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Departamento && alojamiento.puedeHospedar(cantPersonas)) {
+                System.out.println(((Departamento) alojamiento).toString());
+                disponible = true;
+            }
+        }
+        if (!disponible){
+            System.out.println("No hay ningun departamento disponible para hospedar la cantidad ingresada de personas.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean mostrar_casa(int cantPersonas) {
+        boolean disponible = false;
+        for (Alojamiento alojamiento : Alojamientos) {
+            if (alojamiento instanceof Casa && alojamiento.puedeHospedar(cantPersonas)) {
+                System.out.println(((Casa) alojamiento).toString());
+                disponible = true;
+            }
+        }
+        if (!disponible){
+            System.out.println("No hay ninguna casa disponible para hospedar la cantidad ingresada de personas.");
+            return false;
+        }else{
+            return true;
         }
     }
 
     public void hacerReserva(Cliente cliente){
         int tipo = 0, cantPersonas = 0, numA = 0, finalizar = 0;
-        boolean comparte, hacerReserva = true, alojamientoEncontrado, dispnibles = false;
-        String SiNo = "";
-        System.out.println("DESDE: (AAAA-MM-DD)");
-        LocalDate inicio = LocalDate.parse(scanner.nextLine());
-        System.out.println("HASTA: (AAAA-MM-DD)");
-        LocalDate fin = LocalDate.parse(scanner.nextLine());
-        for (Alojamiento alojamiento : Alojamientos) {
-            alojamiento.verificaDisponibilidad(inicio, fin);
+        boolean hacerReserva = true, alojamientoEncontrado = false, formatoFecha = false, hayAlojamientoCasa = false, hayAlojamientoDepto = false;
+        LocalDate inicio = LocalDate.now(), fin = LocalDate.now();
+
+        while(!formatoFecha) {
+            try {
+                System.out.println("DESDE: (AAAA-MM-DD)");
+                inicio = LocalDate.parse(scanner.nextLine());
+                System.out.println("HASTA: (AAAA-MM-DD)");
+                fin = LocalDate.parse(scanner.nextLine());
+                if (fin.isBefore(inicio)){
+                    System.out.println("Fechas ingresadas incorrectamente.");
+                }else{
+                    formatoFecha = true;
+                }
+            }catch (DateTimeParseException e) {
+                System.out.println("Formato de fecha incorrecto.");
+            }
+
         }
         System.out.println("CANTIDAD DE PERSONAS:");
         cantPersonas = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("¿Desea compartir el alojamiento?(SI/NO)");
-        SiNo = scanner.nextLine();
-        if(SiNo.equalsIgnoreCase("si")){
-            comparte=true;
-        }else {
-            comparte=false;
-        }
-        System.out.println("\n ¿Donde se quiere hospedar? 1-CASA | 2-DEPARTAMENTO");
-        tipo = scanner.nextInt();
-        scanner.nextLine();
-        switch (tipo) {
-            case 1:
-                dispnibles=mostrar_casa(cantPersonas, comparte);
-                break;
-            case 2:
-                mostrar_departamentos(cantPersonas, comparte);
-                break;
-            default:
-                System.out.println("Opcion no valida");
-                hacerReserva = false;
-                break;
-        }
-        if (hacerReserva && dispnibles) {
-            System.out.println("Ingrese el numero del alojamiento");
-            numA = scanner.nextInt();
-            scanner.nextLine();
+        System.out.println("--------CASAS--------");
+        hayAlojamientoCasa = mostrar_casa(cantPersonas);
+        System.out.println("--------DEPARTAMENTOS--------");
+        hayAlojamientoDepto = mostrar_departamentos(cantPersonas);
+        if(hayAlojamientoCasa || hayAlojamientoDepto) {
             try {
-
-                alojamientoEncontrado = false;
+                System.out.println("Ingrese el id del alojamiento");
+                numA = scanner.nextInt();
+                scanner.nextLine();
                 for (Alojamiento alojamiento : Alojamientos) {
                     if (alojamiento.getIdentificador() == numA) {
                         alojamientoEncontrado = true;
-                        System.out.println();
-                        System.out.println(" 1-FINALIZAR Y PAGAR | 2-CANCELAR");
-                        finalizar = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("alo"+alojamiento.toString());
-
-                        if (finalizar == 1) {
-                            Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
-                            alojamiento.agregarReserva(reservaNueva);
-                            alojamiento.agregarHuespedes(cliente,cantPersonas);
-                            cliente.pagarReserva(reservaNueva);
-                            Reservas.add(reservaNueva);
-                            System.out.println("Reserva creada con exito");
-                            System.out.println(reservaNueva.toString());
-
-                            OperacionesLectoEscritura.grabar("Base de datos", this.toJson());
-
-                        } else {
-                            System.out.println("Su reserva fue cancelada");
+                        if(!alojamiento.puedeHospedar(cantPersonas)){
+                            System.out.println("El alojamiento elegido no tiene capacidad suficiente para hospedar a " + cantPersonas + " personas.");
+                            hacerReserva = false;
                         }
-                        break;
-                    }
+                        if (hacerReserva && alojamiento.verificaDisponibilidad(inicio, fin, alojamiento)) { ///si hay espacio y el alojamiento está disponible en esas fechas, se finaliza.
+                            System.out.println();
+                            System.out.println(" 1-FINALIZAR Y PAGAR | 2-CANCELAR");
+                            finalizar = scanner.nextInt();
+                            scanner.nextLine();
 
+                            if (finalizar == 1) {
+                                Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, cantPersonas);
+                                cliente.pagarReserva(reservaNueva);//se confirma pago y se guarda en historial del cliente
+                                Reservas.add(reservaNueva);//se carga reserva a base de datos
+                                alojamiento.setEstado(false); //pasa a estar ocupado
+                                alojamiento.agregarReserva(reservaNueva); //se agrega a la lista de reservas.
+                                System.out.println("Reserva creada con exito");
+                                System.out.println(reservaNueva.toString());
+                            } else {
+                                System.out.println("Su reserva fue cancelada");
+                            }
+                            break;
+                        }
+                    }
                 }
                 if (!alojamientoEncontrado) {
                     throw new NoSeEncontroExeption("No se encontro el alojamiento");
                 }
-            }catch (NoSeEncontroExeption ex){
+            } catch (NoSeEncontroExeption ex) {
                 System.out.println(ex.getMessage());
+            } catch (Exception e) {
             }
         }
     }
@@ -672,51 +680,55 @@ public class Gestion implements JsonConvertible{
                     "\n6 - ELIMINAR ANFITRION." +
                     "\n7 - CAMBIAR CONTRASEÑA." +
                     "\n8 - CERRAR SESION.");
+            try {
+                opcion = scanner.nextInt();
+                scanner.nextLine();
 
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+                switch (opcion) {
+                    case 1:
+                        mostrar_alojamientos();
+                        break;
 
-            switch (opcion) {
-                case 1:
-                    mostrar_alojamientos();
-                    break;
+                    case 2:
+                        mostrar_reservas();
+                        break;
 
-                case 2:
-                    System.out.println("----------RESERVAS----------");
-                    System.out.println(this.Reservas);
-                    break;
+                    case 3:
+                        agregarAlojamiento(administrador.getUsuario());
+                        break;
 
-                case 3:
-                    agregarAlojamiento(administrador.getUsuario());
-                    break;
+                    case 4:
+                        mostrar_alojamientos();
+                        if (!Alojamientos.isEmpty()) {
+                            System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
+                            int id = scanner.nextInt();
+                            eliminarAlojamiento(id);
+                        }
+                        break;
 
-                case 4:
-                    mostrar_alojamientos();
-                    System.out.print("Ingrese el ID del alojamiento que desea eliminar: ");
-                    int id = scanner.nextInt();
-                    eliminarAlojamiento(id);
-                    break;
+                    case 5:
+                        bajaCliente();
+                        break;
 
-                case 5:
-                    bajaCliente();
-                    break;
+                    case 6:
+                        bajaAnfitrion();
+                        break;
 
-                case 6:
-                    bajaAnfitrion();
-                    break;
+                    case 7:
+                        administrador.cambiarContrasenia();
+                        break;
 
-                case 7:
-                    administrador.cambiarContrasenia();
-                    break;
+                    case 8:
+                        System.out.println("Cerrando sesion...");
+                        sesion = false;
+                        break;
 
-                case 8:
-                    System.out.println("Cerrando sesion...");
-                    sesion = false;
-                    break;
-
-                default:
-                    System.out.println("Por favor, ingrese una opción válida");
-                    break;
+                    default:
+                        System.out.println("Por favor, ingrese una opción válida");
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Tipo de valor incorrecto.");
             }
         }
     }

@@ -9,8 +9,7 @@ public abstract class Alojamiento{
     private double precioXnoche = 0;
     boolean estado; // estado: DISPONIBLE(TRUE)/ OCUPADO(FALSE).
     private static int contador=1;
-    private List<Reserva>reservas;
-    private ArrayList<Cliente>hospedados;
+    private static List<Reserva>reservas;
 
     ///CONSTRUCTOR
 
@@ -24,12 +23,10 @@ public abstract class Alojamiento{
         this.nombre_anfitrion = nombre_anfitrion;
         this.estado = true;
         this.reservas=new LinkedList<>();
-        this.hospedados= new ArrayList<>();
     }
 
     public Alojamiento() {
         this.reservas=new LinkedList<>();
-        this.hospedados= new ArrayList<>();
     }
 
     ///SETTER Y GETTER
@@ -94,13 +91,6 @@ public abstract class Alojamiento{
         this.reservas = reservas;
     }
 
-    public ArrayList<Cliente> getHospedados() {
-        return hospedados;
-    }
-
-    public void setHospedados(ArrayList<Cliente> hospedados) {
-        this.hospedados = hospedados;
-    }
 
     public int getIdentificador() {
         return identificador;
@@ -134,44 +124,32 @@ public abstract class Alojamiento{
         reservas.add(reserva);
     }
 
-    public void verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin) throws IllegalArgumentException{
-        if(fechaInicio==null || fechaFin==null ){
-            throw new IllegalArgumentException("Las fechas no pueden ser nulas");
-        }
+    public boolean verificaDisponibilidad(LocalDate fechaInicio, LocalDate fechaFin, Alojamiento otroAlojamiento) throws IllegalArgumentException{
         try {
-                for (Reserva reserva : reservas) {
-                    if (reserva.seSolapaCon(fechaInicio, fechaFin)) {
-                        this.estado = false;
-                    }
-                    else {
-                        this.estado=true;
-                    }
+            if(fechaInicio==null || fechaFin==null ){
+                throw new IllegalArgumentException("Las fechas no pueden ser nulas");
+            }
+            for (Reserva reserva : reservas) {
+                if (reserva.getId_alojamiento() == otroAlojamiento.getIdentificador() && reserva.seSolapaCon(fechaInicio, fechaFin)) {
+                    return false; ///Si el alojamiento es el mismo y se solapa con alguna reserva, se devuelve false, por lo que no está disponible
                 }
-        }catch (NullPointerException e){
+            }
+        }catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }catch(NullPointerException e){
 
         }catch (Exception e){
 
         }
-
+        return true;
     }
 
-    public void agregarHuespedes(Cliente cliente, int numeroPersonas) {
-        if (puedeHospedar(numeroPersonas)) {
-            for (int i = 0; i < numeroPersonas; i++) {
-                hospedados.add(cliente);
-            }
-
-        } else {
-            System.out.println("El alojamiento no tiene capacidad suficiente para hospedar a " + numeroPersonas + " personas.");
-        }
-    }
 
     public boolean puedeHospedar(int numeroPersonas) {
-        if ((hospedados.size() + numeroPersonas) <= aforo){
+        if (numeroPersonas <= aforo){
             return true;
         }
         else {
-            System.out.println("No hay lugar disponible para"+ numeroPersonas+ "personas");
             return false;
         }
     }
@@ -182,14 +160,22 @@ public abstract class Alojamiento{
 
     @Override
     public String toString() {
+        String tipo = "";
+        if (this.getClass().equals(Casa.class)){
+            tipo = "Casa";
+        }else{
+            tipo = "Departamento";
+        }
         return
                 "\nNumero de alojamiento: " + identificador +
                 ", \nNombre: '" + nombre + "'" +
                 ", \nUbicacion: '" + ubicacion + "'" +
                 ", \nPrecio por Noche: " + precioXnoche +
                 ", \nAforo: " + aforo + " personas."+
-                ", \nDescripción: " + descripcion +
-                ", \nNombre del Anfitrion: '" + nombre_anfitrion + "'\n";
+                ", \nDescripción: '" + descripcion + "'" +
+                ", \nNombre del Anfitrion: '" + nombre_anfitrion + "'" +
+                ", \nDisponible: " + estado +
+                ", \nTipo: " + tipo;
     }
 
 

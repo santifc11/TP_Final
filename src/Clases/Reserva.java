@@ -1,51 +1,48 @@
 package Clases;
 
-import ArchivosYJSON.GestionJSONClientes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Reserva {
+public class Reserva implements JsonConvertible {
     private UUID id;
     private Alojamiento alojamiento;
     private Cliente cliente;
     private LocalDateTime fechaDeReserva;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private boolean comparte;
     private double precioReserva;
-    private int cantPersonas, idAlojamiento;
-    private String estado, nombreCliente;
+    private int cantPersonas, id_alojamiento;
+    private String estado, nombre_cliente;
 
 
     ///CONSTRUCTOR
 
-    public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin, boolean comparte,int cantPersonas) {
+    public Reserva(Alojamiento alojamiento, Cliente cliente, LocalDate fechaInicio, LocalDate fechaFin,int cantPersonas) {
         this.id = UUID.randomUUID();
         this.alojamiento = alojamiento;
+        this.id_alojamiento = alojamiento.getIdentificador();
         this.cliente = cliente;
+        this.nombre_cliente = cliente.getNombreCompleto();
         this.fechaDeReserva = LocalDateTime.now();
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.comparte = comparte;
         this.precioReserva= calcularPrecioTotal();
         this.cantPersonas=cantPersonas;
         this.estado="Pendiente";
-        this.idAlojamiento= alojamiento.getIdentificador();
-        this.nombreCliente=cliente.getNombreCompleto();
-
     }
     public Reserva() {
         this.id = UUID.randomUUID();
-        this.fechaDeReserva = LocalDateTime.now();
-//        this.fechaInicio = LocalDate.now(); // Fecha predeterminada
-//        this.fechaFin = LocalDate.now().plusDays(1); // Fecha predeterminada
     }
 
 
@@ -62,27 +59,26 @@ public class Reserva {
 
     //Metodo para verificar si las fechas se solapan
     public boolean seSolapaCon(LocalDate otraFechaInicio, LocalDate otraFechaFin) {
-        return !fechaFin.isBefore(otraFechaInicio) && !fechaInicio.isAfter(otraFechaFin);
+        if(fechaFin.isBefore(otraFechaInicio)){
+            return false;
+        }else{
+            return true; ///si se interrumpen se devuelve true (si se solapa)
+        }
     }
 
+    @Override
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter frmLDT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter frmLD = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         jsonObject.put("id", this.id.toString());
-        jsonObject.put("id_alojamiento",this.idAlojamiento);
-        jsonObject.put("nombre_cliente",this.nombreCliente);
-//        jsonObject.put("alojamiento",this.alojamiento);
-//        jsonObject.put("cliente",this.cliente);
-//        jsonObject.put("fechaDeReserva",fechaDeReserva.toString());
-//        jsonObject.put("fechaInicio",this.fechaInicio.toString());
-//        jsonObject.put("fechaFin", this.fechaFin.toString());
-        String fechaHoraStrR = this.fechaDeReserva.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        jsonObject.put("fechaDeReserva", fechaHoraStrR);
-        String fechaStrI = this.fechaInicio.format(DateTimeFormatter.ISO_LOCAL_DATE);
-        jsonObject.put("fechaInicio", fechaStrI);
-        String fechaStrF = this.fechaFin.format(DateTimeFormatter.ISO_LOCAL_DATE);
-        jsonObject.put("fechaFin", fechaStrF);
-        jsonObject.put("comparte", this.comparte);
+        jsonObject.put("id_alojamiento",this.id_alojamiento);
+        jsonObject.put("nombre_cliente",this.nombre_cliente);
+        jsonObject.put("fechaDeReserva",frmLDT.format(this.fechaDeReserva));
+        jsonObject.put("fechaInicio",frmLD.format(this.fechaInicio));
+        jsonObject.put("fechaFin", frmLD.format(this.fechaFin));
         jsonObject.put("precioReserva", this.precioReserva);
         jsonObject.put("cantPersonas", this.cantPersonas);
         jsonObject.put("estado", this.estado);
@@ -90,37 +86,22 @@ public class Reserva {
         return jsonObject;
     }
 
-    public Reserva fromJson(JSONObject jsonObject) {
-        Reserva reserva = new Reserva();
-        GestionJSONClientes gestionJSONClientes = new GestionJSONClientes();
+    @Override
+    public void fromJson(JSONObject jsonObject) {
         try {
-            reserva.setId(UUID.fromString(jsonObject.getString("id")));
-            this.setIdAlojamiento(jsonObject.getInt("id_alojamiento"));
-            this.setNombreCliente(jsonObject.getString("nombre_cliente"));
-//            if(alojamiento instanceof Casa){
-//                reserva.setAlojamiento((Alojamiento) jsonObject.get("alojamiento"));
-//            }
-//
-//            reserva.setCliente(gestionJSONClientes.deserializar(jsonObject.getJSONObject("cliente")));
-//          reserva.setFechaDeReserva((LocalDateTime) jsonObject.get("fechaDeReserva"));
-//          reserva.setFechaInicio((LocalDate) jsonObject.get("fechaInicio"));
-//          reserva.setFechaFin((LocalDate) jsonObject.get("fechaFin"));
-            String fechaHoraStrR = jsonObject.getString("fechaDeReserva");
-            LocalDateTime fechaDeReserva = LocalDateTime.parse(fechaHoraStrR, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            String fechaStrI = jsonObject.getString("fechaInicio");
-            LocalDate fechaInicio = LocalDate.parse(fechaStrI, DateTimeFormatter.ISO_LOCAL_DATE);
-            String fechaStrF = jsonObject.getString("fechaFin");
-            LocalDate fechaFin = LocalDate.parse(fechaStrF, DateTimeFormatter.ISO_LOCAL_DATE);
-            reserva.setComparte(jsonObject.getBoolean("comparte"));
-            reserva.setPrecioReserva(jsonObject.getDouble("precioReserva"));
-            reserva.setCantPersonas(jsonObject.getInt("cantPersonas"));
-            reserva.setEstado(jsonObject.getString("estado"));
-        }catch (CasteoException ex){
-            System.out.println("Hubo un error en la lectura");
+            DateTimeFormatter frmLDT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            this.setId(UUID.fromString(jsonObject.getString("id")));
+            this.setId_alojamiento(jsonObject.getInt("id_alojamiento"));
+            this.setNombre_cliente(jsonObject.getString("nombre_cliente"));
+            this.setFechaDeReserva(LocalDateTime.parse(jsonObject.getString("fechaDeReserva"), frmLDT));
+            this.setFechaInicio(LocalDate.parse(jsonObject.getString("fechaInicio")));
+            this.setFechaFin(LocalDate.parse(jsonObject.getString("fechaFin")));
+            this.setPrecioReserva(jsonObject.getDouble("precioReserva"));
+            this.setCantPersonas(jsonObject.getInt("cantPersonas"));
+            this.setEstado(jsonObject.getString("estado"));
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
-        return reserva;
     }
 
     ///EQUALS, HASHCODE Y TO STRING
@@ -142,20 +123,35 @@ public class Reserva {
     public String toString() {
         return "Reserva{" +
                 "id=" + id +
-                ", idAlojamiento=" + idAlojamiento +
-                ", nombreCliente=" + nombreCliente +
-               //", alojamiento=" + alojamiento.getIdentificador() +
-               //", cliente=" + cliente.getNombreCompleto() +
+                ", id_alojamiento=" + id_alojamiento +
+                ", nombre_cliente=" + nombre_cliente +
                 ", fechaDeReserva=" + fechaDeReserva +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
                 ", cantPersonas=" + cantPersonas +
-                ", comparte=" + comparte +
                 ", precioReserva=" + precioReserva +
                 "}\n";
     }
 
+    public int getId_alojamiento() {
+        return id_alojamiento;
+    }
+
+    public void setId_alojamiento(int id_alojamiento) {
+        this.id_alojamiento = id_alojamiento;
+    }
+
+    public String getNombre_cliente() {
+        return nombre_cliente;
+    }
+
+    public void setNombre_cliente(String nombre_cliente) {
+        this.nombre_cliente = nombre_cliente;
+    }
+
     ///SETTER Y GETTER
+    ///
+
 
     public double getPrecioReserva() {
         return precioReserva;
@@ -214,14 +210,6 @@ public class Reserva {
         this.fechaDeReserva = fechaDeReserva;
     }
 
-    public boolean isComparte() {
-        return comparte;
-    }
-
-    public void setComparte(boolean comparte) {
-        this.comparte = comparte;
-    }
-
     public int getCantPersonas() {
         return cantPersonas;
     }
@@ -236,21 +224,5 @@ public class Reserva {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public int getIdAlojamiento() {
-        return idAlojamiento;
-    }
-
-    public void setIdAlojamiento(int idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
-    }
-
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
     }
 }
