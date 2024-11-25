@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-public final class Cliente implements Sesion, JsonConvertible{
+public  class Cliente implements Sesion, JsonConvertible{
     private String usuario = "", contrasenia = "", dni = "", nombreCompleto = "";
     private LinkedList<Reserva> historialReserva;
 

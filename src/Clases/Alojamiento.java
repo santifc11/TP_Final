@@ -171,7 +171,7 @@ public abstract class Alojamiento{
             return true;
         }
         else {
-            System.out.println("No hay lugar disponible");
+            System.out.println("No hay lugar disponible para"+ numeroPersonas+ "personas");
             return false;
         }
     }
@@ -182,7 +182,7 @@ public abstract class Alojamiento{
 
     @Override
     public String toString() {
-        return "-------Alojamiento-------" +
+        return
                 "\nNumero de alojamiento: " + identificador +
                 ", \nNombre: '" + nombre + "'" +
                 ", \nUbicacion: '" + ubicacion + "'" +

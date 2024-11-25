@@ -1,0 +1,12 @@
+{
+  "comparte": true,
+  "precioReserva": 198000,
+  "estado": "Pagado",
+  "id_alojamiento": 1,
+  "fechaInicio": "2020-12-12",
+  "fechaDeReserva": "2024-11-24T22:05:36.2872709",
+  "id": "842da5c5-cd23-410d-84ed-5e3ff3a21b7b",
+  "cantPersonas": 4,
+  "fechaFin": "2020-12-13",
+  "nombre_cliente": "Jose Ramirez Lopez"
+}

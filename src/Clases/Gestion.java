@@ -489,20 +489,38 @@ public class Gestion implements JsonConvertible{
 
 
     //MENU CLIENTE
-    public void mostrar_departamentos(int cantPersonas, boolean comparte) {
-        for (Alojamiento alojamiento : Alojamientos) {
-            if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
-                System.out.println(((Departamento) alojamiento).toString());
+    public boolean mostrar_departamentos(int cantPersonas, boolean comparte) {
+        System.out.println("Alojamientos disponibles para " + cantPersonas + " personas");
+        boolean x=false;
+        if(comparte) {
+            for (Alojamiento alojamiento : Alojamientos) {
+                if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
+                    System.out.println(((Departamento) alojamiento).toString());
+                    x =true;
+                }
             }
         }
+        else {
+            for (Alojamiento alojamiento : Alojamientos) {
+                if (alojamiento instanceof Departamento && alojamiento.isEstado() && alojamiento.getHospedados().isEmpty()) {
+                    System.out.println(((Departamento) alojamiento).toString());
+                    x=true;
+                }
+            }
+
+        }
+        return x;
     }
 
-    public void mostrar_casa(int cantPersonas, boolean comparte) {
+
+    public boolean mostrar_casa(int cantPersonas, boolean comparte) {
         System.out.println("Alojamientos disponibles para " + cantPersonas + " personas");
+        boolean x=false;
         if(comparte) {
             for (Alojamiento alojamiento : Alojamientos) {
                 if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.puedeHospedar(cantPersonas)) {
                     System.out.println(((Casa) alojamiento).toString());
+                    x =true;
                 }
             }
         }
@@ -510,10 +528,13 @@ public class Gestion implements JsonConvertible{
             for (Alojamiento alojamiento : Alojamientos) {
                 if (alojamiento instanceof Casa && alojamiento.isEstado() && alojamiento.getHospedados().isEmpty()) {
                     System.out.println(((Casa) alojamiento).toString());
+                    x=true;
                 }
             }
 
         }
+
+        return x;
     }
 
     public void menuCliente(Cliente cliente)throws NoSeEncontroExeption {
@@ -558,7 +579,7 @@ public class Gestion implements JsonConvertible{
 
     public void hacerReserva(Cliente cliente){
         int tipo = 0, cantPersonas = 0, numA = 0, finalizar = 0;
-        boolean comparte, hacerReserva = true, alojamientoEncontrado;
+        boolean comparte, hacerReserva = true, alojamientoEncontrado, dispnibles = false;
         String SiNo = "";
         System.out.println("DESDE: (AAAA-MM-DD)");
         LocalDate inicio = LocalDate.parse(scanner.nextLine());
@@ -582,7 +603,7 @@ public class Gestion implements JsonConvertible{
         scanner.nextLine();
         switch (tipo) {
             case 1:
-                mostrar_casa(cantPersonas, comparte);
+                dispnibles=mostrar_casa(cantPersonas, comparte);
                 break;
             case 2:
                 mostrar_departamentos(cantPersonas, comparte);
@@ -592,7 +613,7 @@ public class Gestion implements JsonConvertible{
                 hacerReserva = false;
                 break;
         }
-        if (hacerReserva) {
+        if (hacerReserva && dispnibles) {
             System.out.println("Ingrese el numero del alojamiento");
             numA = scanner.nextInt();
             scanner.nextLine();
@@ -606,6 +627,7 @@ public class Gestion implements JsonConvertible{
                         System.out.println(" 1-FINALIZAR Y PAGAR | 2-CANCELAR");
                         finalizar = scanner.nextInt();
                         scanner.nextLine();
+                        System.out.println("alo"+alojamiento.toString());
 
                         if (finalizar == 1) {
                             Reserva reservaNueva = new Reserva(alojamiento, cliente, inicio, fin, comparte, cantPersonas);
@@ -615,7 +637,9 @@ public class Gestion implements JsonConvertible{
                             Reservas.add(reservaNueva);
                             System.out.println("Reserva creada con exito");
                             System.out.println(reservaNueva.toString());
+
                             OperacionesLectoEscritura.grabar("Base de datos", this.toJson());
+
                         } else {
                             System.out.println("Su reserva fue cancelada");
                         }
